@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://10.237.61.33:62188/Zimra.asmx/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://10.237.61.33:62188/Zimra.asmx/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://10.237.61.33:62188/Zimra.asmx/">
+      <s:element name="CheckStatus">
+        <s:complexType />
+      </s:element>
+      <s:element name="CheckStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckStatusResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIMRA_PaymentAdvice">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Amount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BPNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CaptureTime" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ClientName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ReferenceNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Region" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RRN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SerialNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TaxCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIMRA_PaymentAdviceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ZIMRA_PaymentAdviceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIMRA_ContractQry">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BPNumber_C" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TaxCoder_C" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIMRA_ContractQryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ZIMRA_ContractQryResult" type="tns:Response" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Response">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="tns:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="BPNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Account" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ExtensionDataObject" />
+      <s:element name="AU_PostTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="schoolCode" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="bankAccNo" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="studentID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="studentName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="payAmnt" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="paymentRef" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentDesc" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="PaymentType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UniqueRef" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AU_PostTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AU_PostTransactionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AU_verifyStudent_No">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="studentNO_Local" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="schoolCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AU_verifyStudent_NoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AU_verifyStudent_NoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="post_ZIMRA_Transaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="postingUserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="postingUserPass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BPN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="obligationID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="isWalkIn" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="tranAmount" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="currencyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="post_ZIMRA_TransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="post_ZIMRA_TransactionResult" type="tns:post_ZIMRA_Transaction_Response" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="post_ZIMRA_Transaction_Response">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="successOrFailure" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResponseID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResponseNarrative" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResponseError" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="ResponseTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="keyField_Verification">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="searchUserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchUserPass" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchProduct" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="searchKey" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="keyField_VerificationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="keyField_VerificationResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CIMAS_verifyMember_No">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="memberType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="memberNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CIMAS_verifyMember_NoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CIMAS_verifyMember_NoResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Presbyterian_verifyMember_No">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="memberType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="memberNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Presbyterian_verifyMember_NoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Presbyterian_verifyMember_NoResult" type="tns:cls_Presbyterian_Detail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="cls_Presbyterian_Detail">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="studentId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="studentName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Success" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="Presbyterian_Payment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="studentID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="studentName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="payAmount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="refNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Narration" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Presbyterian_PaymentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Presbyterian_PaymentResult" type="tns:cls_Presbyterian_Detail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AU_GetAllStudents">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="schoolCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AU_GetAllStudentsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AU_GetAllStudentsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIMRA_RecieverRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="dt_DateCreated" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIMRA_RecieverRequestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ZIMRA_RecieverRequestResult" type="tns:ArrayOfRecord" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfRecord">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Record" nillable="true" type="tns:Record" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Record">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="tns:ExtensionDataObject" />
+          <s:element minOccurs="0" maxOccurs="1" name="BPNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BPName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DateCreated" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BPStatus" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PPC_PaymentAdvice">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trn_CustName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Trn_Date" type="s:dateTime" />
+            <s:element minOccurs="1" maxOccurs="1" name="Trn_ValueDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trn_Burks" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trn_AgentCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trn_Txt" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trn_Amnt" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trn_Invoice" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PPC_PaymentAdviceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PPC_PaymentAdviceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZesaTokenPurchase">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SelectPin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobile" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BillID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trxn_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Source_System" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZesaTokenPurchaseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ZesaTokenPurchaseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CheckStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckStatus" />
+  </wsdl:message>
+  <wsdl:message name="CheckStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="ZIMRA_PaymentAdviceSoapIn">
+    <wsdl:part name="parameters" element="tns:ZIMRA_PaymentAdvice" />
+  </wsdl:message>
+  <wsdl:message name="ZIMRA_PaymentAdviceSoapOut">
+    <wsdl:part name="parameters" element="tns:ZIMRA_PaymentAdviceResponse" />
+  </wsdl:message>
+  <wsdl:message name="ZIMRA_ContractQrySoapIn">
+    <wsdl:part name="parameters" element="tns:ZIMRA_ContractQry" />
+  </wsdl:message>
+  <wsdl:message name="ZIMRA_ContractQrySoapOut">
+    <wsdl:part name="parameters" element="tns:ZIMRA_ContractQryResponse" />
+  </wsdl:message>
+  <wsdl:message name="AU_PostTransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:AU_PostTransaction" />
+  </wsdl:message>
+  <wsdl:message name="AU_PostTransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:AU_PostTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="AU_verifyStudent_NoSoapIn">
+    <wsdl:part name="parameters" element="tns:AU_verifyStudent_No" />
+  </wsdl:message>
+  <wsdl:message name="AU_verifyStudent_NoSoapOut">
+    <wsdl:part name="parameters" element="tns:AU_verifyStudent_NoResponse" />
+  </wsdl:message>
+  <wsdl:message name="post_ZIMRA_TransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:post_ZIMRA_Transaction" />
+  </wsdl:message>
+  <wsdl:message name="post_ZIMRA_TransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:post_ZIMRA_TransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="keyField_VerificationSoapIn">
+    <wsdl:part name="parameters" element="tns:keyField_Verification" />
+  </wsdl:message>
+  <wsdl:message name="keyField_VerificationSoapOut">
+    <wsdl:part name="parameters" element="tns:keyField_VerificationResponse" />
+  </wsdl:message>
+  <wsdl:message name="CIMAS_verifyMember_NoSoapIn">
+    <wsdl:part name="parameters" element="tns:CIMAS_verifyMember_No" />
+  </wsdl:message>
+  <wsdl:message name="CIMAS_verifyMember_NoSoapOut">
+    <wsdl:part name="parameters" element="tns:CIMAS_verifyMember_NoResponse" />
+  </wsdl:message>
+  <wsdl:message name="Presbyterian_verifyMember_NoSoapIn">
+    <wsdl:part name="parameters" element="tns:Presbyterian_verifyMember_No" />
+  </wsdl:message>
+  <wsdl:message name="Presbyterian_verifyMember_NoSoapOut">
+    <wsdl:part name="parameters" element="tns:Presbyterian_verifyMember_NoResponse" />
+  </wsdl:message>
+  <wsdl:message name="Presbyterian_PaymentSoapIn">
+    <wsdl:part name="parameters" element="tns:Presbyterian_Payment" />
+  </wsdl:message>
+  <wsdl:message name="Presbyterian_PaymentSoapOut">
+    <wsdl:part name="parameters" element="tns:Presbyterian_PaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="AU_GetAllStudentsSoapIn">
+    <wsdl:part name="parameters" element="tns:AU_GetAllStudents" />
+  </wsdl:message>
+  <wsdl:message name="AU_GetAllStudentsSoapOut">
+    <wsdl:part name="parameters" element="tns:AU_GetAllStudentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ZIMRA_RecieverRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:ZIMRA_RecieverRequest" />
+  </wsdl:message>
+  <wsdl:message name="ZIMRA_RecieverRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:ZIMRA_RecieverRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="PPC_PaymentAdviceSoapIn">
+    <wsdl:part name="parameters" element="tns:PPC_PaymentAdvice" />
+  </wsdl:message>
+  <wsdl:message name="PPC_PaymentAdviceSoapOut">
+    <wsdl:part name="parameters" element="tns:PPC_PaymentAdviceResponse" />
+  </wsdl:message>
+  <wsdl:message name="ZesaTokenPurchaseSoapIn">
+    <wsdl:part name="parameters" element="tns:ZesaTokenPurchase" />
+  </wsdl:message>
+  <wsdl:message name="ZesaTokenPurchaseSoapOut">
+    <wsdl:part name="parameters" element="tns:ZesaTokenPurchaseResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ZimraWebServiceSoap">
+    <wsdl:operation name="CheckStatus">
+      <wsdl:input message="tns:CheckStatusSoapIn" />
+      <wsdl:output message="tns:CheckStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZIMRA_PaymentAdvice">
+      <wsdl:input message="tns:ZIMRA_PaymentAdviceSoapIn" />
+      <wsdl:output message="tns:ZIMRA_PaymentAdviceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZIMRA_ContractQry">
+      <wsdl:input message="tns:ZIMRA_ContractQrySoapIn" />
+      <wsdl:output message="tns:ZIMRA_ContractQrySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AU_PostTransaction">
+      <wsdl:input message="tns:AU_PostTransactionSoapIn" />
+      <wsdl:output message="tns:AU_PostTransactionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AU_verifyStudent_No">
+      <wsdl:input message="tns:AU_verifyStudent_NoSoapIn" />
+      <wsdl:output message="tns:AU_verifyStudent_NoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="post_ZIMRA_Transaction">
+      <wsdl:input message="tns:post_ZIMRA_TransactionSoapIn" />
+      <wsdl:output message="tns:post_ZIMRA_TransactionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="keyField_Verification">
+      <wsdl:input message="tns:keyField_VerificationSoapIn" />
+      <wsdl:output message="tns:keyField_VerificationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CIMAS_verifyMember_No">
+      <wsdl:input message="tns:CIMAS_verifyMember_NoSoapIn" />
+      <wsdl:output message="tns:CIMAS_verifyMember_NoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Presbyterian_verifyMember_No">
+      <wsdl:input message="tns:Presbyterian_verifyMember_NoSoapIn" />
+      <wsdl:output message="tns:Presbyterian_verifyMember_NoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Presbyterian_Payment">
+      <wsdl:input message="tns:Presbyterian_PaymentSoapIn" />
+      <wsdl:output message="tns:Presbyterian_PaymentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AU_GetAllStudents">
+      <wsdl:input message="tns:AU_GetAllStudentsSoapIn" />
+      <wsdl:output message="tns:AU_GetAllStudentsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZIMRA_RecieverRequest">
+      <wsdl:input message="tns:ZIMRA_RecieverRequestSoapIn" />
+      <wsdl:output message="tns:ZIMRA_RecieverRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PPC_PaymentAdvice">
+      <wsdl:input message="tns:PPC_PaymentAdviceSoapIn" />
+      <wsdl:output message="tns:PPC_PaymentAdviceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZesaTokenPurchase">
+      <wsdl:input message="tns:ZesaTokenPurchaseSoapIn" />
+      <wsdl:output message="tns:ZesaTokenPurchaseSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ZimraWebServiceSoap" type="tns:ZimraWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckStatus">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/CheckStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIMRA_PaymentAdvice">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_PaymentAdvice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIMRA_ContractQry">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_ContractQry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AU_PostTransaction">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/AU_PostTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AU_verifyStudent_No">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/AU_verifyStudent_No" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="post_ZIMRA_Transaction">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/post_ZIMRA_Transaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="keyField_Verification">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/keyField_Verification" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CIMAS_verifyMember_No">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/CIMAS_verifyMember_No" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Presbyterian_verifyMember_No">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/Presbyterian_verifyMember_No" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Presbyterian_Payment">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/Presbyterian_Payment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AU_GetAllStudents">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/AU_GetAllStudents" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIMRA_RecieverRequest">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_RecieverRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PPC_PaymentAdvice">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/PPC_PaymentAdvice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZesaTokenPurchase">
+      <soap:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/ZesaTokenPurchase" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ZimraWebServiceSoap12" type="tns:ZimraWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckStatus">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/CheckStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIMRA_PaymentAdvice">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_PaymentAdvice" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIMRA_ContractQry">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_ContractQry" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AU_PostTransaction">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/AU_PostTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AU_verifyStudent_No">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/AU_verifyStudent_No" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="post_ZIMRA_Transaction">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/post_ZIMRA_Transaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="keyField_Verification">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/keyField_Verification" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CIMAS_verifyMember_No">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/CIMAS_verifyMember_No" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Presbyterian_verifyMember_No">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/Presbyterian_verifyMember_No" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Presbyterian_Payment">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/Presbyterian_Payment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AU_GetAllStudents">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/AU_GetAllStudents" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIMRA_RecieverRequest">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_RecieverRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PPC_PaymentAdvice">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/PPC_PaymentAdvice" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZesaTokenPurchase">
+      <soap12:operation soapAction="http://10.237.61.33:62188/Zimra.asmx/ZesaTokenPurchase" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZimraWebService">
+    <wsdl:port name="ZimraWebServiceSoap" binding="tns:ZimraWebServiceSoap">
+      <soap:address location="http://localhost:62190/ZimraOnline.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ZimraWebServiceSoap12" binding="tns:ZimraWebServiceSoap12">
+      <soap12:address location="http://localhost:62190/ZimraOnline.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

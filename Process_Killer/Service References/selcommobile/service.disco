@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="https://soap.selcommobile.com:8085/selcom/service.asmx?wsdl" docRef="https://soap.selcommobile.com:8085/selcom/service.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="https://soap.selcommobile.com:8085/selcom/service.asmx" xmlns:q1="http://paypoint.selcommobile.com/webservices/" binding="q1:WebServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

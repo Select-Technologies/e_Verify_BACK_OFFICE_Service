@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://types.ws.gw.fcubs.iflex.com" name="FCUBSUPService" targetNamespace="http://types.ws.gw.fcubs.iflex.com" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://10.103.10.49:7009/FCUBSUPService/FCUBSUPService?xsd=1" namespace="http://types.ws.gw.fcubs.iflex.com" />
+    </xsd:schema>
+  </types>
+  <message name="CreateUPTransaction">
+    <part name="RequestMsg" element="tns:CreateUPTransaction" />
+  </message>
+  <message name="CreateUPTransactionResponse">
+    <part name="ResponseMsg" element="tns:CreateUPTransactionResponse" />
+  </message>
+  <message name="QueryUPTransaction">
+    <part name="RequestMsg" element="tns:QueryUPTransaction" />
+  </message>
+  <message name="QueryUPTransactionResponse">
+    <part name="ResponseMsg" element="tns:QueryUPTransactionResponse" />
+  </message>
+  <message name="ReverseUPTransaction">
+    <part name="RequestMsg" element="tns:ReverseUPTransaction" />
+  </message>
+  <message name="ReverseUPTransactionResponse">
+    <part name="ResponseMsg" element="tns:ReverseUPTransactionResponse" />
+  </message>
+  <portType name="FCUBSUPServiceSEI">
+    <operation name="CreateUPTransaction">
+      <input message="tns:CreateUPTransaction" />
+      <output message="tns:CreateUPTransactionResponse" />
+    </operation>
+    <operation name="QueryUPTransaction">
+      <input message="tns:QueryUPTransaction" />
+      <output message="tns:QueryUPTransactionResponse" />
+    </operation>
+    <operation name="ReverseUPTransaction">
+      <input message="tns:ReverseUPTransaction" />
+      <output message="tns:ReverseUPTransactionResponse" />
+    </operation>
+  </portType>
+  <binding name="FCUBSUPServiceSEIBinding" type="tns:FCUBSUPServiceSEI">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="CreateUPTransaction">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="QueryUPTransaction">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ReverseUPTransaction">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="FCUBSUPService">
+    <port name="FCUBSUPServiceSEI" binding="tns:FCUBSUPServiceSEIBinding">
+      <soap:address location="http://10.103.10.49:7009/FCUBSUPService/FCUBSUPService" />
+    </port>
+  </service>
+</definitions>

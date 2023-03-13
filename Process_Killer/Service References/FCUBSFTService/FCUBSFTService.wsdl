@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://types.ws.gw.fcubs.iflex.com" name="FCUBSFTService" targetNamespace="http://types.ws.gw.fcubs.iflex.com" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://10.109.150.19:7008/FCUBSFTService/FCUBSFTService?xsd=1" namespace="http://types.ws.gw.fcubs.iflex.com" />
+    </xsd:schema>
+  </types>
+  <message name="AmendFTContract">
+    <part name="RequestMsg" element="tns:AmendFTContract" />
+  </message>
+  <message name="AmendFTContractResponse">
+    <part name="ResponseMsg" element="tns:AmendFTContractResponse" />
+  </message>
+  <message name="AuthorizeFTContract">
+    <part name="RequestMsg" element="tns:AuthorizeFTContract" />
+  </message>
+  <message name="AuthorizeFTContractResponse">
+    <part name="ResponseMsg" element="tns:AuthorizeFTContractResponse" />
+  </message>
+  <message name="AuthorizeProduct">
+    <part name="RequestMsg" element="tns:AuthorizeProduct" />
+  </message>
+  <message name="AuthorizeProductResponse">
+    <part name="ResponseMsg" element="tns:AuthorizeProductResponse" />
+  </message>
+  <message name="CancelFTContract">
+    <part name="RequestMsg" element="tns:CancelFTContract" />
+  </message>
+  <message name="CancelFTContractResponse">
+    <part name="ResponseMsg" element="tns:CancelFTContractResponse" />
+  </message>
+  <message name="CreateFTContract">
+    <part name="RequestMsg" element="tns:CreateFTContract" />
+  </message>
+  <message name="CreateFTContractResponse">
+    <part name="ResponseMsg" element="tns:CreateFTContractResponse" />
+  </message>
+  <message name="CreateProduct">
+    <part name="RequestMsg" element="tns:CreateProduct" />
+  </message>
+  <message name="CreateProductResponse">
+    <part name="ResponseMsg" element="tns:CreateProductResponse" />
+  </message>
+  <message name="DeleteFTContract">
+    <part name="RequestMsg" element="tns:DeleteFTContract" />
+  </message>
+  <message name="DeleteFTContractResponse">
+    <part name="ResponseMsg" element="tns:DeleteFTContractResponse" />
+  </message>
+  <message name="DeleteProduct">
+    <part name="RequestMsg" element="tns:DeleteProduct" />
+  </message>
+  <message name="DeleteProductResponse">
+    <part name="ResponseMsg" element="tns:DeleteProductResponse" />
+  </message>
+  <message name="LiquidateFTContract">
+    <part name="RequestMsg" element="tns:LiquidateFTContract" />
+  </message>
+  <message name="LiquidateFTContractResponse">
+    <part name="ResponseMsg" element="tns:LiquidateFTContractResponse" />
+  </message>
+  <message name="ModifyProduct">
+    <part name="RequestMsg" element="tns:ModifyProduct" />
+  </message>
+  <message name="ModifyProductResponse">
+    <part name="ResponseMsg" element="tns:ModifyProductResponse" />
+  </message>
+  <message name="MsggenFTContract">
+    <part name="RequestMsg" element="tns:MsggenFTContract" />
+  </message>
+  <message name="MsggenFTContractResponse">
+    <part name="ResponseMsg" element="tns:MsggenFTContractResponse" />
+  </message>
+  <message name="QueryFTContract">
+    <part name="RequestMsg" element="tns:QueryFTContract" />
+  </message>
+  <message name="QueryFTContractResponse">
+    <part name="ResponseMsg" element="tns:QueryFTContractResponse" />
+  </message>
+  <message name="QueryProduct">
+    <part name="RequestMsg" element="tns:QueryProduct" />
+  </message>
+  <message name="QueryProductResponse">
+    <part name="ResponseMsg" element="tns:QueryProductResponse" />
+  </message>
+  <message name="ReassignFTContract">
+    <part name="RequestMsg" element="tns:ReassignFTContract" />
+  </message>
+  <message name="ReassignFTContractResponse">
+    <part name="ResponseMsg" element="tns:ReassignFTContractResponse" />
+  </message>
+  <message name="ReverseFTContract">
+    <part name="RequestMsg" element="tns:ReverseFTContract" />
+  </message>
+  <message name="ReverseFTContractResponse">
+    <part name="ResponseMsg" element="tns:ReverseFTContractResponse" />
+  </message>
+  <portType name="FCUBSFTServiceSEI">
+    <operation name="AmendFTContract">
+      <input message="tns:AmendFTContract" />
+      <output message="tns:AmendFTContractResponse" />
+    </operation>
+    <operation name="AuthorizeFTContract">
+      <input message="tns:AuthorizeFTContract" />
+      <output message="tns:AuthorizeFTContractResponse" />
+    </operation>
+    <operation name="AuthorizeProduct">
+      <input message="tns:AuthorizeProduct" />
+      <output message="tns:AuthorizeProductResponse" />
+    </operation>
+    <operation name="CancelFTContract">
+      <input message="tns:CancelFTContract" />
+      <output message="tns:CancelFTContractResponse" />
+    </operation>
+    <operation name="CreateFTContract">
+      <input message="tns:CreateFTContract" />
+      <output message="tns:CreateFTContractResponse" />
+    </operation>
+    <operation name="CreateProduct">
+      <input message="tns:CreateProduct" />
+      <output message="tns:CreateProductResponse" />
+    </operation>
+    <operation name="DeleteFTContract">
+      <input message="tns:DeleteFTContract" />
+      <output message="tns:DeleteFTContractResponse" />
+    </operation>
+    <operation name="DeleteProduct">
+      <input message="tns:DeleteProduct" />
+      <output message="tns:DeleteProductResponse" />
+    </operation>
+    <operation name="LiquidateFTContract">
+      <input message="tns:LiquidateFTContract" />
+      <output message="tns:LiquidateFTContractResponse" />
+    </operation>
+    <operation name="ModifyProduct">
+      <input message="tns:ModifyProduct" />
+      <output message="tns:ModifyProductResponse" />
+    </operation>
+    <operation name="MsggenFTContract">
+      <input message="tns:MsggenFTContract" />
+      <output message="tns:MsggenFTContractResponse" />
+    </operation>
+    <operation name="QueryFTContract">
+      <input message="tns:QueryFTContract" />
+      <output message="tns:QueryFTContractResponse" />
+    </operation>
+    <operation name="QueryProduct">
+      <input message="tns:QueryProduct" />
+      <output message="tns:QueryProductResponse" />
+    </operation>
+    <operation name="ReassignFTContract">
+      <input message="tns:ReassignFTContract" />
+      <output message="tns:ReassignFTContractResponse" />
+    </operation>
+    <operation name="ReverseFTContract">
+      <input message="tns:ReverseFTContract" />
+      <output message="tns:ReverseFTContractResponse" />
+    </operation>
+  </portType>
+  <binding name="FCUBSFTServiceSEIBinding" type="tns:FCUBSFTServiceSEI">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="AmendFTContract">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="AuthorizeFTContract">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="AuthorizeProduct">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="CancelFTContract">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="CreateFTContract">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="CreateProduct">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="DeleteFTContract">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="DeleteProduct">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="LiquidateFTContract">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ModifyProduct">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="MsggenFTContract">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="QueryFTContract">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="QueryProduct">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ReassignFTContract">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ReverseFTContract">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="FCUBSFTService">
+    <port name="FCUBSFTServiceSEI" binding="tns:FCUBSFTServiceSEIBinding">
+      <soap:address location="http://10.109.150.19:7008/FCUBSFTService/FCUBSFTService" />
+    </port>
+  </service>
+</definitions>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://localhost:62248/Finacle_Bridge_ST.asmx?wsdl" docRef="http://localhost:62248/Finacle_Bridge_ST.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://localhost:62248/Finacle_Bridge_ST.asmx" xmlns:q1="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/" binding="q1:Finacle_BridgeSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://localhost:62248/Finacle_Bridge_ST.asmx" xmlns:q2="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/" binding="q2:Finacle_BridgeSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://types.ws.gw.fcubs.iflex.com" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="AmendFTContract" nillable="true" type="xs:string" />
+  <xs:element name="AmendFTContractResponse" nillable="true" type="xs:string" />
+  <xs:element name="AuthorizeFTContract" nillable="true" type="xs:string" />
+  <xs:element name="AuthorizeFTContractResponse" nillable="true" type="xs:string" />
+  <xs:element name="AuthorizeProduct" nillable="true" type="xs:string" />
+  <xs:element name="AuthorizeProductResponse" nillable="true" type="xs:string" />
+  <xs:element name="CancelFTContract" nillable="true" type="xs:string" />
+  <xs:element name="CancelFTContractResponse" nillable="true" type="xs:string" />
+  <xs:element name="CreateFTContract" nillable="true" type="xs:string" />
+  <xs:element name="CreateFTContractResponse" nillable="true" type="xs:string" />
+  <xs:element name="CreateProduct" nillable="true" type="xs:string" />
+  <xs:element name="CreateProductResponse" nillable="true" type="xs:string" />
+  <xs:element name="DeleteFTContract" nillable="true" type="xs:string" />
+  <xs:element name="DeleteFTContractResponse" nillable="true" type="xs:string" />
+  <xs:element name="DeleteProduct" nillable="true" type="xs:string" />
+  <xs:element name="DeleteProductResponse" nillable="true" type="xs:string" />
+  <xs:element name="LiquidateFTContract" nillable="true" type="xs:string" />
+  <xs:element name="LiquidateFTContractResponse" nillable="true" type="xs:string" />
+  <xs:element name="ModifyProduct" nillable="true" type="xs:string" />
+  <xs:element name="ModifyProductResponse" nillable="true" type="xs:string" />
+  <xs:element name="MsggenFTContract" nillable="true" type="xs:string" />
+  <xs:element name="MsggenFTContractResponse" nillable="true" type="xs:string" />
+  <xs:element name="QueryFTContract" nillable="true" type="xs:string" />
+  <xs:element name="QueryFTContractResponse" nillable="true" type="xs:string" />
+  <xs:element name="QueryProduct" nillable="true" type="xs:string" />
+  <xs:element name="QueryProductResponse" nillable="true" type="xs:string" />
+  <xs:element name="ReassignFTContract" nillable="true" type="xs:string" />
+  <xs:element name="ReassignFTContractResponse" nillable="true" type="xs:string" />
+  <xs:element name="ReverseFTContract" nillable="true" type="xs:string" />
+  <xs:element name="ReverseFTContractResponse" nillable="true" type="xs:string" />
+</xs:schema>

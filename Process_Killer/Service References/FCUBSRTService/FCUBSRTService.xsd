@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://types.ws.gw.fcubs.iflex.com" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="AuthorizeTransaction" nillable="true" type="xs:string" />
+  <xs:element name="AuthorizeTransactionResponse" nillable="true" type="xs:string" />
+  <xs:element name="CreateTransaction" nillable="true" type="xs:string" />
+  <xs:element name="CreateTransactionResponse" nillable="true" type="xs:string" />
+  <xs:element name="QueryRTProduct" nillable="true" type="xs:string" />
+  <xs:element name="QueryRTProductResponse" nillable="true" type="xs:string" />
+  <xs:element name="QueryTransaction" nillable="true" type="xs:string" />
+  <xs:element name="QueryTransactionResponse" nillable="true" type="xs:string" />
+  <xs:element name="ReverseTransaction" nillable="true" type="xs:string" />
+  <xs:element name="ReverseTransactionResponse" nillable="true" type="xs:string" />
+</xs:schema>

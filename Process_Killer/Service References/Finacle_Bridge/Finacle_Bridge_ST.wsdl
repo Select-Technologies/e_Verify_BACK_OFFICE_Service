@@ -1,0 +1,1828 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/">
+      <s:element name="CheckStatus">
+        <s:complexType />
+      </s:element>
+      <s:element name="CheckStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckStatusResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="generateRandom">
+        <s:complexType />
+      </s:element>
+      <s:element name="generateRandomResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="generateRandomResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="autoRegister">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobileNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accountNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accountName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="currencyCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="chargeType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Product" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Provider" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="registationCRUD_Action" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IDNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IDType_IorP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IDType_LorF" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="autoRegisterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="autoRegisterResult" type="tns:registration_Response" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="registration_Response">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ExtensionData" type="tns:ExtensionDataObject" />
+          <s:element minOccurs="1" maxOccurs="1" name="registered" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="registrationMessage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="mobileNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="accountNumber" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="registrationTime" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ExtensionDataObject" />
+      <s:element name="autoRegister_Account">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobileNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="autoRegister_AccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="autoRegister_AccountResult" type="tns:registration_Response" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="autoRegister_Card_Account">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobileNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cardNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accountNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="autoRegister_Card_AccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="autoRegister_Card_AccountResult" type="tns:registration_Response" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="autoRegister_Card">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="userPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mobileNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cardNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="autoRegister_CardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="autoRegister_CardResult" type="tns:registration_Response" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Query_Payment_Status_ZeePay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="originalTransactionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Query_Payment_Status_ZeePayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Query_Payment_Status_ZeePayResult" type="tns:TrnStatus" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TrnStatus">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Status_Response" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Status_Description" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="MarkUnMarkLien">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SR_UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SR_Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="channelID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param_AccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param_Amount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param_Currency" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param_BranchID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param_RequestUUID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ParamMarkP_or_UnMarkN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceSystem" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MarkUnMarkLienResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MarkUnMarkLienResult" type="tns:Account_Lien" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Account_Lien">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="HostTransaction_Status" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RequestUUID" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="acid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="currencyCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="availableBalance" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="fFDBalance" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="floatingBalance" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ledgerBalance" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="userDefinedBalance" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="accountStatus" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="stan" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="valueDate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="THB" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Error_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Error_Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SuccessOrFailure" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PostToFinacle_ZeePay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SR_UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SR_Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param1_channelId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param1_RequestUUID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_ChannelRefNum" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Parm1_ReversalFlag" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_OriginalChannelRefNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranAmount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranCrncy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrAcctNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrValueDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrBICCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrBICCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctAddress1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctAddress2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctAddress3" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranParticulars" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranRemarks1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranRemarks2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranParticulars" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranRemarks1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranRemarks2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranParticularsCodeDr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranParticularsCodeCr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_SourceChannel" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrForcePostFlag" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrAcctAddress1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrAcctAddress2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrAcctAddress3" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ExtraDetails" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PostToFinacle_ZeePayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PostToFinacle_ZeePayResult" type="tns:Finacle_Response_Detail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Finacle_Response_Detail">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="HostTransaction_Status" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Parm_ChannelRefNum_Resp" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Resp_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Resp_Remarks" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Off_UsRefNum" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Error_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Error_Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SuccessOrFailure" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PostToEDMI">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SR_UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SR_Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param1_channelId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param1_RequestUUID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_ChannelRefNum" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Parm1_ReversalFlag" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_OriginalChannelRefNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranAmount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranCrncy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrAcctNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrValueDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrBICCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrBICCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctAddress1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranParticulars" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranRemarks1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranRemarks2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranParticulars" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranRemarks1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranRemarks2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranParticularsCodeDr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranParticularsCodeCr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_SourceChannel" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PostToEDMIResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PostToEDMIResult" type="tns:Finacle_Response_Detail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransaction_SCB">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XML_Ref_C" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ChannelRefNum_C" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Source_Channel" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trn_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="trnAmount" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="TrnRemarks" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="usePseudoResponse" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="TRANSACTION_TYPE" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransaction_SCBResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReverseTransaction_SCBResult" type="tns:Posting_Response" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Posting_Response">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Success" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="responseMsg" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="referenceID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="PostToFinacle">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SR_UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SR_Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param1_channelId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param1_RequestUUID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_ChannelRefNum" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Parm1_ReversalFlag" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_OriginalChannelRefNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranAmount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranCrncy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrAcctNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrValueDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrBICCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrBICCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctAddress1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranParticulars" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranRemarks1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranRemarks2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranParticulars" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranRemarks1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranRemarks2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranParticularsCodeDr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranParticularsCodeCr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_SourceChannel" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PostToFinacleResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PostToFinacleResult" type="tns:Finacle_Response_Detail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PostToFinacle_WithForcePostFlag">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SR_UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SR_Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param1_channelId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param1_RequestUUID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_ChannelRefNum" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Parm1_ReversalFlag" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_OriginalChannelRefNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranAmount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranCrncy" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrAcctNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrValueDate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrBICCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrBICCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrAcctAddress1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranParticulars" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranRemarks1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrTranRemarks2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranParticulars" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranRemarks1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_CrTranRemarks2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranParticularsCodeDr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_TranParticularsCodeCr" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_SourceChannel" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm1_DrForcePostFlag" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PostToFinacle_WithForcePostFlagResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PostToFinacle_WithForcePostFlagResult" type="tns:Finacle_Response_Detail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetToken">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="product" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NetworkProviderID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTokenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTokenResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountsResult" type="tns:AccountInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AccountInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Accounts" type="tns:ArrayOfAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Account" nillable="true" type="tns:Account" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Account">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccountNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountBalance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accountNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountBalanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountBalanceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStatement">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accountNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStatementResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountStatementResult" type="tns:StatementInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StatementInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Statements" type="tns:ArrayOfStatement" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfStatement">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Statement" nillable="true" type="tns:Statement" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Statement">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Txn_Date" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Txn_Amount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Txn_Ref" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Txn_Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountStatement_ZeePay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SR_UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SR_Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UniqueReference" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStatement_ZeePayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountStatement_ZeePayResult" type="tns:StatementInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ResetPassword">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NetworkProviderID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="product" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="oldPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newPassword" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newPasswordConfirm" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ResetPasswordResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ResetPasswordResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InternalTransfer">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="transferAmount" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InternalTransferResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InternalTransferResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ThirdPartyPayment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationSWIFTCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="beneficiaryName" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="Extra_Narrative1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Extra_Narrative2" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ThirdPartyPaymentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ThirdPartyPaymentResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillPayment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceProviderID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomerID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceNarrative" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="Extra_Narrative1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Extra_Narrative2" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BillPaymentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BillPaymentResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_BeneficiaryName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Beneficiary_Account" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_BeneficiaryNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Get_BeneficiaryNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Verify_BeneficiaryName">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceProviderID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CustomerID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Verify_BeneficiaryNameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Verify_BeneficiaryNameResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_Account_From_MobileNumber">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MobileNumber" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Get_Account_From_MobileNumberResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Get_Account_From_MobileNumberResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIPIT_SEND">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tokenId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationInstitute" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAccount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIPIT_SENDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ZIPIT_SENDResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIPIT_SMART_REQUEST">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Api_Key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="User_Name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="transmissionDate" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="merchantCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="channel" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="acquiringInstID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="extendedTrantype" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIPIT_SMART_REQUESTResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ZIPIT_SMART_REQUESTResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIPIT_SEND_KYC">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tokenId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationInstitute" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAccount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="IDNumber_KYC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccount_KYC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountName_KYC" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="extraDetail_1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="extraDetail_2" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="extraDetail_3" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ZIPIT_SEND_KYCResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ZIPIT_SEND_KYCResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="qry_FinTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ChannelRefNum_C" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MobileNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="qry_FinTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="qry_FinTransactionResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:any minOccurs="0" maxOccurs="unbounded" namespace="http://www.w3.org/2001/XMLSchema" processContents="lax" />
+                  <s:any minOccurs="1" namespace="urn:schemas-microsoft-com:xml-diffgram-v1" processContents="lax" />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransaction_Post_First">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XML_Ref_C" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ChannelRefNum_C" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Source_Channel" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trn_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TrnRemarks" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransaction_Post_FirstResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReverseTransaction_Post_FirstResult" type="tns:Posting_Response" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransaction_ZeePay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SR_UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SR_Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="XML_Ref_C" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ChannelRefNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Source_Channel" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trn_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TrnRemarks" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransaction_ZeePayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReverseTransaction_ZeePayResult" type="tns:Posting_Response" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="XML_Ref_C" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ChannelRefNum_C" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Source_Channel" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Trn_ID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TrnRemarks" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReverseTransactionResult" type="tns:Posting_Response" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Finacle_AccountEnquiry">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Param_Account" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Param_RequestUUID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="UsePseudoResponse" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="Parm_SourceChannel" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Finacle_AccountEnquiryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Finacle_AccountEnquiryResult" type="tns:Account_Enquiry_Detail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Account_Enquiry_Detail">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="HostTransaction_Status" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SchmCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SchmType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AcctCurr" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BranchId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BranchName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Addr1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Addr2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Addr3" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LastName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FirstName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AcctId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TitlePrefix" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="BankAcctStatusCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AcctOpenDt" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Error_Code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Error_Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SuccessOrFailure" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ACCTNAME" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AVAILDRCRIND" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DRAWINGPOWERDRCRIND" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EFFAVAILDRCRIND" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FLOATDRCRIND" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FREEZESTATUS" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LEDGERDRCRIND" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LIENCRDRIND" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SHADOWDRCRIND" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ACCTBALCRDRIND" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FUTBALCRDRIND" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LEDGER_Bal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="AVAIL_Bal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="EFFAVL_Bal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FLOAT_Bal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="LIEN_Bal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DRWPWR_Bal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ACCBAL_Bal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SHADOW_Bal" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FUTBAL_Bal" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ReverseZeePayTransaction_local">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SR_UserID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SR_Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="channelId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RequestUUID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ChannelRefNum" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RequestXML" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseZeePayTransaction_localResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReverseZeePayTransaction_localResult" type="tns:Finacle_Response_Detail" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CheckStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckStatus" />
+  </wsdl:message>
+  <wsdl:message name="CheckStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="generateRandomSoapIn">
+    <wsdl:part name="parameters" element="tns:generateRandom" />
+  </wsdl:message>
+  <wsdl:message name="generateRandomSoapOut">
+    <wsdl:part name="parameters" element="tns:generateRandomResponse" />
+  </wsdl:message>
+  <wsdl:message name="autoRegisterSoapIn">
+    <wsdl:part name="parameters" element="tns:autoRegister" />
+  </wsdl:message>
+  <wsdl:message name="autoRegisterSoapOut">
+    <wsdl:part name="parameters" element="tns:autoRegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="autoRegister_AccountSoapIn">
+    <wsdl:part name="parameters" element="tns:autoRegister_Account" />
+  </wsdl:message>
+  <wsdl:message name="autoRegister_AccountSoapOut">
+    <wsdl:part name="parameters" element="tns:autoRegister_AccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="autoRegister_Card_AccountSoapIn">
+    <wsdl:part name="parameters" element="tns:autoRegister_Card_Account" />
+  </wsdl:message>
+  <wsdl:message name="autoRegister_Card_AccountSoapOut">
+    <wsdl:part name="parameters" element="tns:autoRegister_Card_AccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="autoRegister_CardSoapIn">
+    <wsdl:part name="parameters" element="tns:autoRegister_Card" />
+  </wsdl:message>
+  <wsdl:message name="autoRegister_CardSoapOut">
+    <wsdl:part name="parameters" element="tns:autoRegister_CardResponse" />
+  </wsdl:message>
+  <wsdl:message name="Query_Payment_Status_ZeePaySoapIn">
+    <wsdl:part name="parameters" element="tns:Query_Payment_Status_ZeePay" />
+  </wsdl:message>
+  <wsdl:message name="Query_Payment_Status_ZeePaySoapOut">
+    <wsdl:part name="parameters" element="tns:Query_Payment_Status_ZeePayResponse" />
+  </wsdl:message>
+  <wsdl:message name="MarkUnMarkLienSoapIn">
+    <wsdl:part name="parameters" element="tns:MarkUnMarkLien" />
+  </wsdl:message>
+  <wsdl:message name="MarkUnMarkLienSoapOut">
+    <wsdl:part name="parameters" element="tns:MarkUnMarkLienResponse" />
+  </wsdl:message>
+  <wsdl:message name="PostToFinacle_ZeePaySoapIn">
+    <wsdl:part name="parameters" element="tns:PostToFinacle_ZeePay" />
+  </wsdl:message>
+  <wsdl:message name="PostToFinacle_ZeePaySoapOut">
+    <wsdl:part name="parameters" element="tns:PostToFinacle_ZeePayResponse" />
+  </wsdl:message>
+  <wsdl:message name="PostToEDMISoapIn">
+    <wsdl:part name="parameters" element="tns:PostToEDMI" />
+  </wsdl:message>
+  <wsdl:message name="PostToEDMISoapOut">
+    <wsdl:part name="parameters" element="tns:PostToEDMIResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransaction_SCBSoapIn">
+    <wsdl:part name="parameters" element="tns:ReverseTransaction_SCB" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransaction_SCBSoapOut">
+    <wsdl:part name="parameters" element="tns:ReverseTransaction_SCBResponse" />
+  </wsdl:message>
+  <wsdl:message name="PostToFinacleSoapIn">
+    <wsdl:part name="parameters" element="tns:PostToFinacle" />
+  </wsdl:message>
+  <wsdl:message name="PostToFinacleSoapOut">
+    <wsdl:part name="parameters" element="tns:PostToFinacleResponse" />
+  </wsdl:message>
+  <wsdl:message name="PostToFinacle_WithForcePostFlagSoapIn">
+    <wsdl:part name="parameters" element="tns:PostToFinacle_WithForcePostFlag" />
+  </wsdl:message>
+  <wsdl:message name="PostToFinacle_WithForcePostFlagSoapOut">
+    <wsdl:part name="parameters" element="tns:PostToFinacle_WithForcePostFlagResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTokenSoapIn">
+    <wsdl:part name="parameters" element="tns:GetToken" />
+  </wsdl:message>
+  <wsdl:message name="GetTokenSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccounts" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBalanceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountBalance" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBalanceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountBalanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStatementSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountStatement" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStatementSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountStatementResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStatement_ZeePaySoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountStatement_ZeePay" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStatement_ZeePaySoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountStatement_ZeePayResponse" />
+  </wsdl:message>
+  <wsdl:message name="ResetPasswordSoapIn">
+    <wsdl:part name="parameters" element="tns:ResetPassword" />
+  </wsdl:message>
+  <wsdl:message name="ResetPasswordSoapOut">
+    <wsdl:part name="parameters" element="tns:ResetPasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="InternalTransferSoapIn">
+    <wsdl:part name="parameters" element="tns:InternalTransfer" />
+  </wsdl:message>
+  <wsdl:message name="InternalTransferSoapOut">
+    <wsdl:part name="parameters" element="tns:InternalTransferResponse" />
+  </wsdl:message>
+  <wsdl:message name="ThirdPartyPaymentSoapIn">
+    <wsdl:part name="parameters" element="tns:ThirdPartyPayment" />
+  </wsdl:message>
+  <wsdl:message name="ThirdPartyPaymentSoapOut">
+    <wsdl:part name="parameters" element="tns:ThirdPartyPaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="BillPaymentSoapIn">
+    <wsdl:part name="parameters" element="tns:BillPayment" />
+  </wsdl:message>
+  <wsdl:message name="BillPaymentSoapOut">
+    <wsdl:part name="parameters" element="tns:BillPaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_BeneficiaryNameSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_BeneficiaryName" />
+  </wsdl:message>
+  <wsdl:message name="Get_BeneficiaryNameSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_BeneficiaryNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="Verify_BeneficiaryNameSoapIn">
+    <wsdl:part name="parameters" element="tns:Verify_BeneficiaryName" />
+  </wsdl:message>
+  <wsdl:message name="Verify_BeneficiaryNameSoapOut">
+    <wsdl:part name="parameters" element="tns:Verify_BeneficiaryNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="Get_Account_From_MobileNumberSoapIn">
+    <wsdl:part name="parameters" element="tns:Get_Account_From_MobileNumber" />
+  </wsdl:message>
+  <wsdl:message name="Get_Account_From_MobileNumberSoapOut">
+    <wsdl:part name="parameters" element="tns:Get_Account_From_MobileNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="ZIPIT_SENDSoapIn">
+    <wsdl:part name="parameters" element="tns:ZIPIT_SEND" />
+  </wsdl:message>
+  <wsdl:message name="ZIPIT_SENDSoapOut">
+    <wsdl:part name="parameters" element="tns:ZIPIT_SENDResponse" />
+  </wsdl:message>
+  <wsdl:message name="ZIPIT_SMART_REQUESTSoapIn">
+    <wsdl:part name="parameters" element="tns:ZIPIT_SMART_REQUEST" />
+  </wsdl:message>
+  <wsdl:message name="ZIPIT_SMART_REQUESTSoapOut">
+    <wsdl:part name="parameters" element="tns:ZIPIT_SMART_REQUESTResponse" />
+  </wsdl:message>
+  <wsdl:message name="ZIPIT_SEND_KYCSoapIn">
+    <wsdl:part name="parameters" element="tns:ZIPIT_SEND_KYC" />
+  </wsdl:message>
+  <wsdl:message name="ZIPIT_SEND_KYCSoapOut">
+    <wsdl:part name="parameters" element="tns:ZIPIT_SEND_KYCResponse" />
+  </wsdl:message>
+  <wsdl:message name="qry_FinTransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:qry_FinTransaction" />
+  </wsdl:message>
+  <wsdl:message name="qry_FinTransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:qry_FinTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransaction_Post_FirstSoapIn">
+    <wsdl:part name="parameters" element="tns:ReverseTransaction_Post_First" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransaction_Post_FirstSoapOut">
+    <wsdl:part name="parameters" element="tns:ReverseTransaction_Post_FirstResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransaction_ZeePaySoapIn">
+    <wsdl:part name="parameters" element="tns:ReverseTransaction_ZeePay" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransaction_ZeePaySoapOut">
+    <wsdl:part name="parameters" element="tns:ReverseTransaction_ZeePayResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:ReverseTransaction" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:ReverseTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="Finacle_AccountEnquirySoapIn">
+    <wsdl:part name="parameters" element="tns:Finacle_AccountEnquiry" />
+  </wsdl:message>
+  <wsdl:message name="Finacle_AccountEnquirySoapOut">
+    <wsdl:part name="parameters" element="tns:Finacle_AccountEnquiryResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReverseZeePayTransaction_localSoapIn">
+    <wsdl:part name="parameters" element="tns:ReverseZeePayTransaction_local" />
+  </wsdl:message>
+  <wsdl:message name="ReverseZeePayTransaction_localSoapOut">
+    <wsdl:part name="parameters" element="tns:ReverseZeePayTransaction_localResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Finacle_BridgeSoap">
+    <wsdl:operation name="CheckStatus">
+      <wsdl:input message="tns:CheckStatusSoapIn" />
+      <wsdl:output message="tns:CheckStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="generateRandom">
+      <wsdl:input message="tns:generateRandomSoapIn" />
+      <wsdl:output message="tns:generateRandomSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister">
+      <wsdl:input message="tns:autoRegisterSoapIn" />
+      <wsdl:output message="tns:autoRegisterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister_Account">
+      <wsdl:input message="tns:autoRegister_AccountSoapIn" />
+      <wsdl:output message="tns:autoRegister_AccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister_Card_Account">
+      <wsdl:input message="tns:autoRegister_Card_AccountSoapIn" />
+      <wsdl:output message="tns:autoRegister_Card_AccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister_Card">
+      <wsdl:input message="tns:autoRegister_CardSoapIn" />
+      <wsdl:output message="tns:autoRegister_CardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Query_Payment_Status_ZeePay">
+      <wsdl:input message="tns:Query_Payment_Status_ZeePaySoapIn" />
+      <wsdl:output message="tns:Query_Payment_Status_ZeePaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkUnMarkLien">
+      <wsdl:input message="tns:MarkUnMarkLienSoapIn" />
+      <wsdl:output message="tns:MarkUnMarkLienSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PostToFinacle_ZeePay">
+      <wsdl:input message="tns:PostToFinacle_ZeePaySoapIn" />
+      <wsdl:output message="tns:PostToFinacle_ZeePaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PostToEDMI">
+      <wsdl:input message="tns:PostToEDMISoapIn" />
+      <wsdl:output message="tns:PostToEDMISoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction_SCB">
+      <wsdl:input message="tns:ReverseTransaction_SCBSoapIn" />
+      <wsdl:output message="tns:ReverseTransaction_SCBSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PostToFinacle">
+      <wsdl:input message="tns:PostToFinacleSoapIn" />
+      <wsdl:output message="tns:PostToFinacleSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PostToFinacle_WithForcePostFlag">
+      <wsdl:input message="tns:PostToFinacle_WithForcePostFlagSoapIn" />
+      <wsdl:output message="tns:PostToFinacle_WithForcePostFlagSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetToken">
+      <wsdl:input message="tns:GetTokenSoapIn" />
+      <wsdl:output message="tns:GetTokenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccounts">
+      <wsdl:input message="tns:GetAccountsSoapIn" />
+      <wsdl:output message="tns:GetAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBalance">
+      <wsdl:input message="tns:GetAccountBalanceSoapIn" />
+      <wsdl:output message="tns:GetAccountBalanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement">
+      <wsdl:input message="tns:GetAccountStatementSoapIn" />
+      <wsdl:output message="tns:GetAccountStatementSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement_ZeePay">
+      <wsdl:input message="tns:GetAccountStatement_ZeePaySoapIn" />
+      <wsdl:output message="tns:GetAccountStatement_ZeePaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ResetPassword">
+      <wsdl:input message="tns:ResetPasswordSoapIn" />
+      <wsdl:output message="tns:ResetPasswordSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InternalTransfer">
+      <wsdl:input message="tns:InternalTransferSoapIn" />
+      <wsdl:output message="tns:InternalTransferSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ThirdPartyPayment">
+      <wsdl:input message="tns:ThirdPartyPaymentSoapIn" />
+      <wsdl:output message="tns:ThirdPartyPaymentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BillPayment">
+      <wsdl:input message="tns:BillPaymentSoapIn" />
+      <wsdl:output message="tns:BillPaymentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_BeneficiaryName">
+      <wsdl:input message="tns:Get_BeneficiaryNameSoapIn" />
+      <wsdl:output message="tns:Get_BeneficiaryNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Verify_BeneficiaryName">
+      <wsdl:input message="tns:Verify_BeneficiaryNameSoapIn" />
+      <wsdl:output message="tns:Verify_BeneficiaryNameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Get_Account_From_MobileNumber">
+      <wsdl:input message="tns:Get_Account_From_MobileNumberSoapIn" />
+      <wsdl:output message="tns:Get_Account_From_MobileNumberSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZIPIT_SEND">
+      <wsdl:input message="tns:ZIPIT_SENDSoapIn" />
+      <wsdl:output message="tns:ZIPIT_SENDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZIPIT_SMART_REQUEST">
+      <wsdl:input message="tns:ZIPIT_SMART_REQUESTSoapIn" />
+      <wsdl:output message="tns:ZIPIT_SMART_REQUESTSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ZIPIT_SEND_KYC">
+      <wsdl:input message="tns:ZIPIT_SEND_KYCSoapIn" />
+      <wsdl:output message="tns:ZIPIT_SEND_KYCSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="qry_FinTransaction">
+      <wsdl:input message="tns:qry_FinTransactionSoapIn" />
+      <wsdl:output message="tns:qry_FinTransactionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction_Post_First">
+      <wsdl:input message="tns:ReverseTransaction_Post_FirstSoapIn" />
+      <wsdl:output message="tns:ReverseTransaction_Post_FirstSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction_ZeePay">
+      <wsdl:input message="tns:ReverseTransaction_ZeePaySoapIn" />
+      <wsdl:output message="tns:ReverseTransaction_ZeePaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction">
+      <wsdl:input message="tns:ReverseTransactionSoapIn" />
+      <wsdl:output message="tns:ReverseTransactionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Finacle_AccountEnquiry">
+      <wsdl:input message="tns:Finacle_AccountEnquirySoapIn" />
+      <wsdl:output message="tns:Finacle_AccountEnquirySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReverseZeePayTransaction_local">
+      <wsdl:input message="tns:ReverseZeePayTransaction_localSoapIn" />
+      <wsdl:output message="tns:ReverseZeePayTransaction_localSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Finacle_BridgeSoap" type="tns:Finacle_BridgeSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckStatus">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/CheckStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generateRandom">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/generateRandom" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/autoRegister" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister_Account">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/autoRegister_Account" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister_Card_Account">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/autoRegister_Card_Account" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister_Card">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/autoRegister_Card" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Query_Payment_Status_ZeePay">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/Query_Payment_Status_ZeePay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkUnMarkLien">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/MarkUnMarkLien" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostToFinacle_ZeePay">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/PostToFinacle_ZeePay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostToEDMI">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/PostToEDMI" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction_SCB">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ReverseTransaction_SCB" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostToFinacle">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/PostToFinacle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostToFinacle_WithForcePostFlag">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/PostToFinacle_WithForcePostFlag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetToken">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/GetToken" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccounts">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/GetAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBalance">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/GetAccountBalance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/GetAccountStatement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement_ZeePay">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/GetAccountStatement_ZeePay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetPassword">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ResetPassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InternalTransfer">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/InternalTransfer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ThirdPartyPayment">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ThirdPartyPayment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillPayment">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/BillPayment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_BeneficiaryName">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/Get_BeneficiaryName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Verify_BeneficiaryName">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/Verify_BeneficiaryName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_Account_From_MobileNumber">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/Get_Account_From_MobileNumber" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIPIT_SEND">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ZIPIT_SEND" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIPIT_SMART_REQUEST">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ZIPIT_SMART_REQUEST" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIPIT_SEND_KYC">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ZIPIT_SEND_KYC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="qry_FinTransaction">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/qry_FinTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction_Post_First">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ReverseTransaction_Post_First" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction_ZeePay">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ReverseTransaction_ZeePay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ReverseTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Finacle_AccountEnquiry">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/Finacle_AccountEnquiry" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseZeePayTransaction_local">
+      <soap:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ReverseZeePayTransaction_local" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Finacle_BridgeSoap12" type="tns:Finacle_BridgeSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckStatus">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/CheckStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generateRandom">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/generateRandom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/autoRegister" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister_Account">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/autoRegister_Account" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister_Card_Account">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/autoRegister_Card_Account" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="autoRegister_Card">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/autoRegister_Card" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Query_Payment_Status_ZeePay">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/Query_Payment_Status_ZeePay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MarkUnMarkLien">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/MarkUnMarkLien" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostToFinacle_ZeePay">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/PostToFinacle_ZeePay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostToEDMI">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/PostToEDMI" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction_SCB">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ReverseTransaction_SCB" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostToFinacle">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/PostToFinacle" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostToFinacle_WithForcePostFlag">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/PostToFinacle_WithForcePostFlag" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetToken">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/GetToken" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccounts">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/GetAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBalance">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/GetAccountBalance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/GetAccountStatement" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement_ZeePay">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/GetAccountStatement_ZeePay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ResetPassword">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ResetPassword" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InternalTransfer">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/InternalTransfer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ThirdPartyPayment">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ThirdPartyPayment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillPayment">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/BillPayment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_BeneficiaryName">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/Get_BeneficiaryName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Verify_BeneficiaryName">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/Verify_BeneficiaryName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Get_Account_From_MobileNumber">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/Get_Account_From_MobileNumber" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIPIT_SEND">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ZIPIT_SEND" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIPIT_SMART_REQUEST">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ZIPIT_SMART_REQUEST" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ZIPIT_SEND_KYC">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ZIPIT_SEND_KYC" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="qry_FinTransaction">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/qry_FinTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction_Post_First">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ReverseTransaction_Post_First" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction_ZeePay">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ReverseTransaction_ZeePay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ReverseTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Finacle_AccountEnquiry">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/Finacle_AccountEnquiry" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseZeePayTransaction_local">
+      <soap12:operation soapAction="http://10.237.61.33:62137/Finacle_Bridge_ST.asmx/ReverseZeePayTransaction_local" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Finacle_Bridge">
+    <wsdl:port name="Finacle_BridgeSoap" binding="tns:Finacle_BridgeSoap">
+      <soap:address location="http://localhost:62248/Finacle_Bridge_ST.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Finacle_BridgeSoap12" binding="tns:Finacle_BridgeSoap12">
+      <soap12:address location="http://localhost:62248/Finacle_Bridge_ST.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

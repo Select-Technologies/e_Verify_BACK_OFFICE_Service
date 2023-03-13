@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://types.ws.gw.fcubs.iflex.com" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CreateUPTransaction" nillable="true" type="xs:string" />
+  <xs:element name="CreateUPTransactionResponse" nillable="true" type="xs:string" />
+  <xs:element name="QueryUPTransaction" nillable="true" type="xs:string" />
+  <xs:element name="QueryUPTransactionResponse" nillable="true" type="xs:string" />
+  <xs:element name="ReverseUPTransaction" nillable="true" type="xs:string" />
+  <xs:element name="ReverseUPTransactionResponse" nillable="true" type="xs:string" />
+</xs:schema>

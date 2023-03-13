@@ -1,0 +1,165 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="e_Verify_BACK_OFFICE_Service_Interface.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SMS_Interface" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ZIMRA_Interface" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ErrorLog_Folder" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Zimra\Errors</Value>
+    </Setting>
+    <Setting Name="Forced_ThreadMinutes" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="Service_InterVal_inMilliseconds" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">6000</Value>
+    </Setting>
+    <Setting Name="Allow_File_Deletion" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Alert_ZimraTransactions" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Post_to_ZIMRA" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Enable_Service_Logging" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Forced_ThreadMinutes_MobilePosting" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">15</Value>
+    </Setting>
+    <Setting Name="reverseByFirstPosting" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Post_Charges_SCB" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="UseCurrentTimeforZIMRA_Trxns" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ZIMRA_ID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">BAR</Value>
+    </Setting>
+    <Setting Name="Country_ID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">zw</Value>
+    </Setting>
+    <Setting Name="InDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\EBanking_In\Data\Input</Value>
+    </Setting>
+    <Setting Name="StagingDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\EBanking_In\Data\Staging</Value>
+    </Setting>
+    <Setting Name="OutDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\EBanking_In\Data\Output</Value>
+    </Setting>
+    <Setting Name="BackupDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\EBanking_In\Data\Backup</Value>
+    </Setting>
+    <Setting Name="RemoteDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\EBanking_In\Data\Remote_Dir</Value>
+    </Setting>
+    <Setting Name="INSTALLATION_TYPE" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SERVER</Value>
+    </Setting>
+    <Setting Name="Acquire_RTGS_Outward_from_History" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Acquire_RTGS_Outward" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Post_Charges_ABC" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="autoRegister2MNO_Enabled" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RTGS_Outwards_MQ_DataPosting" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RTGS_Inwards_MQ_DataAquisition" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RTGS_Inwards_FCUBS_DataPosting" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="FCUBS_Schema" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">zwfcc11</Value>
+    </Setting>
+    <Setting Name="Acquire_RTGS_Outward_ZIPP" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RTGS_Inwards_Post_Failures_to_Suspense" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Mobile_Trxn_Reversal_Data_Insert" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Reverse_Mobile_Transactions" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Node_ID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">10.105.50.17_Node1</Value>
+    </Setting>
+    <Setting Name="Forced_ThreadMinutes_SCBCTR" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="Barc_StaticDataImport_Enabled_YN" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Create_SCB_CTR" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SFI_InDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\Ebanking_In\Data\Input\SFI</Value>
+    </Setting>
+    <Setting Name="SFI_OutDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\EBanking_In\Data\Output\SFI</Value>
+    </Setting>
+    <Setting Name="SFI_BackupDirectory" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:\EBanking_In\Data\Backup\SFI</Value>
+    </Setting>
+    <Setting Name="QueueName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">VENDORS.IN.Q</Value>
+    </Setting>
+    <Setting Name="QueueUserName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
+    <Setting Name="QueuePassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
+    <Setting Name="QueueHostName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">10.66.29.197</Value>
+    </Setting>
+    <Setting Name="QueuePort" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">5672</Value>
+    </Setting>
+    <Setting Name="RespQueueName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">STANBIC.REPLY.Q</Value>
+    </Setting>
+    <Setting Name="RespQueueUserName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
+    <Setting Name="RespQueuePassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
+    <Setting Name="RespQueueHostName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">10.66.29.197</Value>
+    </Setting>
+    <Setting Name="RespQueuePort" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">5672</Value>
+    </Setting>
+    <Setting Name="LocalhostQueue" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">tt</Value>
+    </Setting>
+    <Setting Name="IsLocalQueue" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Institution_ID" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">BABC_ZW</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

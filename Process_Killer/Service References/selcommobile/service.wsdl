@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://paypoint.selcommobile.com/webservices/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://paypoint.selcommobile.com/webservices/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://paypoint.selcommobile.com/webservices/">
+      <s:element name="syncCustomer">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="requestData" type="tns:syncRequestType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="syncRequestType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="credentials" type="tns:credentialsType" />
+          <s:element minOccurs="1" maxOccurs="1" name="payload" type="tns:syncRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="credentialsType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="username" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="syncRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="msisdn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="syncCustomerResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="syncCustomerResult" type="tns:statusType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="statusType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="code" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="syncCustomerTest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="requestData" type="tns:syncRequestType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="syncCustomerTestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="syncCustomerTestResult" type="tns:statusType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="syncAccount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="requestData" type="tns:syncAccountRequestType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="syncAccountRequestType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="credentials" type="tns:credentialsType" />
+          <s:element minOccurs="1" maxOccurs="1" name="payload" type="tns:syncAccountRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="syncAccountRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="msisdn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="syncAccountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="syncAccountResult" type="tns:statusType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="syncAccountTest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="requestData" type="tns:syncAccountRequestType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="syncAccountTestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="syncAccountTestResult" type="tns:statusType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="fetchW2B">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="requestData" type="tns:fetchW2BRequestType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="fetchW2BRequestType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="credentials" type="tns:credentialsType" />
+          <s:element minOccurs="1" maxOccurs="1" name="payload" type="tns:w2bRequestType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="w2bRequestType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="servicetype" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="merchantid" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="fetchW2BResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="fetchW2BResult" type="tns:fetchW2BResponseType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="fetchW2BResponseType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="status" type="tns:fetchW2BStatusType" />
+          <s:element minOccurs="0" maxOccurs="1" name="NoOfTransactions" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="payload" type="tns:ArrayOfTran" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="fetchW2BStatusType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="statuscode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTran">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="tran" type="tns:tran" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="tran">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="bankref" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="transid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="reference" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="servicetype" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="result" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="provider" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="msisdn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="amount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="consumercode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="merchantid" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="postW2BResult">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="requestData" type="tns:postW2BRequestType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="postW2BRequestType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="credentials" type="tns:credentialsType" />
+          <s:element minOccurs="1" maxOccurs="1" name="payload" type="tns:tran" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="postW2BResultResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="postW2BResultResult" type="tns:postW2BResponseType" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="postW2BResponseType">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="status" type="tns:fetchW2BStatusType" />
+          <s:element minOccurs="1" maxOccurs="1" name="payload" type="tns:w2bPostResponseType" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="w2bPostResponseType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="statuscode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="bankref" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="servicetype" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="transid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="reference" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="provider" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="account" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="msisdn" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="amount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="consumercode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="result" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="syncCustomerSoapIn">
+    <wsdl:part name="parameters" element="tns:syncCustomer" />
+  </wsdl:message>
+  <wsdl:message name="syncCustomerSoapOut">
+    <wsdl:part name="parameters" element="tns:syncCustomerResponse" />
+  </wsdl:message>
+  <wsdl:message name="syncCustomerTestSoapIn">
+    <wsdl:part name="parameters" element="tns:syncCustomerTest" />
+  </wsdl:message>
+  <wsdl:message name="syncCustomerTestSoapOut">
+    <wsdl:part name="parameters" element="tns:syncCustomerTestResponse" />
+  </wsdl:message>
+  <wsdl:message name="syncAccountSoapIn">
+    <wsdl:part name="parameters" element="tns:syncAccount" />
+  </wsdl:message>
+  <wsdl:message name="syncAccountSoapOut">
+    <wsdl:part name="parameters" element="tns:syncAccountResponse" />
+  </wsdl:message>
+  <wsdl:message name="syncAccountTestSoapIn">
+    <wsdl:part name="parameters" element="tns:syncAccountTest" />
+  </wsdl:message>
+  <wsdl:message name="syncAccountTestSoapOut">
+    <wsdl:part name="parameters" element="tns:syncAccountTestResponse" />
+  </wsdl:message>
+  <wsdl:message name="fetchW2BSoapIn">
+    <wsdl:part name="parameters" element="tns:fetchW2B" />
+  </wsdl:message>
+  <wsdl:message name="fetchW2BSoapOut">
+    <wsdl:part name="parameters" element="tns:fetchW2BResponse" />
+  </wsdl:message>
+  <wsdl:message name="postW2BResultSoapIn">
+    <wsdl:part name="parameters" element="tns:postW2BResult" />
+  </wsdl:message>
+  <wsdl:message name="postW2BResultSoapOut">
+    <wsdl:part name="parameters" element="tns:postW2BResultResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WebServiceSoap">
+    <wsdl:operation name="syncCustomer">
+      <wsdl:input message="tns:syncCustomerSoapIn" />
+      <wsdl:output message="tns:syncCustomerSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="syncCustomerTest">
+      <wsdl:input message="tns:syncCustomerTestSoapIn" />
+      <wsdl:output message="tns:syncCustomerTestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="syncAccount">
+      <wsdl:input message="tns:syncAccountSoapIn" />
+      <wsdl:output message="tns:syncAccountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="syncAccountTest">
+      <wsdl:input message="tns:syncAccountTestSoapIn" />
+      <wsdl:output message="tns:syncAccountTestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="fetchW2B">
+      <wsdl:input message="tns:fetchW2BSoapIn" />
+      <wsdl:output message="tns:fetchW2BSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="postW2BResult">
+      <wsdl:input message="tns:postW2BResultSoapIn" />
+      <wsdl:output message="tns:postW2BResultSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="syncCustomer">
+      <soap:operation soapAction="http://paypoint.selcommobile.com/webservices/syncCustomer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="syncCustomerTest">
+      <soap:operation soapAction="http://paypoint.selcommobile.com/webservices/syncCustomerTest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="syncAccount">
+      <soap:operation soapAction="http://paypoint.selcommobile.com/webservices/syncAccount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="syncAccountTest">
+      <soap:operation soapAction="http://paypoint.selcommobile.com/webservices/syncAccountTest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="fetchW2B">
+      <soap:operation soapAction="http://paypoint.selcommobile.com/webservices/fetchW2B" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="postW2BResult">
+      <soap:operation soapAction="http://paypoint.selcommobile.com/webservices/postW2BResult" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebService">
+    <wsdl:port name="WebServiceSoap" binding="tns:WebServiceSoap">
+      <soap:address location="https://soap.selcommobile.com:8085/selcom/service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

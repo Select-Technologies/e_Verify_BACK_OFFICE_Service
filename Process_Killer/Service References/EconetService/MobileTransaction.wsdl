@@ -1,0 +1,795 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://10.237.61.33:62197/MobileTransaction.asmx/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://10.237.61.33:62197/MobileTransaction.asmx/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://10.237.61.33:62197/MobileTransaction.asmx/">
+      <s:element name="CheckStatus">
+        <s:complexType />
+      </s:element>
+      <s:element name="CheckStatusResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CheckStatusResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetToken">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTokenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetTokenResult" type="s:long" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccounts">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountsResult" type="tns:AccountInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AccountInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Accounts" type="tns:ArrayOfAccount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfAccount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Account" nillable="true" type="tns:Account" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Account">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccountNo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Currency" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetAccountBalance_Test">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="accountNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountBalance_TestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountBalance_TestResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountBalance">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accountNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountBalanceResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountBalanceResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PostTrxnCharge">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SR_userID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="SR_password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="paymentType" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAccount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="SourceTrxnID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DRCR_Flag" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RRN" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Current_TrxnID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TrnInstance" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="currBatchID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PostTrxnChargeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PostTrxnChargeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStatement">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="accountNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetAccountStatementResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetAccountStatementResult" type="tns:StatementInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="StatementInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Statements" type="tns:ArrayOfStatement" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfStatement">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Statement" nillable="true" type="tns:Statement" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Statement">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Txn_Date" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Txn_Amount" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Txn_Ref" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Txn_Description" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ErrorCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AccountTransfer">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="transferAmount" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AccountTransferResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AccountTransferResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ThirdPartyPayment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationSortCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ThirdPartyPaymentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ThirdPartyPaymentResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BankToWallet">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tokenId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BankToWalletResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BankToWalletResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BankToWallet_with_RRN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tokenId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceAccountNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="RRN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BankToWallet_with_RRNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BankToWallet_with_RRNResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WalletToBank_with_RRN">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tokenId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAccount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:double" />
+            <s:element minOccurs="0" maxOccurs="1" name="RRN" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WalletToBank_with_RRNResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WalletToBank_with_RRNResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WalletToBank">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="tokenId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="destinationAccount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="paymentAmount" type="s:double" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="WalletToBankResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="WalletToBankResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransaction">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="tokenId" type="s:long" />
+            <s:element minOccurs="0" maxOccurs="1" name="telephoneNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="transactionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceReference" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReverseTransactionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ReverseTransactionResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MMT_AgentPayment">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SelectCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="paymentType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="agentAccount_local" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="agentCode_local" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="amount_local" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="approvalCode_local" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="bankCode_local" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="currency_local" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="referenceNumber_local" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="sourceofFunds_local" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="transactionDate_local" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="valueDate_local" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MMT_AgentPaymentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MMT_AgentPaymentResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="submit_WithdrawalApproval">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="agentCode" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="approvalCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="submit_WithdrawalApprovalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="submit_WithdrawalApprovalResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CheckStatusSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckStatus" />
+  </wsdl:message>
+  <wsdl:message name="CheckStatusSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTokenSoapIn">
+    <wsdl:part name="parameters" element="tns:GetToken" />
+  </wsdl:message>
+  <wsdl:message name="GetTokenSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTokenResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccounts" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBalance_TestSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountBalance_Test" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBalance_TestSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountBalance_TestResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBalanceSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountBalance" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountBalanceSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountBalanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="PostTrxnChargeSoapIn">
+    <wsdl:part name="parameters" element="tns:PostTrxnCharge" />
+  </wsdl:message>
+  <wsdl:message name="PostTrxnChargeSoapOut">
+    <wsdl:part name="parameters" element="tns:PostTrxnChargeResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStatementSoapIn">
+    <wsdl:part name="parameters" element="tns:GetAccountStatement" />
+  </wsdl:message>
+  <wsdl:message name="GetAccountStatementSoapOut">
+    <wsdl:part name="parameters" element="tns:GetAccountStatementResponse" />
+  </wsdl:message>
+  <wsdl:message name="AccountTransferSoapIn">
+    <wsdl:part name="parameters" element="tns:AccountTransfer" />
+  </wsdl:message>
+  <wsdl:message name="AccountTransferSoapOut">
+    <wsdl:part name="parameters" element="tns:AccountTransferResponse" />
+  </wsdl:message>
+  <wsdl:message name="ThirdPartyPaymentSoapIn">
+    <wsdl:part name="parameters" element="tns:ThirdPartyPayment" />
+  </wsdl:message>
+  <wsdl:message name="ThirdPartyPaymentSoapOut">
+    <wsdl:part name="parameters" element="tns:ThirdPartyPaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="BankToWalletSoapIn">
+    <wsdl:part name="parameters" element="tns:BankToWallet" />
+  </wsdl:message>
+  <wsdl:message name="BankToWalletSoapOut">
+    <wsdl:part name="parameters" element="tns:BankToWalletResponse" />
+  </wsdl:message>
+  <wsdl:message name="BankToWallet_with_RRNSoapIn">
+    <wsdl:part name="parameters" element="tns:BankToWallet_with_RRN" />
+  </wsdl:message>
+  <wsdl:message name="BankToWallet_with_RRNSoapOut">
+    <wsdl:part name="parameters" element="tns:BankToWallet_with_RRNResponse" />
+  </wsdl:message>
+  <wsdl:message name="WalletToBank_with_RRNSoapIn">
+    <wsdl:part name="parameters" element="tns:WalletToBank_with_RRN" />
+  </wsdl:message>
+  <wsdl:message name="WalletToBank_with_RRNSoapOut">
+    <wsdl:part name="parameters" element="tns:WalletToBank_with_RRNResponse" />
+  </wsdl:message>
+  <wsdl:message name="WalletToBankSoapIn">
+    <wsdl:part name="parameters" element="tns:WalletToBank" />
+  </wsdl:message>
+  <wsdl:message name="WalletToBankSoapOut">
+    <wsdl:part name="parameters" element="tns:WalletToBankResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransactionSoapIn">
+    <wsdl:part name="parameters" element="tns:ReverseTransaction" />
+  </wsdl:message>
+  <wsdl:message name="ReverseTransactionSoapOut">
+    <wsdl:part name="parameters" element="tns:ReverseTransactionResponse" />
+  </wsdl:message>
+  <wsdl:message name="MMT_AgentPaymentSoapIn">
+    <wsdl:part name="parameters" element="tns:MMT_AgentPayment" />
+  </wsdl:message>
+  <wsdl:message name="MMT_AgentPaymentSoapOut">
+    <wsdl:part name="parameters" element="tns:MMT_AgentPaymentResponse" />
+  </wsdl:message>
+  <wsdl:message name="submit_WithdrawalApprovalSoapIn">
+    <wsdl:part name="parameters" element="tns:submit_WithdrawalApproval" />
+  </wsdl:message>
+  <wsdl:message name="submit_WithdrawalApprovalSoapOut">
+    <wsdl:part name="parameters" element="tns:submit_WithdrawalApprovalResponse" />
+  </wsdl:message>
+  <wsdl:portType name="MobileTransactionSoap">
+    <wsdl:operation name="CheckStatus">
+      <wsdl:input message="tns:CheckStatusSoapIn" />
+      <wsdl:output message="tns:CheckStatusSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetToken">
+      <wsdl:input message="tns:GetTokenSoapIn" />
+      <wsdl:output message="tns:GetTokenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccounts">
+      <wsdl:input message="tns:GetAccountsSoapIn" />
+      <wsdl:output message="tns:GetAccountsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBalance_Test">
+      <wsdl:input message="tns:GetAccountBalance_TestSoapIn" />
+      <wsdl:output message="tns:GetAccountBalance_TestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBalance">
+      <wsdl:input message="tns:GetAccountBalanceSoapIn" />
+      <wsdl:output message="tns:GetAccountBalanceSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PostTrxnCharge">
+      <wsdl:input message="tns:PostTrxnChargeSoapIn" />
+      <wsdl:output message="tns:PostTrxnChargeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement">
+      <wsdl:input message="tns:GetAccountStatementSoapIn" />
+      <wsdl:output message="tns:GetAccountStatementSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AccountTransfer">
+      <wsdl:input message="tns:AccountTransferSoapIn" />
+      <wsdl:output message="tns:AccountTransferSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ThirdPartyPayment">
+      <wsdl:input message="tns:ThirdPartyPaymentSoapIn" />
+      <wsdl:output message="tns:ThirdPartyPaymentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BankToWallet">
+      <wsdl:input message="tns:BankToWalletSoapIn" />
+      <wsdl:output message="tns:BankToWalletSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BankToWallet_with_RRN">
+      <wsdl:input message="tns:BankToWallet_with_RRNSoapIn" />
+      <wsdl:output message="tns:BankToWallet_with_RRNSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WalletToBank_with_RRN">
+      <wsdl:input message="tns:WalletToBank_with_RRNSoapIn" />
+      <wsdl:output message="tns:WalletToBank_with_RRNSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="WalletToBank">
+      <wsdl:input message="tns:WalletToBankSoapIn" />
+      <wsdl:output message="tns:WalletToBankSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction">
+      <wsdl:input message="tns:ReverseTransactionSoapIn" />
+      <wsdl:output message="tns:ReverseTransactionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MMT_AgentPayment">
+      <wsdl:input message="tns:MMT_AgentPaymentSoapIn" />
+      <wsdl:output message="tns:MMT_AgentPaymentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="submit_WithdrawalApproval">
+      <wsdl:input message="tns:submit_WithdrawalApprovalSoapIn" />
+      <wsdl:output message="tns:submit_WithdrawalApprovalSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MobileTransactionSoap" type="tns:MobileTransactionSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckStatus">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/CheckStatus" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetToken">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/GetToken" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccounts">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/GetAccounts" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBalance_Test">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/GetAccountBalance_Test" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBalance">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/GetAccountBalance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostTrxnCharge">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/PostTrxnCharge" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/GetAccountStatement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountTransfer">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/AccountTransfer" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ThirdPartyPayment">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/ThirdPartyPayment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BankToWallet">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/BankToWallet" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BankToWallet_with_RRN">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/BankToWallet_with_RRN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WalletToBank_with_RRN">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/WalletToBank_with_RRN" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WalletToBank">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/WalletToBank" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/ReverseTransaction" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MMT_AgentPayment">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/MMT_AgentPayment" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="submit_WithdrawalApproval">
+      <soap:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/submit_WithdrawalApproval" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MobileTransactionSoap12" type="tns:MobileTransactionSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CheckStatus">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/CheckStatus" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetToken">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/GetToken" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccounts">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/GetAccounts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBalance_Test">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/GetAccountBalance_Test" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountBalance">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/GetAccountBalance" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostTrxnCharge">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/PostTrxnCharge" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAccountStatement">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/GetAccountStatement" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AccountTransfer">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/AccountTransfer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ThirdPartyPayment">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/ThirdPartyPayment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BankToWallet">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/BankToWallet" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BankToWallet_with_RRN">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/BankToWallet_with_RRN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WalletToBank_with_RRN">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/WalletToBank_with_RRN" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="WalletToBank">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/WalletToBank" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReverseTransaction">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/ReverseTransaction" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MMT_AgentPayment">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/MMT_AgentPayment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="submit_WithdrawalApproval">
+      <soap12:operation soapAction="http://10.237.61.33:62197/MobileTransaction.asmx/submit_WithdrawalApproval" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MobileTransaction">
+    <wsdl:port name="MobileTransactionSoap" binding="tns:MobileTransactionSoap">
+      <soap:address location="http://localhost:62195/Banking_Service/MobileTransaction.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MobileTransactionSoap12" binding="tns:MobileTransactionSoap12">
+      <soap12:address location="http://localhost:62195/Banking_Service/MobileTransaction.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

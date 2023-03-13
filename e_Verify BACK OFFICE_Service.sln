@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1622
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "e_Verify_BACK_OFFICE_Service", "Process_Killer\e_Verify_BACK_OFFICE_Service.csproj", "{68762F93-F3FC-4F08-86A5-38C0E8D16374}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Any CPU = CD_ROM|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		DVD-5|Any CPU = DVD-5|Any CPU
+		Release|Any CPU = Release|Any CPU
+		SingleImage|Any CPU = SingleImage|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68762F93-F3FC-4F08-86A5-38C0E8D16374}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{68762F93-F3FC-4F08-86A5-38C0E8D16374}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{68762F93-F3FC-4F08-86A5-38C0E8D16374}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68762F93-F3FC-4F08-86A5-38C0E8D16374}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68762F93-F3FC-4F08-86A5-38C0E8D16374}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{68762F93-F3FC-4F08-86A5-38C0E8D16374}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{68762F93-F3FC-4F08-86A5-38C0E8D16374}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68762F93-F3FC-4F08-86A5-38C0E8D16374}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68762F93-F3FC-4F08-86A5-38C0E8D16374}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{68762F93-F3FC-4F08-86A5-38C0E8D16374}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F21CBD5A-6663-4786-B839-9C01036218E8}
+	EndGlobalSection
+EndGlobal

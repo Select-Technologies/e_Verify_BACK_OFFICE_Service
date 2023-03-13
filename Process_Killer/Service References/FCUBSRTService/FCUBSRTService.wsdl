@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://types.ws.gw.fcubs.iflex.com" name="FCUBSRTService" targetNamespace="http://types.ws.gw.fcubs.iflex.com" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://10.105.60.20:7002/FCUBSRTService/FCUBSRTService?xsd=1" namespace="http://types.ws.gw.fcubs.iflex.com" />
+    </xsd:schema>
+  </types>
+  <message name="AuthorizeTransaction">
+    <part name="RequestMsg" element="tns:AuthorizeTransaction" />
+  </message>
+  <message name="AuthorizeTransactionResponse">
+    <part name="ResponseMsg" element="tns:AuthorizeTransactionResponse" />
+  </message>
+  <message name="CreateTransaction">
+    <part name="RequestMsg" element="tns:CreateTransaction" />
+  </message>
+  <message name="CreateTransactionResponse">
+    <part name="ResponseMsg" element="tns:CreateTransactionResponse" />
+  </message>
+  <message name="QueryRTProduct">
+    <part name="RequestMsg" element="tns:QueryRTProduct" />
+  </message>
+  <message name="QueryRTProductResponse">
+    <part name="ResponseMsg" element="tns:QueryRTProductResponse" />
+  </message>
+  <message name="QueryTransaction">
+    <part name="RequestMsg" element="tns:QueryTransaction" />
+  </message>
+  <message name="QueryTransactionResponse">
+    <part name="ResponseMsg" element="tns:QueryTransactionResponse" />
+  </message>
+  <message name="ReverseTransaction">
+    <part name="RequestMsg" element="tns:ReverseTransaction" />
+  </message>
+  <message name="ReverseTransactionResponse">
+    <part name="ResponseMsg" element="tns:ReverseTransactionResponse" />
+  </message>
+  <portType name="FCUBSRTServiceSEI">
+    <operation name="AuthorizeTransaction">
+      <input message="tns:AuthorizeTransaction" />
+      <output message="tns:AuthorizeTransactionResponse" />
+    </operation>
+    <operation name="CreateTransaction">
+      <input message="tns:CreateTransaction" />
+      <output message="tns:CreateTransactionResponse" />
+    </operation>
+    <operation name="QueryRTProduct">
+      <input message="tns:QueryRTProduct" />
+      <output message="tns:QueryRTProductResponse" />
+    </operation>
+    <operation name="QueryTransaction">
+      <input message="tns:QueryTransaction" />
+      <output message="tns:QueryTransactionResponse" />
+    </operation>
+    <operation name="ReverseTransaction">
+      <input message="tns:ReverseTransaction" />
+      <output message="tns:ReverseTransactionResponse" />
+    </operation>
+  </portType>
+  <binding name="FCUBSRTServiceSEIBinding" type="tns:FCUBSRTServiceSEI">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="AuthorizeTransaction">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="CreateTransaction">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="QueryRTProduct">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="QueryTransaction">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ReverseTransaction">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="FCUBSRTService">
+    <port name="FCUBSRTServiceSEI" binding="tns:FCUBSRTServiceSEIBinding">
+      <soap:address location="http://10.105.60.20:7002/FCUBSRTService/FCUBSRTService" />
+    </port>
+  </service>
+</definitions>

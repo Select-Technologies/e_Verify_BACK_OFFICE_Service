@@ -1,0 +1,311 @@
+<?xml version="1.0"?>
+<configuration>
+  <configSections>
+    <sectionGroup name="applicationSettings" type="System.Configuration.ApplicationSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+      <section name="e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+    </sectionGroup>
+  </configSections>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0" />
+  </startup>
+  <appSettings>
+    <add key="Process"    value="e_Verify_BACK_OFFICE_Service" />
+    <add key="LoggingAll" value="1" />
+
+    <!--
+    <add key="Interface_SQL_DB_Connection" value="Data Source=.\sql_2008;MultipleActiveResultSets=true;Initial Catalog=e_Verify;Integrated Security=False  ;User ID=sa;Password=Robbin1;Connection Lifetime=3;Max Pool Size=3000" />
+    <add key="SMS_DB_Connection"           value="Data Source=.\sql_2008;MultipleActiveResultSets=true;Initial Catalog=SMS_Server;Integrated Security=False;User ID=CDIntUser;Password=interface;Connection Lifetime=3;Pooling=false;" />
+    <add key="EcoCash_SQL_DB_Connection"   value="Data Source=.\sql_2008;MultipleActiveResultSets=true;Initial Catalog=Select_WebService_BABC_UAT;Integrated Security=False  ;User ID=sa;Password=Robbin1;Connection Lifetime=3;Max Pool Size=3000" />
+    -->
+        
+    <add key="Interface_SQL_DB_Connection" value="Data Source=10.105.180.19\CDINTUSER;MultipleActiveResultSets=true;Initial Catalog=e_Verify;Integrated Security=False  ;User ID=CDIntUser;Password=interface;" />
+    <add key="SMS_DB_Connection"           value="Data Source=10.105.180.19\CDINTUSER;MultipleActiveResultSets=true;Initial Catalog=SMS_Server;Integrated Security=False;User ID=CDIntUser;Password=interface;Connection Lifetime=3;Pooling=false;" />
+    <add key="EcoCash_SQL_DB_Connection"   value="Data Source=10.105.180.19\CDINTUSER;MultipleActiveResultSets=true;Initial Catalog=Select_WebService_BABC_Latest;Integrated Security=False  ;User ID=CdIntUser;Password=interface;" />
+	  <add key="EPayments_DB"                value="Data Source=10.105.180.19\CDINTUSER;MultipleActiveResultSets=true;Initial Catalog=E_Banking_Live_Hre;Integrated Security=False  ;User ID=CdIntUser;Password=interface; "/>
+    <add key="Zipit_SQL_DB_Connection"     value="Data Source=10.105.180.19\CDINTUSER;MultipleActiveResultSets=true;Initial Catalog=Select_WebService_ZipIT;Integrated Security=False  ;User ID=CdIntUser;Password=interface; "/>
+  	<add key="RTGS_Connection"             value="Data Source=10.105.180.19\CDINTUSER;MultipleActiveResultSets=true;Initial Catalog=RTGS_In_BancABC;Integrated Security=False  ;User ID=CdIntUser;Password=interface; "/>
+    <add key="FCUBS_Connection"            value="Data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = scan.racp.zw.bancabc.com)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = ZWFCCUBS)));user Id=ecocash;password=Ec0cash123$;"/>
+
+    <add key="Use_Loan_Tracker_User_In_FCUBS_As_Maker_ID" value="0" />
+    
+    <!--
+    PROD Path - Database Connection
+    <add key="Interface_SQL_DB_Connection" value="Data Source=ZA-SQLDB-PRD-01;MultipleActiveResultSets=true;Initial Catalog=BancABC_FCUBS_MSCRM_Landing;Integrated Security=False;User ID=sa;Password=P@$$w0rd"/>
+    -->
+    <add key="ExChangeServerName" value="za-excl-prd-01.africanbankingcorp.com" />
+    <add key="UsernameToPushEmail" value="EMusabayana" />
+    <add key="PasswordForEmailAccount" value="P@55w0rd88" />
+    <add key="Sender_From" value="EMusabayana@bancabc.com" />
+    <add key="Receiver_To" value="AKirungi@bancabc.com" />
+    <add key="Copied_CC" value="e.musabayana@gmail.com" />
+    <add key="Copied_CC_Two" value="rlamlembe@bancabc.com" />
+    <add key="Copied_CC_Three" value="leliatosha@bancabc.com" />
+    <add key="Copied_CC_Four" value="eemmanuel@bancabc.com" />
+    <add key="Copied_CC_Five" value="emusabayana@bancabc.com"/>
+    <add key="Copied_CC_Six" value="ananabhai@bancabc.com"/>
+    <add key="Copied_CC_Seven" value="zstambuli@bancabc.com"/>
+    <add key="Copied_CC_8" value="lmushi@bancabc.com"/>
+    <add key="Copied_CC_9" value="szimunya@bancabc.com"/>
+    
+    <add key="SMS_Max_Batch_Size" value="30"/>
+    <add key="SQL_Server_Instance" value="10.105.180.19\CDINTUSER"/>
+    <add key="SQL_Server_Database" value="e_Verify"/>
+    <add key="SQL_Server_UserID" value="CDIntUser"/>
+    <add key="SQL_Server_Password" value="interface"/>
+    <add key="SQL_Windows_Integrated_Security" value="No"/>
+    <add key="ClientSettingsProvider.ServiceUri" value=""/>
+    <add key="Selcom_Web_UserID" value="BANCABC55"/>
+    <add key="Selcom_Web_UserPass" value="518923TXZ"/>
+    <!--
+    PROD emails
+    <add key="UsernameToPushEmail" value="EcoCash"/>
+    <add key="PasswordForEmailAccount" value="Eco@Cash@123"/>
+    <add key="Sender_From" value="EcoCash@bancabc.com"/>
+    <add key="Receiver_To" value="bright.masiyazi@econet.co.zam"/>
+    <add key="Copied_CC" value="kufa@bancabc.com"/>
+    <add key="Copied_CC_Two" value="fungai.churu@econet.co.za"/>
+    <add key="Copied_CC_Three" value="Lloyd.Bamhare@econet.co.zw"/>
+    <add key="Copied_CC_Four" value="mdorobeni@bancabc.com"/>
+    -->
+    <!--
+    PROD Path
+    <add key="TestfilesTobeSendAsAttachment_Folder" value="\\\10.105.50.20\\E$\\EchoCashCustomers"/>
+    <add key="Archived_Folder" value="\\\10.105.50.20\\E$\\EchoCashCustomers\\Archived\\"/>
+    <add key="TempForAttachements_Folder" value="\\\10.105.50.20\\E$\\EchoCashCustomers\\TempForAttachements\\"/>
+    -->
+    <add key="UP_Files_To_Be_Uploaded_Into_Interface_Folder" value="D:\SoftwareDev\A_INTERFACE\TZ\Cards\UP_File_Uploads_Windows_Service\UP_File_Uploads_Windows_Service\" />
+    <add key="Archived_Folder" value="D:\SoftwareDev\A_INTERFACE\TZ\Cards\UP_File_Uploads_Windows_Service\UP_File_Uploads_Windows_Service\Copied_Files\Archived_Folder\" />
+    <add key="TempForAttachements_Folder" value="D:\SoftwareDev\A_INTERFACE\TZ\Cards\UP_File_Uploads_Windows_Service\UP_File_Uploads_Windows_Service\Copied_Files\Files_SendAsAttachment\" />
+    <add key="Subject" value="BancABC Cards processed attached" />
+    <add key="BodyLineAutomatedMail" value="Automated e-mail" />
+    <add key="BodyLineOne" value="Good Day" />
+    <add key="BodyLineTwo" value=" new Customers cards have been processed" />
+    <add key="BodyLineThree" value="Best regards" />
+    <add key="BodyLineFour" value="Leonard Eliatosha" />
+    <add key="BodyLineFive" value="BancABC Tanzania" />
+    <add key="BodyLineSix" value="Retail Banking" />
+    <add key="BodyLineSeven" value="5th - 6th  Floor, Uhuru Heights" />
+    <add key="BodyLineEight" value="Bibi Titi Mohammed Road" />
+    <add key="BodyLineNine" value="Dar es salaam" />
+    <add key="BodyLineNineTwo" value="Tanzania" />
+    <add key="BodyLineTen" value="t: +255 22 2119422/2111990" />
+    <add key="BodyLineElven" value="f: +255 22 2112402" />
+    <add key="BodyLineTwelve" value="e: EMusabayana@bancabc.com" />
+    <add key="pattern1" value="*.csv" />
+    <add key="pattern2" value="*.*" />
+    <add key="CellNumberToSendTo" value="+27732233875" />
+    <add key="SMSMessage" value=" new customer(s) has been send to EcoCash for registration by BancABC Auto email." />
+    <add key="SMSMessageSalutation" value="Hi " />
+    <add key="ClientSettingsProvider.ServiceUri" value="" />
+  </appSettings>
+  <system.web>
+    <membership defaultProvider="ClientAuthenticationMembershipProvider">
+      <providers>
+        <add name="ClientAuthenticationMembershipProvider" type="System.Web.ClientServices.Providers.ClientFormsAuthenticationMembershipProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" />
+      </providers>
+    </membership>
+    <roleManager defaultProvider="ClientRoleProvider" enabled="true">
+      <providers>
+        <add name="ClientRoleProvider" type="System.Web.ClientServices.Providers.ClientRoleProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" cacheTimeout="86400" />
+      </providers>
+    </roleManager>
+   </system.web>
+  <system.net>
+    <defaultProxy useDefaultCredentials="true">
+      <proxy usesystemdefault="false" bypassonlocal="True" proxyaddress="http://10.209.1.15:8080"/>
+    </defaultProxy>
+  </system.net>
+  <system.serviceModel>
+    <bindings>
+      <basicHttpBinding>
+        <binding name="FCUBSUPServiceSEIBinding" closeTimeout="00:15:00" openTimeout="00:15:00" receiveTimeout="05:00:00" sendTimeout="05:00:00" maxBufferPoolSize="2097152" maxBufferSize="2097152" maxReceivedMessageSize="2097152" />
+        <binding name="WebServiceSoap"           closeTimeout="00:15:00" openTimeout="00:15:00" receiveTimeout="05:00:00" sendTimeout="05:00:00" maxBufferPoolSize="2097152" maxBufferSize="2097152" maxReceivedMessageSize="2097152" >        	  <security mode="Transport" />  </binding>
+        <binding name="ZimraWebServiceSoap"      closeTimeout="00:15:00" openTimeout="00:15:00" receiveTimeout="05:00:00" sendTimeout="05:00:00" maxBufferPoolSize="2097152" maxBufferSize="2097152" maxReceivedMessageSize="2097152" />
+        <binding name="Finacle_BridgeSoap"       closeTimeout="00:15:00" openTimeout="00:15:00" receiveTimeout="05:00:00" sendTimeout="05:00:00" maxBufferPoolSize="2097152" maxBufferSize="2097152" maxReceivedMessageSize="2097152" />
+        <binding name="MobileTransactionSoap"    closeTimeout="00:15:00" openTimeout="00:15:00" receiveTimeout="05:00:00" sendTimeout="05:00:00" maxBufferPoolSize="2097152" maxBufferSize="2097152" maxReceivedMessageSize="2097152" />
+      </basicHttpBinding>
+    </bindings>
+    <client>
+      <!-- Test Credential-->
+      <!--endpoint address="http://10.105.60.20:7002/FCUBSUPService/FCUBSUPService"  binding="basicHttpBinding" bindingConfiguration="FCUBSUPServiceSEIBinding"     contract="FCUBSUPService.FCUBSUPServiceSEI" name="FCUBSUPServiceSEI" /-->
+      <!-- Live Credential-->
+      <endpoint address="http://10.105.200.48:7002/FCUBSUPService/FCUBSUPService" binding="basicHttpBinding" bindingConfiguration="FCUBSUPServiceSEIBinding" contract="FCUBSUPService.FCUBSUPServiceSEI" name="FCUBSUPServiceSEI" />
+      <endpoint address="https://soap.selcommobile.com:8085/selcom/service.asmx"  binding="basicHttpBinding" bindingConfiguration="WebServiceSoap"           contract="selcommobile.WebServiceSoap" name="WebServiceSoap" />
+      <endpoint address="http://10.105.50.17:62193/ZimraOnline/ZimraOnline.asmx"  binding="basicHttpBinding" bindingConfiguration="ZimraWebServiceSoap"      contract="ZIMRA_Online.ZimraWebServiceSoap"  name="ZimraWebServiceSoap" />
+	    <endpoint address="http://10.105.50.17:62193/Finacle_Bridge_ST.asmx"        binding="basicHttpBinding" bindingConfiguration="Finacle_BridgeSoap"  contract="Finacle_Bridge.Finacle_BridgeSoap" name="Finacle_BridgeSoap" />
+      <!-- Test Credential-->
+      <!--endpoint address="http://localhost:62195/Banking_Service/MobileTransaction.asmx"  binding="basicHttpBinding" bindingConfiguration="MobileTransactionSoap"  contract="eCoCash.MobileTransactionSoap" name="MobileTransactionSoap" /-->
+      <!-- Live Credential-->
+      <endpoint address="http://10.105.50.17:62193/Banking_Service/MobileTransaction.asmx"  binding="basicHttpBinding" bindingConfiguration="MobileTransactionSoap"  contract="eCoCash.MobileTransactionSoap" name="MobileTransactionSoap" />
+    </client>
+  </system.serviceModel>
+  <applicationSettings>
+    <e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings>
+      <setting name="SMS_Interface" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="ZIMRA_Interface" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="ErrorLog_Folder" serializeAs="String">
+        <value>d:\temp</value>
+      </setting>
+      <setting name="Create_STR_File" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Generate_Open_File" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Barc_StaticData_Folder" serializeAs="String">
+        <value>C:\Zimra\Input\Barclays_StaticData</value>
+      </setting>
+      <setting name="Barc_StaticData_Backup_Folder" serializeAs="String">
+        <value>C:\Zimra\Input\Backup</value>
+      </setting>
+      <setting name="Barc_StaticDataImport_Enabled_YN" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Barc_StaticData_Stem" serializeAs="String">
+        <value>U889.dsq</value>
+      </setting>
+      <setting name="Forced_ThreadMinutes" serializeAs="String">
+        <value>3</value>
+      </setting>
+      <setting name="WriteWasteFileInSingleDump" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Forced_ThreadMinutes_SCBCTR" serializeAs="String">
+        <value>20</value>
+      </setting>
+      <setting name="Create_SCB_CTR" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Service_InterVal_inMilliseconds" serializeAs="String">
+        <value>6000</value>
+      </setting>
+      <setting name="Import_SCB_AML_Transactions" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Import_SCB_AML_Transactions_FolderName" serializeAs="String">
+        <value>C:\RBZ_CRT_SCB\Transaction_Files\</value>
+      </setting>
+      <setting name="Import_SCB_AML_Backup_Folder" serializeAs="String">
+        <value>C:\RBZ_CRT_SCB\Backup\</value>
+      </setting>
+      <setting name="Allow_File_Deletion" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Import_SCB_AML_StaticData" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Import_SCB_AML_StaticData_FolderName" serializeAs="String">
+        <value>C:\RBZ_CRT_SCB\Static_Data_Files\</value>
+      </setting>
+      <setting name="Alert_ZimraTransactions" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Post_to_ZIMRA" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="SCB_Trxn_Data_Stem" serializeAs="String">
+        <value>ZW_TrxData_*</value>
+      </setting>
+      <setting name="SCB_Static_Data_Stem" serializeAs="String">
+        <value>ZW_StaticData_REL*</value>
+      </setting>
+      <setting name="Enable_Service_Logging" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Sample_File_Compare_YN" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Waste_File_Create" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Post_Charges_ABC" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="Forced_ThreadMinutes_MobilePosting" serializeAs="String">
+        <value>15</value>
+      </setting>
+      <setting name="Sample_File_Name" serializeAs="String">
+        <value>C:\Zimra\docs\Barclays_eVerify\New_sample\W01WE01.072</value>
+      </setting>
+      <setting name="Mobile_Trxn_Reversal_Data_Insert" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="Reverse_Mobile_Transactions" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="reverseByFirstPosting" serializeAs="String">
+        <value>False</value>
+      </setting>
+	   <setting name="AML_Excluded_Trxns" serializeAs="String">
+        <value>FEE§TAXAT§GOVERNMENT TAX§CONTRA EBRANCH§CHARGE§REVERSAL§TRANSFER§STATEMENT§CONTRA§REVERSAL§ZIPIT§ATM WDR-SWT AT ZIMSWITCH§ATM CASH WITHDRAWALAT NULL</value>
+      </setting>
+      <setting name="autoRegister2MNO_Enabled" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Post_Charges_SCB" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="UseCurrentTimeforZIMRA_Trxns" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="ZIMRA_ID" serializeAs="String">
+        <value>BAR</value>
+      </setting>
+	   <setting name="autoRegister2MNO_Enabled" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="Entity_ID" serializeAs="String">
+        <value>northernTobbaco</value>
+      </setting>
+      <setting name="Country_ID" serializeAs="String">
+        <value>zw</value>
+      </setting>
+      <setting name="FileStem" serializeAs="String">
+        <value>payment.lowcare</value>
+      </setting>
+      <setting name="InDirectory" serializeAs="String">
+        <value>C:\EBanking_In\Data\Input</value>
+      </setting>
+      <setting name="StagingDirectory" serializeAs="String">
+        <value>C:\EBanking_In\Data\Staging</value>
+      </setting>
+      <setting name="OutDirectory" serializeAs="String">
+        <value>C:\EBanking_In\Data\Output</value>
+      </setting>
+      <setting name="BackupDirectory" serializeAs="String">
+        <value>C:\EBanking_In\Data\Backup</value>
+      </setting>
+      <setting name="RemoteDirectory" serializeAs="String">
+        <value>C:\EBanking_In\Data\Remote_Dir</value>
+      </setting>
+      <setting name="INSTALLATION_TYPE" serializeAs="String">
+        <value>SERVER</value>
+      </setting>
+      <setting name="WesternUnion_Input_Folder" serializeAs="String">
+        <value>C:\Zimra\HomeLink\MoneyGram\Input</value>
+      </setting>
+      <setting name="WesternUnion_Backup_Folder" serializeAs="String">
+        <value>C:\Zimra\HomeLink\MoneyGram\Backup</value>
+      </setting>
+      <setting name="WesternUnion_Import_Enabled" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="WesternUnion_CORE_Posting_Enabled" serializeAs="String">
+        <value>False</value>
+      </setting>
+	  <setting name="Acquire_RTGS_Outward_from_History" serializeAs="String">
+        <value>True</value>
+      </setting>
+	  <setting name="Acquire_RTGS_Outward_ZIPP" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="Institution_ID" serializeAs="String">
+        <value>BABC_ZW</value>
+      </setting>
+    </e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings>
+  </applicationSettings>
+</configuration>
