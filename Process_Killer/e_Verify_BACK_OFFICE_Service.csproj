@@ -83,9 +83,6 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BitMiracle.Docotic.Pdf, Version=8.8.14015.0, Culture=neutral, PublicKeyToken=221650e173990c07, processorArchitecture=MSIL">
-      <HintPath>..\packages\BitMiracle.Docotic.Pdf.8.8.14015\lib\net46\BitMiracle.Docotic.Pdf.dll</HintPath>
-    </Reference>
     <Reference Include="CTX.WinscpExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CTX.WinscpExtensions.5.1.5.1\lib\CTX.WinscpExtensions.dll</HintPath>
       <Private>True</Private>

@@ -23,12 +23,7 @@ using ExcelDataReader;
 using WinSCP;
 using RabbitMQ;
 using RabbitMQ.Client;
-using BitMiracle;
-using System.Drawing;
-
 using e_Verify_BACK_OFFICE_Service_Interface;
-using RabbitMQ.Client;
-using BitMiracle.Docotic.Pdf;
 
 namespace e_Verify_BACK_OFFICE_Service
 //namespace e_Verify_BACK_OFFICE_Service
@@ -4341,7 +4336,6 @@ namespace e_Verify_BACK_OFFICE_Service
                 return string.Format("FAILURE {0}", ex.StackTrace.ToString());
             }
         }
-
 
         public string saveSCB_DirectorSignature_Data(SCB_DirectorSign_cls localSCB_DirSigning, string fileNme)
         {
@@ -10650,6 +10644,7 @@ namespace e_Verify_BACK_OFFICE_Service
                     }
                     if (e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.INSTALLATION_TYPE == "SERVER")
                     {
+                        Zimra_Integration();
                         SendCreditAlerts();
                         ReverseZeePayIncoming();
                         ReverseZeePayOutgoing();
@@ -11178,6 +11173,321 @@ namespace e_Verify_BACK_OFFICE_Service
             }
         }
 
+        public string Zimra_Integration()
+        {
+            string    Str_to_display = "";
+            int       File_Loop_No   = 1;
+            //int     File_Loop_Max  = int.Parse(System.Configuration.ConfigurationSettings.AppSettings["eVerify_Integrate_Max_Batch_Size"]);
+            string    lstContents    = "";
+            bool      TxtFound       = false;
+            string    Ref_No_C       = "";
+            string    SQLStr         = "";
+            bool      isNewRRN       = true ;
+            DataTable MQ_Rec         = new DataTable();
+            DataTable paramTable     = new DataTable();
+            Int32     ZIMRA_RRN_RANGE_START = 1;
+            Int32     ZIMRA_RRN_RANGE_END   = 999999999;
+            DataTable Mobile_DB             = new DataTable();
+            Hashtable m_hashtable;
+
+            bool Finacle_Live           = true;
+            string Mobile_Type          = "";
+            string Mobile_Connection    = "";
+            string localReferenceNumber = "";
+            string trxnProduct_ID       = "Zimra_Integration";
+            //String MQ_OutDir       = System.Configuration.ConfigurationSettings.AppSettings["eVerify_Integrate_Temp_Directory"];
+            //if (!(MQ_OutDir.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))) MQ_OutDir = MQ_OutDir + System.IO.Path.DirectorySeparatorChar.ToString();
+
+            try
+            {
+                SQLStr = string.Format("EXEC dbo.ustp_Check_NodeConfiguration @Conf_InstitutionID = '{0}', @Conf_NodeID = '{1}', @Conf_ProcessName = '{2}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID, trxnProduct_ID);
+                if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr).Rows[0][0].ToString()) > 0)
+                {
+                    LogStep(trxnProduct_ID, string.Format("{0} Main Entry", trxnProduct_ID));
+
+                    string ForcedTiming = string.Format("[dbo].[usp_CheckThreadStatus] @Thread_ID = '{0}', @ForceThreadTime = '{1}' ", trxnProduct_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Forced_ThreadMinutes_MobilePosting.ToString());
+                    string Thread_Busy  = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), ForcedTiming).Rows[0]["Thread_Response"].ToString().Trim();
+                    if (Thread_Busy == "OK FOR POSTING")
+                    {
+                        SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
+                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), SQLStr);
+
+                        Mobile_Connection = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(),    "SELECT Conn_String_C FROM tbl_Connections WITH (NOLOCK) WHERE Conn_Name_C = 'MOBILE'").Rows[0][0].ToString();
+                        // Mobile_DB = new Select_Research.SQLDB(Mobile_Connection);
+     
+                        // Check if There was any processing Today and Insert a new Record if there was not
+                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "IF NOT EXISTS(SELECT * FROM [tbl_Run_Days] Where [Trxn_Prod_ID] = 'ZIMRA' AND [Trxn_Date_D] = (SELECT CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,111))) INSERT INTO [tbl_Run_Days]([Trxn_Date_D],[Trxn_Prod_ID],[Trxn_RunNo_N]) SELECT CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,111) AS CurrTime ,'ZIMRA' AS [Trxn_Prod_ID], 1 AS RunNo");
+
+                        //bool Finacle_Live = bool.Parse(m_databaseClass.getDataSet("SELECT Finacle_Live FROM tbl_SysParam  WITH (NOLOCK) WHERE ParamID = 'CTL'").Tables[0].Rows[0][0].ToString());
+                        //if (Finacle_Live == false)
+                        //{
+                        //    string Import_File = Import_XML_Files();
+                        //}
+                        ///string Move_Files = Move_Approved_Files();
+                        string Processing_Date = "";
+      
+                        MQ_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("EXEC [dbo].[ustp_ZIMRA_Outgoing] @Bank_ID = '{0}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID));
+                        if (MQ_Rec.Rows.Count != 0)
+                        {
+
+                            SQLStr     = string.Format("SELECT Parameter_Value, Parameter_ID FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('SAVE_ZIMRA_ONLINE_RECORD_ON_POSTING','ZIMRA_POSTING_DUPLICATE_CHECK_ENABLED','ZIMRA_RRN_RANGE_START','ZIMRA_RRN_RANGE_END','ZIMRA_RRN_PREFIX') AND Bank_ID = '{0}' AND [Parameter_Authorised_YN] = 1", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
+                            paramTable = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), SQLStr);
+                            if (paramTable.Rows.Count > 0)
+                            {
+                                foreach (DataRow param_Row in paramTable.Rows)
+                                {
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "ZIMRA_RRN_RANGE_START".ToUpper()) ZIMRA_RRN_RANGE_START = Convert.ToInt32(param_Row["Parameter_Value"].ToString());
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "ZIMRA_RRN_RANGE_END".ToUpper())   ZIMRA_RRN_RANGE_END   = Convert.ToInt32(param_Row["Parameter_Value"].ToString());
+                                }
+                            }
+                            foreach (DataRow MQRow in MQ_Rec.Rows)
+                            {
+                                // Check if we are within Processing Window
+                                Processing_Date    = MQRow["Curr_Date"].ToString();
+                                Mobile_Type        = MQRow["Mobile_Type"].ToString();
+
+                                DateTime Curr_Time = DateTime.Parse(SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "SELECT CONVERT(VARCHAR(16),CURRENT_TIMESTAMP,25) as Curr_Date").Rows[0][0].ToString());
+                                DateTime StartTime = DateTime.Parse(MQRow["eVerify_Integrate_Process_Window_Start"].ToString());
+                                DateTime EndTime   = DateTime.Parse(MQRow["eVerify_Integrate_Process_Window_End"].ToString());
+               
+                                bool.TryParse(MQRow["Finacle_Live"].ToString(), out Finacle_Live);
+
+                                if (!(Curr_Time >= StartTime && Curr_Time <= EndTime))
+                                {
+                                    break;
+                                }
+
+
+                                Ref_No_C                  = MQRow["ReferenceNumber"].ToString().Trim();
+                                string ZIMRA_Reciept_No   = "";
+                                string ZIMRA_Reciept_Date = "";
+                                int    Int_Records_Found  = 0;
+                                string Cur_RRN            = ""  ;
+                                bool   NewRRN             = false;
+                                if (SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("SELECT COUNT(*) AS Recs FROM tbl_ZIMRA_Confirmation WITH (NOLOCK) WHERE ZIMRA_In_Ref_C = '{0}'",Ref_No_C)).Rows[0][0].ToString() == "0")
+                                {
+                                    // Get Server Date
+                                    string Curr_Date = MQRow["Curr_Time"].ToString();
+                                    if ((MQRow["ZIMRA_RRN_C"].ToString() == "") || (MQRow["ZIMRA_RRN_C"].ToString() == null))
+                                    {
+                                       //Cur_RRN = m_databaseClass.getDataSet(String.Format("[dbo].[ustp_GetRRN]")).Tables[0].Rows[0][0].ToString();
+                                       //int myRandomNo   = new Random().Next(0, 999999999);
+                                       //string strRandom = myRandomNo.ToString();
+                       
+                                       //if (strRandom.Length < 9)
+                                       //{
+                                       //    strRandom = strRandom.PadLeft(9, (char)48);
+                                       //}
+                                        isNewRRN = true;
+                                        while (isNewRRN)
+                                        {
+                                            int myRandomNo   = new Random().Next(ZIMRA_RRN_RANGE_START, ZIMRA_RRN_RANGE_END);
+                                            string strRandom = myRandomNo.ToString();
+                                            if (strRandom.Length < 9)
+                                            {
+                                                strRandom = strRandom.PadLeft(9, (char)48);
+                                            }
+                                            Cur_RRN    = strRandom;
+                                            SQLStr     = string.Format("SELECT TOP 1 * FROM vw_Used_RRNs WITH (NOLOCK) WHERE TRH_Trn_Ref = '{0}'", Cur_RRN);
+                                            if (SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), SQLStr).Rows.Count == 0)
+                                            {
+                                                isNewRRN = false;
+                                            }
+                                        }
+
+                                       NewRRN  = true;
+                                       SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("Update tbl_ZIMRA_Integration_Staging SET ZIMRA_RRN_C = '{0}' Where ZIMRA_Ref_C  = '{1}'"                          , Cur_RRN, Ref_No_C));
+                                       SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("Update EXTRHFLE                      SET TRH_Trn_Ref = '{0}' Where TRH_Group_ID = '{0}' AND TRH_Trxn_Type = 'PST'", Cur_RRN, Ref_No_C));
+                                    }
+                                    else
+                                    {
+                                       Cur_RRN = MQRow["ZIMRA_RRN_C"].ToString() ;
+                                    }
+
+                                    string MQPaymentDate = MQRow["PaymentDate"].ToString();
+                                    MQPaymentDate        = string.Format("{0}{1}{2}", MQPaymentDate.Substring(8,2), MQPaymentDate.Substring(5,2), MQPaymentDate.Substring(2,2));
+                                    string MQPaymentTime = "";
+                                    MQPaymentTime        =  MQRow["CaptureTime"].ToString().Substring(0,5);
+                                    e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.ZimraWebServiceSoapClient  sc  = new e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.ZimraWebServiceSoapClient();
+
+                                    //Initialise the Body
+                                    string localAccNo           = MQRow["AccountNumber"].ToString();
+                                    string localAmount          = MQRow["Amount"].ToString();
+                                    string localBPNumber        = MQRow["BPNumber"].ToString();
+                                    string localCaptureTime     = MQPaymentTime;
+                                    string localClientName      = MQRow["ClientName"].ToString();
+                                    //string localCurrency      = "USD";
+                                    string localCurrency        = MQRow["Currency"].ToString();
+                                    string localPaymentDate     = MQPaymentDate;
+                                    localReferenceNumber        = MQRow["ReferenceNumber"].ToString();
+                                    string localRegion          = MQRow["Region"].ToString();
+                                    string localRRN             =  string.Format("F{0}_STB",Cur_RRN);
+                                    string localSerialNumber    = Cur_RRN;
+                                    string localTaxCode         = MQRow["TaxCode"].ToString();
+                                    //Trn_Req.Body.SelectCode = "SELECT_ZIMRA";
+                                    //string localUserID = "StanbicBankeVerify";
+
+                                    if ((localBPNumber.Length < 10) && (localBPNumber.Length > 1))
+                                    {
+                                        //if ((localBPNumber.Substring(0, 1) == "P") || (localBPNumber.Substring(0, 1) == "F"))
+                                        double BPOut = 0;
+                                        if (double.TryParse(localBPNumber, out BPOut))
+                                        {
+                                           localBPNumber = "0" + localBPNumber;
+                                        }
+                                    }
+
+                                    //string TrnPostingStr = sc.ZIMRA_PaymentAdvice("SELECT_ZIMRA", localAccNo, localAmount, localBPNumber, localCaptureTime, localClientName, localCurrency, localCaptureTime, localReferenceNumber, localRegion, localRRN, localSerialNumber, localTaxCode, localUserID).ToString();
+                                    localClientName     =  Utilities.Remove_XML_SpecialCharacters(localClientName);
+                                    if (localClientName.Length > 25)
+                                    {
+                                        localClientName = localClientName.Substring(0, 25);
+                                    }
+                                    // Manage_timeouts Here Mark a Timed_Out Transactions as Processed and Give Error Reasons
+                                    string Trn_Curr_Date = MQRow["Curr_Time"].ToString();
+                                    string Trn_Curr_Time = MQRow["Curr_Time_Seconds"].ToString();
+                                    string TrnPostingStr = "";
+                                    try
+                                    {
+                                        TrnPostingStr = sc.ZIMRA_PaymentAdvice("SELECT_ZIMRA", localAccNo, localAmount, localBPNumber, localCaptureTime, localClientName, localCurrency, localPaymentDate, localReferenceNumber, localRegion, localRRN, localSerialNumber, localTaxCode, "").ToString();
+                                        TrnPostingStr = System.Text.RegularExpressions.Regex.Replace(TrnPostingStr, @"\s{2,}", " ").Replace("\n", "");
+
+                                        Tag_Separator.SetValue("<Reciept_ENV>", 0);
+                                        string[] TrnPostingStr_Parms = TrnPostingStr.Split(Tag_Separator, StringSplitOptions.None);
+                                        int TrnPostingStr_Len = 0;
+                                        TrnPostingStr_Len     = TrnPostingStr_Parms.Length;
+
+                                        if (TrnPostingStr_Len > 1)
+                                        {
+                                            TrnPostingStr = string.Format("{0}{1}", "<Reciept_ENV>", TrnPostingStr_Parms[1]);
+                                            try
+                                            {
+                                                XmlDocument xml    = new XmlDocument();
+                                                xml.LoadXml(TrnPostingStr);
+                                                ZIMRA_Reciept_No   = xml.SelectSingleNode("/Reciept_ENV/Reciept").InnerText;
+                                                ZIMRA_Reciept_Date = xml.SelectSingleNode("/Reciept_ENV/ReceiptTime").InnerText;
+
+                                                // Now send the SMSes.
+                                                string Cust_No     = MQRow["TRH_Cust_Contact_C"].ToString().Trim();
+                                                if ((ZIMRA_Reciept_No != "") && (ZIMRA_Reciept_Date != ""))
+                                                {
+                                                    string Trn_Amount   = MQRow["Amount"].ToString();
+                                                    string Trn_SMS_Data = string.Format("Your ZIMRA Receipt No. is : {0} for Stanbic Trn. Ref : {1}, Amnt: {2:0,0.00}, Obligation {3}. Thank YOU", ZIMRA_Reciept_No, MQRow["ReferenceNumber"].ToString(), MQRow["Amount"].ToString(), MQRow["TaxCode"].ToString());
+
+                                                    m_hashtable = new Hashtable();
+                                                    m_hashtable.Add("ZIMRA_In_Ref_C"         ,  MQRow["ReferenceNumber"].ToString());
+                                                    m_hashtable.Add("ZIMRA_In_Receipt_C"     ,  ZIMRA_Reciept_No);
+                                                    m_hashtable.Add("ZIMRA_In_Receipt_Date_C",  ZIMRA_Reciept_Date);
+                                                    m_hashtable.Add("ZIMRA_In_Amnt_N"        ,  Trn_Amount);
+                                                    m_hashtable.Add("Curr_C"                 ,  localCurrency);
+                                                    m_hashtable.Add("ZIMRA_In_ImportDate_D"  ,  Trn_Curr_Date);
+                                                    m_hashtable.Add("ZIMRA_In_ImportTime_C"  ,  Trn_Curr_Time);
+                                                    m_hashtable.Add("Sent_to_SMS_Data_C"     ,  Trn_SMS_Data);
+                                                    SqlHelper.insertSQL(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "tbl_ZIMRA_Confirmation", m_hashtable);
+
+                                                    // SEND SMS Immediately
+                                                    m_hashtable = new Hashtable();
+                                                    m_hashtable.Add("SMS_Source_System_C"   ,  "ZIMRA");
+                                                    m_hashtable.Add("SMS_Source_IMSISDN_C"  ,  MQRow["Source_Mobile_C"].ToString());
+                                                    m_hashtable.Add("SMS_Target_IMSISDN_C"  ,  Cust_No);
+                                                    m_hashtable.Add("SMS_Message_C"         ,  Trn_SMS_Data);
+                                                    m_hashtable.Add("SMS_Source_Date_D"     ,  string.Format("{0} {1}", Trn_Curr_Date, Trn_Curr_Time));
+                                                    m_hashtable.Add("SMS_Source_Reference_C",  MQRow["ReferenceNumber"].ToString());
+                                                    m_hashtable.Add("SMS_Target_Reference_C",  ZIMRA_Reciept_No);
+                                                    SqlHelper.insertSQL(ConfigurationManager.AppSettings["SMS_DB_Connection"].ToString(), "tbl_SMS"  ,  m_hashtable);
+                                                    Int_Records_Found += 1;
+
+                                                    // Now Tag the Transaction
+                                                    string Move_Processed_Trxn = string.Format("dbo.ustp_Move_ZIMRA_Posted  '{0}',          '{1:yyyy-MM-dd HH:mmm:ss}'        , '{2:yyyy-MM-dd HH:mmm:ss}'      , '{3}'      ,'{4}'    ,'{5}', '{6}'", Ref_No_C, StartTime, EndTime, Curr_Date, string.Format("{0}#R#{1}", ZIMRA_Reciept_Date, ZIMRA_Reciept_No), "", "1");
+                                                    //  EXEC [ustp_Move_ZIMRA_Posted] 'SB201211180004','2013-05-05','2013-05-05','2013-05-05','TESTING',''
+                                                    SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), Move_Processed_Trxn);
+
+                                                    Str_to_display = string.Format("{0}  has been processed on : {1}", Ref_No_C, DateTime.Now.ToString());
+                                                    //  Mark the Record as Extracted.
+                                                    Move_Processed_Trxn = string.Format("Update EXTRHFLE SET HTTP_Responce_C = '{1}', TRH_Trn_Ref = '{2}', TRH_Extracted = 1, TRH_Extracted_Auto = 1,  TRH_Extract_Time = CURRENT_TIMESTAMP Where TRH_Group_ID = '{0}' AND TRH_Trxn_Type = 'PST'", Ref_No_C, ZIMRA_Reciept_No, Cur_RRN);
+                                                    SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), Move_Processed_Trxn);
+                                                }
+                                                else
+                                                {
+                                                    // Check if Errror Has already been displayed
+                                                    lstContents  = "";
+                                                    TxtFound     = lstContents.Contains(Ref_No_C);
+                                                    if (!(TxtFound))
+                                                    {
+                                                        Str_to_display = string.Format("{0}  has NOT BEEN PROCESSED on : {1}", Ref_No_C, DateTime.Now.ToString());
+                                                    }
+                                                }
+                                            }
+                                            catch (XmlException XML_Parsing)
+                                            {
+                                                ZIMRA_Reciept_No = string.Format("{0} - {1}", "ERROR", XML_Parsing.StackTrace.ToString());
+                                            }
+                                        }
+                                    }
+                                    catch (Exception TimeOutException)
+                                    {
+                                        string Move_Processed_Trxn_str = string.Format("dbo.ustp_Move_ZIMRA_Posted  '{0}',          '{1:yyyy-MM-dd HH:mmm:ss}'        , '{2:yyyy-MM-dd HH:mmm:ss}'      , '{3}'      ,'{4}'    ,'{5}', '{6}'", Ref_No_C, StartTime, EndTime, Curr_Date, string.Format("{0}#R#{1}", ZIMRA_Reciept_Date, ZIMRA_Reciept_No), "","0");
+                                        //  EXEC [ustp_Move_ZIMRA_Posted] 'SB201211180004','2013-05-05','2013-05-05','2013-05-05','TESTING',''
+                                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), Move_Processed_Trxn_str);
+     
+                                        string Error_File = string.Format("Time Out Error on : {0} . Check Error Log for complete details",Ref_No_C);
+                                        TxtFound = lstContents.Contains(Error_File);
+                                        if (!(TxtFound))
+                                        {
+                                            Str_to_display     = string.Format("ZIMRA Outwards : {0}{1}. {2}{0}", DateTime.Now.ToString(), (char)13, Error_File);
+                                            string InnerExcept =  System.Text.RegularExpressions.Regex.Replace(TimeOutException.StackTrace.ToString(), "/s{2,}", " ").Replace("\n", "");
+                                            string Err_Narr    = LogError(TimeOutException.GetHashCode().ToString(), "Zimra_Integration", TimeOutException, Ref_No_C);
+                                        }
+                                    }
+                                File_Loop_No = File_Loop_No + 1;
+                                }
+                            }
+                        }
+    
+                        // Now Update ECONET Records
+                        string Mobile_Str = "";
+                        if (Finacle_Live == false)
+                        {
+                            SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), string.Format("[usp_MoveIntegration_Trxns]"));
+                            if ((Mobile_Type == "ECONET") || (Mobile_Type == "CELLULANT"))
+                            {
+                                Mobile_Str = "SELECT stg.ECONET_Ref_C FROM tbl_ECONET_Integration_Staging stg WHERE stg.ECONET_Out_Posted_YN_B = 0";
+                            }
+                            MQ_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), Mobile_Str);
+                            if (MQ_Rec.Rows.Count != 0)
+                            {
+                                foreach (DataRow MQRow in MQ_Rec.Rows)
+                                {
+                                    string Econet_Reference = MQRow["ECONET_Ref_C"].ToString();
+                                    if ((Mobile_Type == "ECONET") || (Mobile_Type == "CELLULANT"))
+                                    {
+                                        SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), string.Format("UPDATE Payment_Instruction SET Posted_In_MUB_B = 1 Where trnReference = '{0}' OR sourceReference = '{0}'", Econet_Reference));
+                                    }
+                                    SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), string.Format("UPDATE tbl_ECONET_Integration_Staging SET ECONET_Out_Posted_YN_B = 1 Where  ECONET_Ref_C = '{0}'", Econet_Reference));
+                                    Str_to_display = string.Format("{0} mobile Ref. has been processed on : {1}. ", Econet_Reference, DateTime.Now.ToString());
+                                }
+                            }
+                        }
+                        SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
+                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+                    }
+                }
+                LogStep(trxnProduct_ID, string.Format("{0} Main Exit", trxnProduct_ID));
+                return "3";
+            }
+            catch (Exception ex)
+            {
+                string Err_String = Err_String = System.Text.RegularExpressions.Regex.Replace(ex.StackTrace.ToString(), @"\s{2,}", " ").Replace("\n", "");
+                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
+                Str_to_display    = string.Format("An error occurred on : {0}, {1}", DateTime.Now.ToString(), Err_String);
+                string ErrRet     = LogError(ex.GetHashCode().ToString(), trxnProduct_ID, ex,localReferenceNumber);
+                return "2";
+            }
+            finally
+            {
+                //Application.DoEvents();
+            }
+        }
 
         public string Acquire_RTGS_Outwards_from_History_ZIPP_OneDay()
         {
@@ -11334,23 +11644,21 @@ namespace e_Verify_BACK_OFFICE_Service
         }
 
 
-        public string fnGetTextfromPdf( string SourcePDFFile, string TargetTxtFile)
-        {
-            string FacilitStartDate = "";
-            string CustomerName      = "";
-            PdfDocument PDF = new PdfDocument(SourcePDFFile);
-            // Get all text to put in a search index
-            string AllText = PDF.GetTextWithFormatting();
+        //public string fnGetTextfromPdf( string SourcePDFFile, string TargetTxtFile)
+        //{
+        //    string FacilitStartDate = "";
+        //    string CustomerName     = "";
+        //    PdfDocument PDF     = new PdfDocument(SourcePDFFile);
+        //    // Get all text to put in a search index
+        //    string      AllText = PDF.GetTextWithFormatting();
 
-            FacilitStartDate = Utilities.Get_TagValueWithEnd(AllText, "Sanctioned until", "on account of", true);
-            CustomerName     = Utilities.Get_TagValueWithEnd(AllText, "on account of", "Application for facilities", true);
+        //    FacilitStartDate = Utilities.Get_TagValueWithEnd(AllText, "Sanctioned until", "on account of", true);
+        //    CustomerName     = Utilities.Get_TagValueWithEnd(AllText, "on account of", "Application for facilities", true);
+        //    File.WriteAllText(TargetTxtFile, AllText);
 
-
-            File.WriteAllText(TargetTxtFile, AllText);
-            //Console.WriteLine(AllText);
-            return "done";
-        }
-
+        //    //Console.WriteLine(AllText);
+        //    return "done";
+        //}
 
         public string ReverseZeePayOutgoing()
         {
@@ -11657,6 +11965,7 @@ namespace e_Verify_BACK_OFFICE_Service
                     bool RecieverAddressOk    = false;
                     bool SenderAddressOk      = false;
                     int  Failed_At            = 1;
+                    string InsTracker          = "";
 
                     string CurrDate                   = "";
 
@@ -11718,6 +12027,7 @@ namespace e_Verify_BACK_OFFICE_Service
                                 {
                                    
                                     InstNo_Main    = revRow["Id"].ToString().Trim();
+                                    InsTracker     = revRow["InsTracker"].ToString().Trim();
                                     receiverName   = revRow["receiverName"].ToString().Trim();
                                     emailAddr      = revRow["emailAddr"].ToString().Trim();
                                     alertRetryNo   = revRow["alertRetryNo"].ToString().Trim();
@@ -11735,7 +12045,7 @@ namespace e_Verify_BACK_OFFICE_Service
                                         RecieverAddressOk = true;
 
                                         Failed_At         = 2;
-                                        msg.From          = new MailAddress(Alert_Mail_UserID, "CreditAlertSystem");
+                                        msg.From          = new MailAddress(Alert_Mail_UserID, InsTracker);
                                         SenderAddressOk   = true;
 
                                         Failed_At         = 3;
@@ -13735,19 +14045,21 @@ namespace e_Verify_BACK_OFFICE_Service
                                                 }
                                             }
 
+
+
                                             // Create entries for the suspense and settlement accounts muno umu
                                             // Find out what is required for posting to Finacle and populate for UHL
                                             if (Trn_Type == "UTL")
                                             {
-                                                Trn_Amnt_TMP = TextLine.Substring(30, 24).Trim();
-                                                Trn_Amnt_TMP = string.Format("{0}.{1}", Trn_Amnt_TMP.Substring(0, 22), Trn_Amnt_TMP.Substring(22, 2));
-                                                Trn_Amnt = double.Parse(Trn_Amnt_TMP);
-                                                DR_CR = "D";
-                                                Act_Name = "Settlement Account";
-                                                Trn_Desc = string.Format(" Settlement for file '{0}'", Curr_File);
+                                                Trn_Amnt_TMP  = TextLine.Substring(30, 24).Trim();
+                                                Trn_Amnt_TMP  = string.Format("{0}.{1}", Trn_Amnt_TMP.Substring(0, 22), Trn_Amnt_TMP.Substring(22, 2));
+                                                Trn_Amnt      = double.Parse(Trn_Amnt_TMP);
+                                                DR_CR         = "D";
+                                                Act_Name      = "Settlement Account";
+                                                Trn_Desc      = string.Format(" Settlement for file '{0}'", Curr_File);
                                                 Acct_Num_DR_C = "8142819000000";
-                                                Acct_Num = "8145108061000";
-                                                Pymnt_Type = "FINACLE";
+                                                Acct_Num      = "8145108061000";
+                                                Pymnt_Type    = "FINACLE";
                                                 //random_num = random.Next(10000, 9999999);
                                                 sGuid = System.Guid.NewGuid().ToString();
                                             }
@@ -13792,7 +14104,7 @@ namespace e_Verify_BACK_OFFICE_Service
                                             withBlock.Add("Source_C", "SFI");
                                             withBlock.Add("RTGS_InwardRef_C", Benef_Bank_Name);
                                             if ((Trn_Type == "PAY") | (Trn_Type == "UTL"))
-                                                SqlHelper.insertSQL(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), Dest_Table, insertHash);
+                                            SqlHelper.insertSQL(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), Dest_Table, insertHash);
                                         }
                                     }
                                 }
@@ -19330,7 +19642,8 @@ namespace e_Verify_BACK_OFFICE_Service
 
                 if (e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.INSTALLATION_TYPE == "SERVER")
                 {
-                    fnGetTextfromPdf(@"C:\Zimra\CAMS\MTC  CONTRACT  BASED SANCTION FARMERS.pdf", string.Format("{0}{1:yyyyMMddHHmmssffff}{2}", @"C:\Zimra\CAMS\MTC",DateTime.Now,"Tmp_Text.txt"));
+                    //fnGetTextfromPdf(@"C:\Zimra\CAMS\MTC  CONTRACT  BASED SANCTION FARMERS.pdf", string.Format("{0}{1:yyyyMMddHHmmssffff}{2}", @"C:\Zimra\CAMS\MTC",DateTime.Now,"Tmp_Text.txt"));
+                    Zimra_Integration();
                     SendCreditAlerts();
                     ReverseZeePayIncoming();
                     ReverseZeePayOutgoing();
