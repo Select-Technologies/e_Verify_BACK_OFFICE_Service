@@ -12296,21 +12296,21 @@ namespace e_Verify_BACK_OFFICE_Service
         private void Post_Zeepay_OutGoing_Transactions()
         {
             //SR_Class.fn_Save_UserLogging_Detail("Post_Zeepay_Transactions", "0", "13574", "No Session");
-            string    sqlStr    = "";
-            DataTable NBOL_TPP  = new DataTable();
-            DataTable SysRec    = new DataTable();
-            DateTime  Curr_Time = DateTime.Now;
-            DateTime  StartTime = DateTime.Now;
-            DateTime  EndTime   = DateTime.Now.AddDays(-1);
-            Hashtable m_hashtable      = new Hashtable();
+            string sqlStr = "";
+            DataTable NBOL_TPP = new DataTable();
+            DataTable SysRec = new DataTable();
+            DateTime Curr_Time = DateTime.Now;
+            DateTime StartTime = DateTime.Now;
+            DateTime EndTime = DateTime.Now.AddDays(-1);
+            Hashtable m_hashtable = new Hashtable();
             Hashtable m_whereHashTable = new Hashtable();
 
-            string    Error_Time = "";
-            Hashtable tmpHash    = new Hashtable();
-            Error_Time           = string.Format("{0:yyyy-MM-dd} {1}", DateTime.Today.Date, DateTime.Now.ToString("HH:mm:ss"));
-            tmpHash.Add("STEP_DESCR"  , "Rabbit Send");
-            tmpHash.Add("LOGGER_DESCR", "Rabbit Send");
-            tmpHash.Add("DATE_LOGGED" , Error_Time);
+            string Error_Time = "";
+            Hashtable tmpHash = new Hashtable();
+            Error_Time = string.Format("{0:yyyy-MM-dd} {1}", DateTime.Today.Date, DateTime.Now.ToString("HH:mm:ss"));
+            //tmpHash.Add("STEP_DESCR", "Rabbit Send");
+            //tmpHash.Add("LOGGER_DESCR", "Rabbit Send");
+            tmpHash.Add("DATE_LOGGED", Error_Time);
             SqlHelper.insertSQL(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "Service_Logger", tmpHash);
             string Msg_ID = "";
             DateTime CreDtTm;
@@ -12373,89 +12373,93 @@ namespace e_Verify_BACK_OFFICE_Service
             string ZEEPAYXSD = "";
             bool Batch_ZeePay_Outgoing = false;
             string Trn_XML = "";
-            zeepayPain                                              PainDoc                 = new zeepayPain();
-            zeepayPain.Document                                     rootDoc                 = new zeepayPain.Document();
-            zeepayPain.CustomerCreditTransferInitiationV08          crdtInt                 = new zeepayPain.CustomerCreditTransferInitiationV08();
-            zeepayPain.GroupHeader48                                GrpHeader               = new zeepayPain.GroupHeader48();
-            zeepayPain.PaymentInstruction22                         PmtInf                  = new zeepayPain.PaymentInstruction22();
-            zeepayPain.PaymentInstruction22[]                       PmtInfBatch;//          = new zeepayPain.PaymentInstruction22();
-            zeepayPain.PartyIdentification43                        InitgPty                = new zeepayPain.PartyIdentification43();
-            zeepayPain.Party11Choice                                nmId                    = new zeepayPain.Party11Choice();
-            zeepayPain.OrganisationIdentification8                  anyBICFieldtag          = new zeepayPain.OrganisationIdentification8();
-            zeepayPain.BranchAndFinancialInstitutionIdentification5 FwdgAgttag              = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
-            zeepayPain.FinancialInstitutionIdentification8          finInstnIdtag           = new zeepayPain.FinancialInstitutionIdentification8();
-            zeepayPain.PaymentTypeInformation19                     PmtTpInftag             = new zeepayPain.PaymentTypeInformation19();
-            zeepayPain.Priority2Code                                Priority2Code_enum      = new zeepayPain.Priority2Code();
-            zeepayPain.PaymentMethod3Code                           PmtMtdtag               = new zeepayPain.PaymentMethod3Code();
-            zeepayPain.DateAndDateTimeChoice                        dateAndDateTimeChoice   = new zeepayPain.DateAndDateTimeChoice();
-            zeepayPain.TaxInformation4                              dbtrtag             = new zeepayPain.TaxInformation4();
-            zeepayPain.CashAccount24                                DbtrAccttag         = new zeepayPain.CashAccount24();
-            zeepayPain.BranchAndFinancialInstitutionIdentification5 DbtrAgttag          = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
-            zeepayPain.CreditTransferTransaction26                  CdtTrfTxInftag      = new zeepayPain.CreditTransferTransaction26();
-            zeepayPain.CreditTransferTransaction26                  Amnttag             = new zeepayPain.CreditTransferTransaction26();
-            zeepayPain.AmountType4Choice                            amountType4Choice   = new zeepayPain.AmountType4Choice();
-            zeepayPain.ExchangeRate1                                xchgRateInfField    = new zeepayPain.ExchangeRate1();
-            zeepayPain.CashAccount24                                CdtrAgttag          = new zeepayPain.CashAccount24();
-            zeepayPain.CashAccount24                                CdtrAgtttag         = new zeepayPain.CashAccount24();
-            zeepayPain.BranchAndFinancialInstitutionIdentification5 CdtrAccttag         = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
-            zeepayPain.PartyIdentification43                        UltmtCdtr_id_tag    = new zeepayPain.PartyIdentification43();
-            zeepayPain.InstructionForCreditorAgent1                 InstrForCdtrAgttag  = new zeepayPain.InstructionForCreditorAgent1();
-            zeepayPain.Purpose2Choice                               Purpose2Choice      = new zeepayPain.Purpose2Choice();
-            zeepayPain.RemittanceInformation11                      RmtInftag           = new zeepayPain.RemittanceInformation11();
-            zeepayPain.FinancialInstitutionIdentification8          FinInstnIdtag       = new zeepayPain.FinancialInstitutionIdentification8();
-            zeepayPain.PaymentIdentification1                       PmtIdtag            = new zeepayPain.PaymentIdentification1();
-            zeepayPain.BranchAndFinancialInstitutionIdentification5 CdtrAgttag_         = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
-            zeepayPain.PartyIdentification43                        Cdtrtag             = new zeepayPain.PartyIdentification43();
-            zeepayPain.AccountIdentification4Choice                 idtag               = new zeepayPain.AccountIdentification4Choice();
-            zeepayPain.PartyIdentification43                        UltmtCdtrtag        = new zeepayPain.PartyIdentification43();
-            zeepayPain.GenericAccountIdentification1                Othrtag             = new zeepayPain.GenericAccountIdentification1();
-            zeepayPain.PartyIdentification43                        Dbtrtag             = new zeepayPain.PartyIdentification43();
-            zeepayPain.AmountType4Choice                            Amttag              = new zeepayPain.AmountType4Choice();
-            zeepayPain.Purpose2Choice                               purptag             = new zeepayPain.Purpose2Choice();
+            string FileName_C = "";
+            Int16 UnProcessedRecs = 200;
+            string BatchMsg_ID = "";
+            zeepayPain PainDoc = new zeepayPain();
+            zeepayPain.Document rootDoc = new zeepayPain.Document();
+            zeepayPain.CustomerCreditTransferInitiationV08 crdtInt = new zeepayPain.CustomerCreditTransferInitiationV08();
+            zeepayPain.GroupHeader48 GrpHeader = new zeepayPain.GroupHeader48();
+            zeepayPain.PaymentInstruction22 PmtInf = new zeepayPain.PaymentInstruction22();
+            zeepayPain.PaymentInstruction22[] PmtInfBatch;// = new zeepayPain.PaymentInstruction22();
+            zeepayPain.PartyIdentification43 InitgPty = new zeepayPain.PartyIdentification43();
+            zeepayPain.Party11Choice nmId = new zeepayPain.Party11Choice();
+            zeepayPain.OrganisationIdentification8 anyBICFieldtag = new zeepayPain.OrganisationIdentification8();
+            zeepayPain.BranchAndFinancialInstitutionIdentification5 FwdgAgttag = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
+            zeepayPain.FinancialInstitutionIdentification8 finInstnIdtag = new zeepayPain.FinancialInstitutionIdentification8();
+            zeepayPain.PaymentTypeInformation19 PmtTpInftag = new zeepayPain.PaymentTypeInformation19();
+            zeepayPain.Priority2Code Priority2Code_enum = new zeepayPain.Priority2Code();
+            zeepayPain.PaymentMethod3Code PmtMtdtag = new zeepayPain.PaymentMethod3Code();
+            zeepayPain.DateAndDateTimeChoice dateAndDateTimeChoice = new zeepayPain.DateAndDateTimeChoice();
+            zeepayPain.TaxInformation4 dbtrtag = new zeepayPain.TaxInformation4();
+            zeepayPain.CashAccount24 DbtrAccttag = new zeepayPain.CashAccount24();
+            zeepayPain.BranchAndFinancialInstitutionIdentification5 DbtrAgttag = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
+            zeepayPain.CreditTransferTransaction26 CdtTrfTxInftag = new zeepayPain.CreditTransferTransaction26();
+            zeepayPain.CreditTransferTransaction26 Amnttag = new zeepayPain.CreditTransferTransaction26();
+            zeepayPain.AmountType4Choice amountType4Choice = new zeepayPain.AmountType4Choice();
+            zeepayPain.ExchangeRate1 xchgRateInfField = new zeepayPain.ExchangeRate1();
+            zeepayPain.CashAccount24 CdtrAgttag = new zeepayPain.CashAccount24();
+            zeepayPain.CashAccount24 CdtrAgtttag = new zeepayPain.CashAccount24();
+            zeepayPain.BranchAndFinancialInstitutionIdentification5 CdtrAccttag = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
+            zeepayPain.PartyIdentification43 UltmtCdtr_id_tag = new zeepayPain.PartyIdentification43();
+            zeepayPain.InstructionForCreditorAgent1 InstrForCdtrAgttag = new zeepayPain.InstructionForCreditorAgent1();
+            zeepayPain.Purpose2Choice Purpose2Choice = new zeepayPain.Purpose2Choice();
+            zeepayPain.RemittanceInformation11 RmtInftag = new zeepayPain.RemittanceInformation11();
+            zeepayPain.FinancialInstitutionIdentification8 FinInstnIdtag = new zeepayPain.FinancialInstitutionIdentification8();
+            zeepayPain.PaymentIdentification1 PmtIdtag = new zeepayPain.PaymentIdentification1();
+            zeepayPain.BranchAndFinancialInstitutionIdentification5 CdtrAgttag_ = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
+            zeepayPain.PartyIdentification43 Cdtrtag = new zeepayPain.PartyIdentification43();
+            zeepayPain.AccountIdentification4Choice idtag = new zeepayPain.AccountIdentification4Choice();
+            zeepayPain.PartyIdentification43 UltmtCdtrtag = new zeepayPain.PartyIdentification43();
+            zeepayPain.GenericAccountIdentification1 Othrtag = new zeepayPain.GenericAccountIdentification1();
+            zeepayPain.PartyIdentification43 Dbtrtag = new zeepayPain.PartyIdentification43();
+            zeepayPain.AmountType4Choice Amttag = new zeepayPain.AmountType4Choice();
+            zeepayPain.Purpose2Choice purptag = new zeepayPain.Purpose2Choice();
 
             //SR_Class.fn_Save_UserLogging_Detail("14309", "0", "14309", "No Session");
             try
             {
                 //Check if this Node is allowed to Run 
-                sqlStr  = string.Format("EXEC dbo.ustp_Check_NodeConfiguration @Conf_InstitutionID = '{0}', @Conf_NodeID = '{1}', @Conf_ProcessName = '{2}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID, trxnProduct_ID);
-                if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], sqlStr).Rows[0][0].ToString()) > 0)
+                sqlStr = string.Format("EXEC dbo.ustp_Check_NodeConfiguration @Conf_InstitutionID = '{0}', @Conf_NodeID = '{1}', @Conf_ProcessName = '{2}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID, trxnProduct_ID);
+                Sys_Tbl = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), sqlStr);
+                if (Sys_Tbl.Rows.Count > 0)
                 {
                     // SR_Class.fn_Save_UserLogging_Detail("Check Threading", "0", "14316", "No Session");
                     // Check Threading
                     string ForcedTiming = string.Format("[dbo].[usp_CheckThreadStatus] @Thread_ID = '{0}', @ForceThreadTime = '{1}' ", trxnProduct_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Forced_ThreadMinutes_MobilePosting.ToString());
                     //SR_Class.fn_Save_UserLogging_Detail(ForcedTiming, "0", "14320", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Forced_ThreadMinutes_MobilePosting.ToString());
-                    string Thread_Busy  = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), ForcedTiming).Rows[0]["Thread_Response"].ToString().Trim();
+                    string Thread_Busy = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), ForcedTiming).Rows[0]["Thread_Response"].ToString().Trim();
                     //SR_Class.fn_Save_UserLogging_Detail("Thread_Busy", "0", "14320", Thread_Busy);
                     if (Thread_Busy == "OK FOR POSTING")
                     {
-                        sqlStr  = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
+                        sqlStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
                         SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), sqlStr);
-                        sqlStr  = string.Format("SELECT Parameter_Value, Parameter_ID FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('QueueName','LocalhostQueue','QueueUserName','ZEEPAYXSD','ZEEPAYPath','QueuePassword','QueueHostName','QueuePort','QueueBatchSize','Batch_ZeePay_Outgoing') AND Bank_ID = '{0}' AND [Parameter_Authorised_YN] = 1", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
+                        sqlStr = string.Format("SELECT Parameter_Value, Parameter_ID FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('QueueName','LocalhostQueue','QueueUserName','ZEEPAYXSD','ZEEPAYPath','QueuePassword','QueueHostName','QueuePort','QueueBatchSize','Batch_ZeePay_Outgoing') AND Bank_ID = '{0}' AND [Parameter_Authorised_YN] = 1", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
                         Sys_Tbl = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
                         if (Sys_Tbl.Rows.Count > 0)
                         {
                             foreach (DataRow param_Row in Sys_Tbl.Rows)
                             {
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueName".ToUpper())                QueueName             = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueUserName".ToUpper())            QueueUserName         = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueuePassword".ToUpper())            QueuePassword         = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueHostName".ToUpper())            QueueHostName         = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueuePort".ToUpper())                QueuePort             = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "ZEEPAYPath".ToUpper())               ZEEPAYPath            = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueBatchSize".ToUpper())           QueueBatchSize        = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "LocalhostQueue".ToUpper())           LocalhostQueue        = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "ZEEPAYXSD".ToUpper())                ZEEPAYXSD             = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "Batch_ZeePay_Outgoing".ToUpper())    Batch_ZeePay_Outgoing = ((param_Row["Parameter_Value"].ToString().ToUpper().Contains("TRUE")) || (param_Row["Parameter_Value"].ToString().ToUpper().Contains("YES")) || (param_Row["Parameter_Value"].ToString().ToUpper() == "1")) ? true : false;
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueName".ToUpper()) QueueName = param_Row["Parameter_Value"].ToString();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueUserName".ToUpper()) QueueUserName = param_Row["Parameter_Value"].ToString();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueuePassword".ToUpper()) QueuePassword = param_Row["Parameter_Value"].ToString();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueHostName".ToUpper()) QueueHostName = param_Row["Parameter_Value"].ToString();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueuePort".ToUpper()) QueuePort = param_Row["Parameter_Value"].ToString();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "ZEEPAYPath".ToUpper()) ZEEPAYPath = param_Row["Parameter_Value"].ToString();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueBatchSize".ToUpper()) QueueBatchSize = param_Row["Parameter_Value"].ToString();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "LocalhostQueue".ToUpper()) LocalhostQueue = param_Row["Parameter_Value"].ToString();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "ZEEPAYXSD".ToUpper()) ZEEPAYXSD = param_Row["Parameter_Value"].ToString();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "Batch_ZeePay_Outgoing".ToUpper()) Batch_ZeePay_Outgoing = ((param_Row["Parameter_Value"].ToString().ToUpper().Contains("TRUE")) || (param_Row["Parameter_Value"].ToString().ToUpper().Contains("YES")) || (param_Row["Parameter_Value"].ToString().ToUpper() == "1")) ? true : false;
                             }
                         }
                         // Mark the Batch
                         // SR_Class.fn_Save_UserLogging_Detail("14343", "0", "14343", "Mark the Batch");
                         Processing_ID = System.Guid.NewGuid().ToString();
-                        sqlStr        = string.Format("[dbo].[ustp_MarkZeePay_OurGoingBatch_Fix] @Processing_ID = '{0}'", Processing_ID);
+                        sqlStr = string.Format("[dbo].[ustp_MarkZeePay_OurGoingBatch_Fix] @Processing_ID = '{0}', @NodeID='{1}' ", Processing_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID);
                         SqlHelper.RunSql(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
 
                         //SR_Class.fn_Save_UserLogging_Detail("14348", "0", "14348", "AFTER Mark the Batch");
-                        sqlStr   = string.Format("SELECT *, (SELECT sum(Trn_Amnt_N) as CtrlSumHeader  FROM tbl_NBOL_TPP where Processing_ID = '{0}') CtrlSumHeader  FROM tbl_NBOL_TPP WHERE Processing_ID = '{0}'", Processing_ID);
+                        sqlStr = string.Format("SELECT DISTINCT FH.*,NBOL.*,  RIGHT('0000000' + CONVERT(VARCHAR(7),FH.File_Inst_No),7) AS BatchIDRef,  (SELECT sum(Trn_Amnt_N) as CtrlSumHeader  FROM tbl_NBOL_TPP where Processing_ID = '{0}') CtrlSumHeader FROM dbo.tbl_FileHistory FH WITH (NOLOCK) INNER JOIN tbl_NBOL_TPP NBOL ON NBOL.File_Name_C = FH.File_Name_C  WHERE FH.importStage_C = '1' and NBOL.Processing_ID = '{0}' and NBOL.AccountValid_YN =1", Processing_ID);
                         //sqlStr = string.Format("SELECT * FROM tbl_NBOL_TPP WHERE TransactionStatus=0");
                         NBOL_TPP = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
                         //SR_Class.fn_Save_UserLogging_Detail("14348", "0", "14348", Processing_ID);
@@ -12499,15 +12503,17 @@ namespace e_Verify_BACK_OFFICE_Service
                                     var messageProperties = channel.CreateBasicProperties();
                                     messageProperties.SetPersistent(true);
                                     channel.ConfirmSelect();
-                                    OrgId             = "BICCZWHX";
-                                    AnyBIC            = "BICCZWHX";
-                                    DbtrAgtBICFI      = "SBICZWH0";
-                                    CtrlSumHeader_    = Convert.ToDecimal(NBOL_TPP.Rows[0]["CtrlSumHeader"]);
-                                    CtrlSumHeader     = String.Format("{0:0.##}", CtrlSumHeader_);
-                                    Act_Pst_Code_C    = Utilities.RemoveSpecialCharacters(NBOL_TPP.Rows[0]["Act_Pst_Code_C"].ToString());
-                                    Msg_ID            = getMsgID(NBOL_TPP_Inst_No, NBOL_TPP.Rows[0]["Value_Date_D"].ToString());
+                                    OrgId = "BICCZWHX";
+                                    AnyBIC = "BICCZWHX";
+                                    DbtrAgtBICFI = "SBICZWH0";
+                                    CtrlSumHeader_ = Convert.ToDecimal(NBOL_TPP.Rows[0]["CtrlSumHeader"]);
+                                    CtrlSumHeader = String.Format("{0:0.##}", CtrlSumHeader_);
+                                    Act_Pst_Code_C = Utilities.RemoveSpecialCharacters(NBOL_TPP.Rows[0]["Act_Pst_Code_C"].ToString());
+                                    Msg_ID = getMsgID(NBOL_TPP_Inst_No, NBOL_TPP.Rows[0]["Value_Date_D"].ToString());
+                                    BatchMsg_ID = getBatchMsgID(NBOL_TPP.Rows[0]["BatchIDRef"].ToString());
                                     DbtrAgtBICFI_Name = getBICFI_Name(DbtrAgtBICFI);
-                                    if (Convert.ToString(NBOL_TPP.Rows[0]["File_Name_C"]).Contains("_ZWL_"))
+                                    FileName_C = Convert.ToString(NBOL_TPP.Rows[0]["File_Name_C"]);
+                                    if (FileName_C.Contains("_ZWL_"))
                                     {
                                         Ccy = "ZWL";
                                     }
@@ -12517,49 +12523,50 @@ namespace e_Verify_BACK_OFFICE_Service
                                     }
 
                                     //GrpHeader
-                                    GrpHeader.MsgId            = Msg_ID;
-                                    GrpHeader.CreDtTm          = Convert.ToDateTime(NBOL_TPP.Rows[0]["Import_Date_D"].ToString());
-                                    GrpHeader.NbOfTxs          = NbOfTxs;
+                                    GrpHeader.MsgId = BatchMsg_ID;
+                                    GrpHeader.CreDtTm = Convert.ToDateTime(NBOL_TPP.Rows[0]["Import_Date_D"].ToString());
+                                    GrpHeader.NbOfTxs = NbOfTxs;
                                     GrpHeader.CtrlSumSpecified = true;
-                                    GrpHeader.CtrlSum          = Convert.ToDecimal(CtrlSumHeader);
-                                    anyBICFieldtag.AnyBIC      = OrgId;
-                                    finInstnIdtag.BICFI        = DbtrAgtBICFI;
-                                    finInstnIdtag.Nm           = "STANBIC BANK ZIMBABWE LTD";
-                                    FwdgAgttag.FinInstnId      = finInstnIdtag;
-                                    GrpHeader.InitgPty         = InitgPty;
-                                    GrpHeader.FwdgAgt          = FwdgAgttag;
+                                    GrpHeader.CtrlSum = Convert.ToDecimal(CtrlSumHeader);
+                                    anyBICFieldtag.AnyBIC = OrgId;
+                                    finInstnIdtag.BICFI = DbtrAgtBICFI;
+                                    finInstnIdtag.Nm = "STANBIC BANK ZIMBABWE LTD";
+                                    FwdgAgttag.FinInstnId = finInstnIdtag;
+                                    GrpHeader.InitgPty = InitgPty;
+                                    GrpHeader.FwdgAgt = FwdgAgttag;
                                     //GrpHeader 
                                     //PmtInf
-                                    PmtInf.PmtInfId            = Msg_ID;
-                                    PmtInf.PmtMtd              = zeepayPain.PaymentMethod3Code.TRF;
-                                    PmtInf.BtchBookgSpecified  = true;
+                                    PmtInf.PmtInfId = BatchMsg_ID;
+                                    PmtInf.PmtMtd = zeepayPain.PaymentMethod3Code.TRF;
+                                    PmtInf.BtchBookgSpecified = true;
                                     if (Convert.ToInt32(NbOfTxs) > 1)
                                     {
                                         BtchBookg = true;
                                     }
-                                    PmtInf.BtchBookg                = BtchBookg;
-                                    PmtInf.NbOfTxs                  = NbOfTxs;
-                                    PmtInf.CtrlSumSpecified         = true;
-                                    PmtInf.CtrlSum                  = Convert.ToDecimal(CtrlSumHeader);
-                                    Priority2Code_enum              = zeepayPain.Priority2Code.NORM;
-                                    PmtTpInftag.InstrPrtySpecified  = true;
-                                    PmtTpInftag.InstrPrty           = Priority2Code_enum;
-                                    PmtInf.PmtTpInf                 = PmtTpInftag;
-                                    dateAndDateTimeChoice.Item      = Convert.ToDateTime(NBOL_TPP.Rows[0]["Import_Date_D"].ToString());
-                                    PmtInf.ReqdExctnDt              = dateAndDateTimeChoice;
+                                    PmtInf.BtchBookg = BtchBookg;
+                                    PmtInf.NbOfTxs = NbOfTxs;
+                                    PmtInf.CtrlSumSpecified = true;
+                                    PmtInf.CtrlSum = Convert.ToDecimal(CtrlSumHeader);
+                                    Priority2Code_enum = zeepayPain.Priority2Code.NORM;
+                                    PmtTpInftag.InstrPrtySpecified = true;
+                                    PmtTpInftag.InstrPrty = Priority2Code_enum;
+                                    PmtInf.PmtTpInf = PmtTpInftag;
+                                    dateAndDateTimeChoice.Item = Convert.ToDateTime(NBOL_TPP.Rows[0]["Import_Date_D"].ToString());
+                                    PmtInf.ReqdExctnDt = dateAndDateTimeChoice;
                                     PmtInf.PoolgAdjstmntDtSpecified = true;
-                                    PmtInf.PoolgAdjstmntDt          = Convert.ToDateTime(NBOL_TPP.Rows[0]["Import_Date_D"].ToString());
-                                    PmtInf.Dbtr                     = Dbtrtag;
-                                    PmtInf.DbtrAcct                 = DbtrAccttag;
-                                    FinInstnIdtag.BICFI             = DbtrAgtBICFI;
-                                    FinInstnIdtag.Nm                = "STANBIC BANK ZIMBABWE LTD";
-                                    PmtInf.DbtrAgt                  = DbtrAgttag;
-                                    PmtInf.ChrgBrSpecified          = true;
-                                    PmtInf.ChrgBr                   = zeepayPain.ChargeBearerType1Code.DEBT;
+                                    PmtInf.PoolgAdjstmntDt = Convert.ToDateTime(NBOL_TPP.Rows[0]["Import_Date_D"].ToString());
+                                    PmtInf.Dbtr = Dbtrtag;
+                                    PmtInf.DbtrAcct = DbtrAccttag;
+                                    FinInstnIdtag.BICFI = DbtrAgtBICFI;
+                                    FinInstnIdtag.Nm = "STANBIC BANK ZIMBABWE LTD";
+                                    PmtInf.DbtrAgt = DbtrAgttag;
+                                    PmtInf.ChrgBrSpecified = true;
+                                    PmtInf.ChrgBr = zeepayPain.ChargeBearerType1Code.DEBT;
 
-                                    crdtInt.GrpHdr                  = GrpHeader;
-                                    crdtInt.PmtInf                  = new zeepayPain.PaymentInstruction22[1] { PmtInf };
-                                    rootDoc.CstmrCdtTrfInitn        = crdtInt;
+
+                                    crdtInt.GrpHdr = GrpHeader;
+                                    crdtInt.PmtInf = new zeepayPain.PaymentInstruction22[1] { PmtInf };
+                                    rootDoc.CstmrCdtTrfInitn = crdtInt;
 
                                     //Trn_XML = Utilities.SerializeToXML(rootDoc);
                                     Trn_XML = Utilities.SerializeToXML_No_xlmns(rootDoc);
@@ -12607,63 +12614,65 @@ namespace e_Verify_BACK_OFFICE_Service
                                     }
                                     foreach (DataRow NbolRow in NBOL_TPP.Rows)
                                     {
-                                        NbOfTxs            = "1";
-                                        NBOL_TPP_Inst_No   = NbolRow["NBOL_TPP_Inst_No"].ToString();
-                                        Msg_ID             = getMsgID(NBOL_TPP_Inst_No, NbolRow["Value_Date_D"].ToString());
-                                        CreDtTm            = Convert.ToDateTime(NbolRow["Import_Date_D"].ToString());
-                                        string dte         = Convert.ToDateTime(NbolRow["Import_Date_D"]).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK");
-                                        string msgIDDate   = CreDtTm.ToString("yyyyMMdd");
-                                        Batch_Num_C        = NbolRow["Batch_Num_C"].ToString();
-                                        CtrlSum_           = Convert.ToDecimal(NbolRow["Trn_Amnt_N"]);
-                                        CtrlSum            = String.Format("{0:0.##}", CtrlSum_);
-                                        Nm                 = NbolRow["Act_Name_C"].ToString();
-                                        DbtrAcctID         = NbolRow["Acct_Num_DR_C"].ToString();
-                                        BICFI              = NbolRow["Benef_SWIFT_Code_C"].ToString();
-                                        BICFI_Name         = getBICFI_Name(BICFI);
-                                        PmtInfId           = Msg_ID;
-                                        PmtMtd             = "TRF";
-                                        BtchBookg          = false;
-                                        PmtInf_CtrlSum     = String.Format("{0:0.00}", NbolRow["Trn_Amnt_N"].ToString());
-                                        InstrPrty          = "HIGH";
-                                        Dt                 = DateTime.Now.ToString("yyyy-MM-dd");
-                                        Dt                 = Dt + "+02:00";
-                                        PoolgAdjstmntDt    = Dt;
-                                        Id                 = NbolRow["Acct_Num_DR_C"].ToString();
-                                        ChrgBr             = "DEBT";
-                                        InstrId            = Msg_ID;
-                                        EndToEndId         = Msg_ID;
+                                        NbOfTxs = "1";
+                                        NBOL_TPP_Inst_No = NbolRow["NBOL_TPP_Inst_No"].ToString();
+                                        Msg_ID = getMsgID(NBOL_TPP_Inst_No, NbolRow["Value_Date_D"].ToString());
+                                        CreDtTm = Convert.ToDateTime(NbolRow["Import_Date_D"].ToString());
+                                        string dte = Convert.ToDateTime(NbolRow["Import_Date_D"]).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK");
+                                        string msgIDDate = CreDtTm.ToString("yyyyMMdd");
+                                        Batch_Num_C = NbolRow["Batch_Num_C"].ToString();
+                                        CtrlSum_ = Convert.ToDecimal(NbolRow["Trn_Amnt_N"]);
+                                        CtrlSum = String.Format("{0:0.##}", CtrlSum_);
+                                        Nm = NbolRow["Act_Name_C"].ToString();
+                                        DbtrAcctID = NbolRow["Acct_Num_DR_C"].ToString();
+                                        BICFI = NbolRow["Benef_SWIFT_Code_C"].ToString();
+                                        BICFI_Name = getBICFI_Name(BICFI);
+                                        PmtInfId = Msg_ID;
+                                        PmtMtd = "TRF";
+                                        BtchBookg = false;
+                                        PmtInf_CtrlSum = String.Format("{0:0.00}", NbolRow["Trn_Amnt_N"].ToString());
+                                        InstrPrty = "HIGH";
+                                        Dt = DateTime.Now.ToString("yyyy-MM-dd");
+                                        Dt = Dt + "+02:00";
+                                        PoolgAdjstmntDt = Dt;
+                                        Id = NbolRow["Acct_Num_DR_C"].ToString();
+                                        ChrgBr = "DEBT";
+                                        InstrId = Msg_ID;
+                                        EndToEndId = Msg_ID;
                                         PmtTpInf_InstrPrty = "NORM";
-                                        InstdAmt           = CtrlSum;
-                                        BICFI_BankB        = NbolRow["Benef_Bank_C"].ToString();
-                                        CdtrName           = NbolRow["Act_Name_DR_C"].ToString(); ;
-                                        CdtrAcct_ID        = "1324234314";
-                                        InstrForDbtrAgt    = "PBEN";
-                                        InstrForCdtrAgt    = "HOLD";
-                                        Prtry              = "21";
-                                        BANKB              = NbolRow["Benef_Bank_C"].ToString();
-                                        CdtrId             = NbolRow["Acct_Num_C"].ToString();
-                                        Act_Adrr_C         = NbolRow["Act_Adrr_C"].ToString();
-                                        RmtInf_Ustrd       = NbolRow["Trn_Desc_C"].ToString();
-                                        Ustrd              = NbolRow["Act_Pst_Code_C"].ToString();
-                                        Ustrd              = fn_RemoveInvalidXmlChars(Ustrd);
+                                        InstdAmt = CtrlSum;
+                                        BICFI_BankB = NbolRow["Benef_Bank_C"].ToString();
+                                        CdtrName = NbolRow["Act_Name_DR_C"].ToString(); ;
+                                        CdtrAcct_ID = "1324234314";
+                                        InstrForDbtrAgt = "PBEN";
+                                        InstrForCdtrAgt = "HOLD";
+                                        Prtry = "21";
+                                        BANKB = NbolRow["Benef_Bank_C"].ToString();
+                                        CdtrId = NbolRow["Acct_Num_C"].ToString();
+                                        Act_Adrr_C = NbolRow["Act_Adrr_C"].ToString();
+                                        RmtInf_Ustrd = NbolRow["Trn_Desc_C"].ToString();
+                                        Ustrd = NbolRow["Act_Pst_Code_C"].ToString();
+                                        Ustrd = fn_RemoveInvalidXmlChars(Ustrd);
                                         //now update record to posted
                                         //get banckcode from  batchnumber
-                                        CdtrAgtBICFI       = getBICFI_ByCode(Batch_Num_C.Substring(0, 5));
-                                        CdtrAgtBICFINM     = getBICFI_Name_ByCode(Batch_Num_C.Substring(0, 5));
+                                        CdtrAgtBICFI = getBICFI_ByCode(Batch_Num_C.Substring(0, 5));
+                                        CdtrAgtBICFINM = getBICFI_Name_ByCode(Batch_Num_C.Substring(0, 5));
                                         //SR_Class.fn_Save_UserLogging_Detail("before XML_Response", "0", "14208", "No Session");
+
 
                                         try
                                         {
+
                                             //SR_Class.fn_Save_UserLogging_Detail("14478", "0", "14478", "before validating");
                                             try
                                             {
                                                 XML_Response += fn_Create_Zeepay_Payment_Request_Batch(Msg_ID, dte, NbOfTxs, CtrlSum, Nm, OrgId, AnyBIC, DbtrAcctID, BICFI, PmtInfId, PmtMtd, Dt, PoolgAdjstmntDt, Id, Ccy, ChrgBr, InstrId, EndToEndId, InstrPrty, InstdAmt, InstrForDbtrAgt, Prtry, BANKB, CdtrName, CdtrId, InstrForCdtrAgt, BtchBookg, Act_Adrr_C, RmtInf_Ustrd, Act_Pst_Code_C, BICFI_Name, CdtrAgtBICFI, CdtrAgtBICFINM, DbtrAgtBICFI, DbtrAgtBICFI_Name, true, Ustrd);
-                                                sqlStr        = string.Format("UPDATE  tbl_NBOL_TPP SET MsgId='{0}',endToEndID='{0}', TransactionStatus=1 WHERE NBOL_TPP_Inst_No = '{1}'", Msg_ID, NBOL_TPP_Inst_No);
+                                                sqlStr = string.Format("UPDATE  tbl_NBOL_TPP SET MsgId='{0}',endToEndID='{0}', TransactionStatus=1 WHERE NBOL_TPP_Inst_No = '{1}'", Msg_ID, NBOL_TPP_Inst_No);
                                                 SqlHelper.RunSql(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
                                             }
                                             catch (Exception ex)
                                             {
-                                                //SR_Class.fn_Save_UserLogging_Detail("14605", "0", "14605", "update error");
+                                                SR_Class.fn_Save_UserLogging_Detail("14605", "0", "14605", "update error");
                                             }
                                         }
                                         catch (Exception ex)
@@ -12713,6 +12722,18 @@ namespace e_Verify_BACK_OFFICE_Service
                                 if (connection.IsOpen) connection.Close();
                             }
                         }
+
+                        // Check if all  records have been Marked as Posted so we close the FileHistory and set Stage to 2 otherwise it will remain as 1
+                        sqlStr = String.Format("Select count(*) as UnProcessedRecs from tbl_NBOL_TPP where Batch_Num_C = '{0}' And Posted_YN_B = 0 And ((Pymnt_Type_C IS NULL) OR (Pymnt_Type_C !='FINACLE')) And TransactionStatus != 4", Batch_Num_C);
+                        UnProcessedRecs = Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr).Rows[0][0]);
+
+                        if (UnProcessedRecs == 0)
+                        {
+                            sqlStr = String.Format("Update tbl_FileHistory set importStage_C = 2 where File_Name_C ='{0}'", FileName_C);
+                            SqlHelper.RunSql(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
+                        }
+
+
                         sqlStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
                         SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], sqlStr);
                     }
@@ -12720,7 +12741,7 @@ namespace e_Verify_BACK_OFFICE_Service
             }
             catch (Exception ex)
             {
-                //SR_Class.fn_Save_UserLogging_Detail("error", "0", "14519", "No Session");
+                SR_Class.fn_Save_UserLogging_Detail("error", "0", "14519", "No Session");
                 string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
                 Utilities.LogToFile(Err_String, true);
                 if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
@@ -12732,6 +12753,136 @@ namespace e_Verify_BACK_OFFICE_Service
             }
         }
 
+        string getMsgID(string NBOL_TPP_Inst_No, string valuedate)
+        {
+            string result = "";
+            try
+            {
+                DataTable dt = new DataTable();
+                string sqlStr = string.Format("EXEC ustp_tbl_ZeepaySequenceNo_New @NBOL_TPP_Inst_No= '{0}',@PostingDate= '{1}'", NBOL_TPP_Inst_No, valuedate);
+                dt = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
+                if (dt.Rows.Count > 0)
+                {
+                    result = dt.Rows[0]["SequenceNum"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                SR_Class.fn_Save_UserLogging_Detail("error in getMsgID", "0", "13837", "No Session");
+                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
+                Utilities.LogToFile(Err_String, true);
+                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
+                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
+                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), "Post_Outward_to_ZEEPAY_RABBIT", Err_Date2));
+            }
+            return result;
+        }
+        string getBatchMsgID(string BatchIDRef)
+        {
+            string result = "";
+            try
+            {
+                DataTable dt = new DataTable();
+                string sqlStr = string.Format("EXEC ustp_tbl_ZeepayBatchSequenceNo @BatchIDRef= '{0}'", BatchIDRef);
+                dt = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
+                if (dt.Rows.Count > 0)
+                {
+                    result = dt.Rows[0]["SequenceNum"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                SR_Class.fn_Save_UserLogging_Detail("error in getMsgID", "0", "13837", "No Session");
+                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
+                Utilities.LogToFile(Err_String, true);
+                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
+                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
+                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), "Post_Outward_to_ZEEPAY_RABBIT", Err_Date2));
+            }
+            return result;
+        }
+
+        string getBICFI_Name(string BICFI)
+        {
+            string result = "";
+            try
+            {
+                DataTable dt = new DataTable();
+                string sqlStr = string.Format("SELECT top 1 Bank_Name_C from  tbl_Agent_Banks WITH (NOLOCK)  WHERE Bank_Swift_Code_C= '{0}'", BICFI);
+                dt = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
+                if (dt.Rows.Count > 0)
+                {
+                    result = dt.Rows[0]["Bank_Name_C"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                SR_Class.fn_Save_UserLogging_Detail("error in bicfiname", "0", "13837", "No Session");
+                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
+                Utilities.LogToFile(Err_String, true);
+                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
+                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
+                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), "Post_Outward_to_ZEEPAY_RABBIT", Err_Date2));
+            }
+            return result;
+
+        }
+        string getBICFI_ByCode(string code)
+        {
+            string result = "";
+            try
+            {
+                DataTable dt = new DataTable();
+                string sqlStr = string.Format("SELECT top 1 Bank_Swift_Code_C from  tbl_Agent_Banks WITH (NOLOCK) WHERE Default_Bank_Code_C= '{0}'", code);
+                dt = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
+                if (dt.Rows.Count > 0)
+                {
+                    result = dt.Rows[0]["Bank_Swift_Code_C"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                SR_Class.fn_Save_UserLogging_Detail("error in bicfiname", "0", "13837", "No Session");
+                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
+                Utilities.LogToFile(Err_String, true);
+                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
+                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
+                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), "Post_Outward_to_ZEEPAY_RABBIT", Err_Date2));
+            }
+            return result;
+
+        }
+
+        string getBICFI_Name_ByCode(string code)
+        {
+            string result = "";
+            try
+            {
+                DataTable dt = new DataTable();
+                string sqlStr = string.Format("SELECT top 1 Bank_Name_C from  tbl_Agent_Banks WITH (NOLOCK) WHERE Default_Bank_Code_C= '{0}'", code);
+                dt = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
+                if (dt.Rows.Count > 0)
+                {
+                    result = dt.Rows[0]["Bank_Name_C"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                SR_Class.fn_Save_UserLogging_Detail("error in bicfiname", "0", "13837", "No Session");
+                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
+                Utilities.LogToFile(Err_String, true);
+                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
+                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
+                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), "Post_Outward_to_ZEEPAY_RABBIT", Err_Date2));
+            }
+            return result;
+
+        }
         public static string fn_Create_Zeepay_Payment_Request_Batch
         (
             string Msg_ID,
@@ -12778,68 +12929,68 @@ namespace e_Verify_BACK_OFFICE_Service
             string Trn_XML = "";
             if (useZeepPayClass)
             {
-                zeepayPain                                              PainDoc               = new zeepayPain();
-                zeepayPain.Document                                     rootDoc               = new zeepayPain.Document();
-                zeepayPain.CustomerCreditTransferInitiationV08          crdtInt               = new zeepayPain.CustomerCreditTransferInitiationV08();
-                zeepayPain.GroupHeader48                                GrpHeader             = new zeepayPain.GroupHeader48();
-                zeepayPain.PaymentInstruction22                         PmtInf                = new zeepayPain.PaymentInstruction22();
-                zeepayPain.PaymentInstruction22[]                       PmtInfBatch             ;// = new zeepayPain.PaymentInstruction22();
-                zeepayPain.PartyIdentification43                        InitgPty              = new zeepayPain.PartyIdentification43();
-                zeepayPain.Party11Choice                                nmId                  = new zeepayPain.Party11Choice();
-                zeepayPain.OrganisationIdentification8                  anyBICFieldtag        = new zeepayPain.OrganisationIdentification8();
-                zeepayPain.BranchAndFinancialInstitutionIdentification5 FwdgAgttag            = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
-                zeepayPain.FinancialInstitutionIdentification8          finInstnIdtag         = new zeepayPain.FinancialInstitutionIdentification8();
-                zeepayPain.PaymentTypeInformation19                     PmtTpInftag           = new zeepayPain.PaymentTypeInformation19();
-                zeepayPain.Priority2Code                                Priority2Code_enum    = new zeepayPain.Priority2Code();
-                zeepayPain.PaymentMethod3Code                           PmtMtdtag             = new zeepayPain.PaymentMethod3Code();
-                zeepayPain.DateAndDateTimeChoice                        dateAndDateTimeChoice = new zeepayPain.DateAndDateTimeChoice();
-                zeepayPain.TaxInformation4                              dbtrtag               = new zeepayPain.TaxInformation4();
-                zeepayPain.CashAccount24                                DbtrAccttag           = new zeepayPain.CashAccount24();
-                zeepayPain.BranchAndFinancialInstitutionIdentification5 DbtrAgttag            = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
-                zeepayPain.CreditTransferTransaction26                  CdtTrfTxInftag        = new zeepayPain.CreditTransferTransaction26();
-                zeepayPain.CreditTransferTransaction26                  Amnttag               = new zeepayPain.CreditTransferTransaction26();
-                zeepayPain.AmountType4Choice                            amountType4Choice     = new zeepayPain.AmountType4Choice();
-                zeepayPain.ExchangeRate1                                xchgRateInfField      = new zeepayPain.ExchangeRate1();
-                zeepayPain.CashAccount24                                CdtrAgttag            = new zeepayPain.CashAccount24();
-                zeepayPain.CashAccount24                                CdtrAgtttag           = new zeepayPain.CashAccount24();
-                zeepayPain.BranchAndFinancialInstitutionIdentification5 CdtrAccttag           = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
-                zeepayPain.PartyIdentification43                        UltmtCdtr_id_tag      = new zeepayPain.PartyIdentification43();
-                zeepayPain.InstructionForCreditorAgent1                 InstrForCdtrAgttag    = new zeepayPain.InstructionForCreditorAgent1();
-                zeepayPain.Purpose2Choice                               Purpose2Choice        = new zeepayPain.Purpose2Choice();
-                zeepayPain.RemittanceInformation11                      RmtInftag             = new zeepayPain.RemittanceInformation11();
-                zeepayPain.FinancialInstitutionIdentification8          FinInstnIdtag         = new zeepayPain.FinancialInstitutionIdentification8();
-                zeepayPain.PaymentIdentification1                       PmtIdtag              = new zeepayPain.PaymentIdentification1();
-                zeepayPain.BranchAndFinancialInstitutionIdentification5 CdtrAgttag_           = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
-                zeepayPain.PartyIdentification43                        Cdtrtag               = new zeepayPain.PartyIdentification43();
-                zeepayPain.AccountIdentification4Choice                 idtag                 = new zeepayPain.AccountIdentification4Choice();
-                zeepayPain.PartyIdentification43                        UltmtCdtrtag          = new zeepayPain.PartyIdentification43();
-                zeepayPain.GenericAccountIdentification1                Othrtag               = new zeepayPain.GenericAccountIdentification1();
-                zeepayPain.PartyIdentification43                        Dbtrtag               = new zeepayPain.PartyIdentification43();
-                zeepayPain.AmountType4Choice                            Amttag                = new zeepayPain.AmountType4Choice();
-                zeepayPain.Purpose2Choice                               purptag               = new zeepayPain.Purpose2Choice();
+                zeepayPain PainDoc = new zeepayPain();
+                zeepayPain.Document rootDoc = new zeepayPain.Document();
+                zeepayPain.CustomerCreditTransferInitiationV08 crdtInt = new zeepayPain.CustomerCreditTransferInitiationV08();
+                zeepayPain.GroupHeader48 GrpHeader = new zeepayPain.GroupHeader48();
+                zeepayPain.PaymentInstruction22 PmtInf = new zeepayPain.PaymentInstruction22();
+                zeepayPain.PaymentInstruction22[] PmtInfBatch;// = new zeepayPain.PaymentInstruction22();
+                zeepayPain.PartyIdentification43 InitgPty = new zeepayPain.PartyIdentification43();
+                zeepayPain.Party11Choice nmId = new zeepayPain.Party11Choice();
+                zeepayPain.OrganisationIdentification8 anyBICFieldtag = new zeepayPain.OrganisationIdentification8();
+                zeepayPain.BranchAndFinancialInstitutionIdentification5 FwdgAgttag = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
+                zeepayPain.FinancialInstitutionIdentification8 finInstnIdtag = new zeepayPain.FinancialInstitutionIdentification8();
+                zeepayPain.PaymentTypeInformation19 PmtTpInftag = new zeepayPain.PaymentTypeInformation19();
+                zeepayPain.Priority2Code Priority2Code_enum = new zeepayPain.Priority2Code();
+                zeepayPain.PaymentMethod3Code PmtMtdtag = new zeepayPain.PaymentMethod3Code();
+                zeepayPain.DateAndDateTimeChoice dateAndDateTimeChoice = new zeepayPain.DateAndDateTimeChoice();
+                zeepayPain.TaxInformation4 dbtrtag = new zeepayPain.TaxInformation4();
+                zeepayPain.CashAccount24 DbtrAccttag = new zeepayPain.CashAccount24();
+                zeepayPain.BranchAndFinancialInstitutionIdentification5 DbtrAgttag = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
+                zeepayPain.CreditTransferTransaction26 CdtTrfTxInftag = new zeepayPain.CreditTransferTransaction26();
+                zeepayPain.CreditTransferTransaction26 Amnttag = new zeepayPain.CreditTransferTransaction26();
+                zeepayPain.AmountType4Choice amountType4Choice = new zeepayPain.AmountType4Choice();
+                zeepayPain.ExchangeRate1 xchgRateInfField = new zeepayPain.ExchangeRate1();
+                zeepayPain.CashAccount24 CdtrAgttag = new zeepayPain.CashAccount24();
+                zeepayPain.CashAccount24 CdtrAgtttag = new zeepayPain.CashAccount24();
+                zeepayPain.BranchAndFinancialInstitutionIdentification5 CdtrAccttag = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
+                zeepayPain.PartyIdentification43 UltmtCdtr_id_tag = new zeepayPain.PartyIdentification43();
+                zeepayPain.InstructionForCreditorAgent1 InstrForCdtrAgttag = new zeepayPain.InstructionForCreditorAgent1();
+                zeepayPain.Purpose2Choice Purpose2Choice = new zeepayPain.Purpose2Choice();
+                zeepayPain.RemittanceInformation11 RmtInftag = new zeepayPain.RemittanceInformation11();
+                zeepayPain.FinancialInstitutionIdentification8 FinInstnIdtag = new zeepayPain.FinancialInstitutionIdentification8();
+                zeepayPain.PaymentIdentification1 PmtIdtag = new zeepayPain.PaymentIdentification1();
+                zeepayPain.BranchAndFinancialInstitutionIdentification5 CdtrAgttag_ = new zeepayPain.BranchAndFinancialInstitutionIdentification5();
+                zeepayPain.PartyIdentification43 Cdtrtag = new zeepayPain.PartyIdentification43();
+                zeepayPain.AccountIdentification4Choice idtag = new zeepayPain.AccountIdentification4Choice();
+                zeepayPain.PartyIdentification43 UltmtCdtrtag = new zeepayPain.PartyIdentification43();
+                zeepayPain.GenericAccountIdentification1 Othrtag = new zeepayPain.GenericAccountIdentification1();
+                zeepayPain.PartyIdentification43 Dbtrtag = new zeepayPain.PartyIdentification43();
+                zeepayPain.AmountType4Choice Amttag = new zeepayPain.AmountType4Choice();
+                zeepayPain.Purpose2Choice purptag = new zeepayPain.Purpose2Choice();
 
-                PmtIdtag.InstrId               = Msg_ID;
-                PmtIdtag.EndToEndId            = Msg_ID;
-                CdtTrfTxInftag.PmtId           = PmtIdtag;
-                PmtTpInftag.InstrPrty          = zeepayPain.Priority2Code.HIGH;
-                CdtTrfTxInftag.PmtTpInf        = PmtTpInftag;
-                CdtTrfTxInftag.XchgRateInf     = xchgRateInfField;
+                PmtIdtag.InstrId = Msg_ID;
+                PmtIdtag.EndToEndId = Msg_ID;
+                CdtTrfTxInftag.PmtId = PmtIdtag;
+                PmtTpInftag.InstrPrty = zeepayPain.Priority2Code.HIGH;
+                CdtTrfTxInftag.PmtTpInf = PmtTpInftag;
+                CdtTrfTxInftag.XchgRateInf = xchgRateInfField;
                 CdtTrfTxInftag.ChrgBrSpecified = true;
-                CdtTrfTxInftag.ChrgBr          = zeepayPain.ChargeBearerType1Code.DEBT;
-                FinInstnIdtag.BICFI            = CdtrAgtBICFI;
-                FinInstnIdtag.Nm               = fn_RemoveInvalidXmlChars(CdtrAgtBICFINM);
-                CdtrAgttag_.FinInstnId         = FinInstnIdtag;
-                CdtTrfTxInftag.CdtrAgt         = CdtrAgttag_;
-                CdtTrfTxInftag.Cdtr            = Cdtrtag;
-                InstrForCdtrAgttag.Cd          = zeepayPain.Instruction3Code.HOLD;
+                CdtTrfTxInftag.ChrgBr = zeepayPain.ChargeBearerType1Code.DEBT;
+                FinInstnIdtag.BICFI = CdtrAgtBICFI;
+                FinInstnIdtag.Nm = fn_RemoveInvalidXmlChars(CdtrAgtBICFINM);
+                CdtrAgttag_.FinInstnId = FinInstnIdtag;
+                CdtTrfTxInftag.CdtrAgt = CdtrAgttag_;
+                CdtTrfTxInftag.Cdtr = Cdtrtag;
+                InstrForCdtrAgttag.Cd = zeepayPain.Instruction3Code.HOLD;
                 CdtTrfTxInftag.InstrForCdtrAgt = new zeepayPain.InstructionForCreditorAgent1[1] { InstrForCdtrAgttag };
                 //string[] checkUstrd                     = { fn_RemoveInvalidXmlChars(Act_Pst_Code_C) };
                 //RmtInftag.Ustrd                         = checkUstrd;
                 //CdtTrfTxInftag.RmtInf                   = RmtInftag;
-                PmtInf.CdtTrfTxInf             = new zeepayPain.CreditTransferTransaction26[1] { CdtTrfTxInftag };
-                crdtInt.GrpHdr                 = GrpHeader;
-                crdtInt.PmtInf                 = new zeepayPain.PaymentInstruction22[1] { PmtInf };
-                rootDoc.CstmrCdtTrfInitn       = crdtInt;
+                PmtInf.CdtTrfTxInf = new zeepayPain.CreditTransferTransaction26[1] { CdtTrfTxInftag };
+                crdtInt.GrpHdr = GrpHeader;
+                crdtInt.PmtInf = new zeepayPain.PaymentInstruction22[1] { PmtInf };
+                rootDoc.CstmrCdtTrfInitn = crdtInt;
 
                 Trn_XML = Utilities.SerializeToXML_No_xlmns(CdtTrfTxInftag);
                 if (Trn_XML.Contains("CreditTransferTransaction26"))
@@ -12920,340 +13071,15 @@ namespace e_Verify_BACK_OFFICE_Service
 
             return Trn_XML;
         }
-
         static string fn_RemoveInvalidXmlChars(string text)
         {
-            string TempStr       = "";
-            var    validXmlChars = text.Where(ch => XmlConvert.IsXmlChar(ch)).ToArray();
-            TempStr              = new string(validXmlChars);
-            TempStr              = TempStr.Replace("&", " &amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("'", "&apos;").Replace("\"", "&quot;") ;
+            string TempStr = "";
+            var validXmlChars = text.Where(ch => XmlConvert.IsXmlChar(ch)).ToArray();
+            TempStr = new string(validXmlChars);
+            TempStr = TempStr.Replace("&", " &amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("'", "&apos;").Replace("\"", "&quot;");
             return TempStr;
         }
-        
-        string getMsgID(string NBOL_TPP_Inst_No, string valuedate)
-        {
-            string result = "";
-            try
-            {
-                DataTable dt     = new DataTable();
-                string    sqlStr = string.Format("EXEC ustp_tbl_ZeepaySequenceNo @NBOL_TPP_Inst_No= '{0}',@PostingDate= '{1}'", NBOL_TPP_Inst_No, valuedate);
-                dt               = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
-                if (dt.Rows.Count > 0)
-                {
-                    result = dt.Rows[0]["SequenceNum"].ToString();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //SR_Class.fn_Save_UserLogging_Detail("error in getMsgID", "0", "13837", "No Session");
-                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
-                Utilities.LogToFile(Err_String, true);
-                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
-                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
-                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), "Post_Outward_to_ZEEPAY_RABBIT", Err_Date2));
-            }
-            return result;
-        }
-
-        private void Post_Zeepay_OutGoing_Transactions_LK()
-        {
-            //SR_Class.fn_Save_UserLogging_Detail("Post_Zeepay_Transactions", "0", "13574", "No Session");
-            string    trxnProduct_ID   = "Post_Zeepay_OutGoing_Transactions";
-            string    sqlStr           = "";
-            DataTable NBOL_TPP         = new DataTable();
-            DataTable SysRec           = new DataTable();
-            DateTime  Curr_Time        = DateTime.Now;
-            DateTime  StartTime        = DateTime.Now;
-            DateTime  EndTime          = DateTime.Now.AddDays(-1);
-            Hashtable m_hashtable      = new Hashtable();
-            Hashtable m_whereHashTable = new Hashtable();
-
-            string Error_Time = "";
-            Hashtable tmpHash = new Hashtable();
-            Error_Time        = string.Format("{0:yyyy-MM-dd HH:mm:ss}",  DateTime.Now);
-            tmpHash.Add("STEP_DESCR"  , "Main Entry");
-            tmpHash.Add("LOGGER_DESCR", trxnProduct_ID);
-            tmpHash.Add("DATE_LOGGED" , Error_Time);
-            SqlHelper.insertSQL(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "Service_Logger", tmpHash);
-            string   Msg_ID = "";
-            DateTime CreDtTm;
-            string   NbOfTxs = "";
-            string   CtrlSum = "";
-            string   Nm      = "";
-            string OrgId     = "";
-            string AnyBIC    = "";
-            string BICFI     = "";
-            string PmtInfId  = "";
-            string PmtMtd    = "";
-            string InstrPrty = "";
-            string Dt        = "";
-            string PoolgAdjstmntDt = "";
-            string Id = "";
-            string Ccy = "";
-            string ChrgBr = "";
-            string InstrId = "";
-            string InstdAmt = "";
-            string EndToEndId = "";
-            string InstrForDbtrAgt = "";
-            string Prtry = "";
-            string BANKB = "";
-            string CdtrName = "";
-            string CdtrId = "";
-            string InstrForCdtrAgt = "";
-            string BtchBookg = "";
-            string PmtInf_CtrlSum = "";
-            string PmtTpInf_InstrPrty = "";
-            string BICFI_BankB = "";
-            string CdtrAcct_ID = "";
-            string Cdtr_UltmtCdtr = "";
-            string DbtrAcctID = "";
-            string NBOL_TPP_Inst_No = "";
-            string Batch_Num_C = "";
-            string Act_Adrr_C = "";
-            string RmtInf_Ustrd = "";
-            string Act_Pst_Code_C = "";
-            string BICFI_Name = "";
-            string recCount = "";
-            string CdtrAgtBICFI = "";
-            string CdtrAgtBICFINM = "";
-            string DbtrAgtBICFI = "";
-            string DbtrAgtBICFI_Name = "";
-            decimal CtrlSum_      = 0;
-    
-            DataTable Sys_Tbl     = new DataTable();
-            string QueueName      = "";
-            string QueueUserName  = "";
-            string QueuePassword  = "";
-            string QueueHostName  = "";
-            string QueuePort      = "0";
-            string QueueBatchSize = "1";
-            string Processing_ID  = "";
-            try
-            {
-                //Check if this Node is allowed to Run 
-                sqlStr = string.Format("EXEC dbo.ustp_Check_NodeConfiguration @Conf_InstitutionID = '{0}', @Conf_NodeID = '{1}', @Conf_ProcessName = '{2}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID, trxnProduct_ID);
-                if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], sqlStr).Rows[0][0].ToString()) > 0)
-                {
-                    // Check Threading
-                    string ForcedTiming = string.Format("[dbo].[usp_CheckThreadStatus] @Thread_ID = '{0}', @ForceThreadTime = '{1}' ", trxnProduct_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Forced_ThreadMinutes_MobilePosting.ToString());
-                    string Thread_Busy  = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), ForcedTiming).Rows[0]["Thread_Response"].ToString().Trim();
-                    if (Thread_Busy == "OK FOR POSTING")
-                    {
-                        sqlStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
-                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), sqlStr);
-
-                        sqlStr  = string.Format("SELECT Parameter_Value, Parameter_ID FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('QueueName','QueueUserName','QueuePassword','QueueHostName','QueuePort','QueueBatchSize') AND Bank_ID = '{0}' AND [Parameter_Authorised_YN] = 1", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
-                        Sys_Tbl = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
-                        if (Sys_Tbl.Rows.Count > 0)
-                        {
-                            foreach (DataRow param_Row in Sys_Tbl.Rows)
-                            {
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueName".ToUpper())      QueueName      = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueUserName".ToUpper())  QueueUserName  = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueuePassword".ToUpper())  QueuePassword  = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueHostName".ToUpper())  QueueHostName  = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueuePort".ToUpper())      QueuePort      = param_Row["Parameter_Value"].ToString();
-                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "QueueBatchSize".ToUpper()) QueueBatchSize = param_Row["Parameter_Value"].ToString();
-                            }
-                        }
-
-                        // Mark the Batch
-                        Processing_ID = System.Guid.NewGuid().ToString();
-                        sqlStr        = string.Format("[dbo].[ustp_MarkZeePay_OurGoingBatch] @Processing_ID = '{0}'", Processing_ID);
-                        SqlHelper.RunSql(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
-
-                        sqlStr   = string.Format("SELECT * FROM tbl_NBOL_TPP WHERE Processing_ID = '{0}'", Processing_ID);
-                        NBOL_TPP = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
-
-                        int rowCount = 0;
-                        rowCount     = NBOL_TPP.Rows.Count;
-                        if (NBOL_TPP.Rows.Count > 0)  
-                        {
-                            var factory = new ConnectionFactory();
-                            if (e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.IsLocalQueue == true)
-                            {
-                                factory = new ConnectionFactory { HostName = "localhost" };
-                            }
-                            else
-                            {
-                                factory = new ConnectionFactory { UserName = QueueUserName, Password = QueuePassword, HostName = QueueHostName, Port = Convert.ToInt32(QueuePort) };
-                            }
-
-                            using (var connection = factory.CreateConnection())
-                            {
-                                using (var channel = connection.CreateModel())
-                                {
-                                    // Guaranteed delivery: durable: true
-                                    if (e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.IsLocalQueue == true)
-                                    {
-                                        channel.QueueDeclare(queue: e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.LocalhostQueue, durable: true, exclusive: false, autoDelete: false, arguments: null);
-                                    }
-                                    else
-                                    {
-                                        channel.QueueDeclare(queue: QueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
-                                    }
-
-                                    var properties = channel.CreateBasicProperties();
-
-                                    //Set the message to persist in the event of a broker shutdown
-                                    var messageProperties = channel.CreateBasicProperties();
-                                    messageProperties.SetPersistent(true);
-
-                                    //Send an acknowledgement that the message was persisted to disk
-                                    //channel.BasicAcks += (sender, ea) =>
-                                    //{
-                                    //    // code when message is confirmed
-                                    //};
-                                    channel.ConfirmSelect();
-
-                                    for (int n = 1; n <= rowCount; n++)
-                                    {
-                                        //SR_Class.fn_Save_UserLogging_Detail("after selecting record", "0", "13654", "No Session");
-                                        //FORMAT MESSAGE ID
-                                        int i = 0;
-                                        CreDtTm          = Convert.ToDateTime(NBOL_TPP.Rows[i]["Import_Date_D"]);
-                                        string dte       = Convert.ToDateTime(NBOL_TPP.Rows[i]["Import_Date_D"]).ToString("yyyy-MM-ddTHH:mm:ss.fffffffK");
-                                        string msgIDDate = CreDtTm.ToString("yyyyMMdd"); //date
-                                                                                         //now get company code
-                                                                                         //SR_Class.fn_Save_UserLogging_Detail("14139", "0", "14139", "14139");
-                                                                                         //increament record count
-                                        Batch_Num_C     = NBOL_TPP.Rows[i]["Batch_Num_C"].ToString();
-                                        string countsql = string.Format("SELECT MAX(FORMAT(CONVERT(INT, RECORD_COUNT + 1), 'D7')) COUNT FROM tbl_NBOL_TPP");
-                                        DataTable dt    = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), countsql);
-                                        if (dt.Rows.Count > 0)
-                                        {
-                                          recCount = dt.Rows[0]["COUNT"].ToString();
-                                        }
-                                        Msg_ID     = msgIDDate + "/031000/" + recCount;
-
-                                        NbOfTxs    = "1";
-                                        CtrlSum_   = Convert.ToDecimal(NBOL_TPP.Rows[i]["Trn_Amnt_N"]);
-                                        CtrlSum    = String.Format("{0:0.##}", CtrlSum_);
-                                        Nm         = NBOL_TPP.Rows[i]["Act_Name_C"].ToString();
-                                        OrgId      = "BICCZWHX";
-                                        AnyBIC     = "BICCZWHX";
-                                        DbtrAcctID = NBOL_TPP.Rows[i]["Acct_Num_DR_C"].ToString();
-                                        BICFI      = NBOL_TPP.Rows[i]["Benef_SWIFT_Code_C"].ToString();
-                                        BICFI_Name = getBICFI_Name(BICFI);
-                                        PmtInfId   = Msg_ID;
-                                        PmtMtd     = "TRF";
-                                        BtchBookg  = "true";
-                                        PmtInf_CtrlSum = String.Format("{0:0.00}", NBOL_TPP.Rows[i]["Trn_Amnt_N"].ToString());
-                                        InstrPrty = "HIGH";
-
-                                        var isoDateTimeFormat = CultureInfo.InvariantCulture.DateTimeFormat;
-
-                                        // "2013-10-10T22:10:00"
-                                        //Dt = DateTime.Now.ToString(isoDateTimeFormat.SortableDateTimePattern);
-                                        Dt              = DateTime.Now.ToString("yyyy-MM-dd");
-                                        Dt              = Dt + "+02:00";
-                                        PoolgAdjstmntDt = Dt;
-                                        Id              = NBOL_TPP.Rows[i]["Acct_Num_DR_C"].ToString();
-                                        if (Convert.ToString(NBOL_TPP.Rows[i]["File_Name_C"]).Contains("_ZWL_"))
-                                        {
-                                            Ccy = "ZWL";
-                                        }
-                                        else
-                                        {
-                                            Ccy = "USD";
-                                        }
-                                        ChrgBr             = "DEBT";
-                                        InstrId            = Msg_ID;
-                                        EndToEndId         = Msg_ID;
-                                        PmtTpInf_InstrPrty = "NORM";
-                                        InstdAmt           = CtrlSum;
-                                        BICFI_BankB        = NBOL_TPP.Rows[i]["Benef_Bank_C"].ToString();
-                                        CdtrName           = NBOL_TPP.Rows[i]["Act_Name_DR_C"].ToString(); ;
-                                        CdtrAcct_ID        = "1324234314";
-                                        InstrForDbtrAgt    = "PBEN";
-                                        InstrForCdtrAgt    = "HOLD";
-                                        Prtry              = "21";
-                                        BANKB              = NBOL_TPP.Rows[i]["Benef_Bank_C"].ToString();
-                                        CdtrId             = NBOL_TPP.Rows[i]["Acct_Num_C"].ToString();
-                                        NBOL_TPP_Inst_No   = NBOL_TPP.Rows[i]["NBOL_TPP_Inst_No"].ToString();
-                                        Act_Adrr_C         = NBOL_TPP.Rows[i]["Act_Adrr_C"].ToString();
-                                        RmtInf_Ustrd       = NBOL_TPP.Rows[i]["Trn_Desc_C"].ToString();
-                                        Act_Pst_Code_C     = NBOL_TPP.Rows[i]["Act_Pst_Code_C"].ToString();
-
-                                        DbtrAgtBICFI       = "SBICZWH0";
-                                        DbtrAgtBICFI_Name  = getBICFI_Name(DbtrAgtBICFI);
-                                        //now update record to posted
-
-                                        //get banckcode from  batchnumber
-                                        CdtrAgtBICFI        = getBICFI_ByCode(Batch_Num_C.Substring(0, 5));
-                                        CdtrAgtBICFINM      = getBICFI_Name_ByCode(Batch_Num_C.Substring(0, 5));
-                                        //SR_Class.fn_Save_UserLogging_Detail("before XML_Response", "0", "14208", "No Session");
-                                        string XML_Response = fn_Create_Zeepay_Payment_Request(Msg_ID, dte, NbOfTxs, CtrlSum, Nm, OrgId, AnyBIC, DbtrAcctID, BICFI, PmtInfId, PmtMtd, Dt, PoolgAdjstmntDt, Id, Ccy, ChrgBr, InstrId, EndToEndId, InstrPrty, InstdAmt, InstrForDbtrAgt, Prtry, BANKB, CdtrName, CdtrId, InstrForCdtrAgt, BtchBookg, Act_Adrr_C, RmtInf_Ustrd, Act_Pst_Code_C, BICFI_Name, CdtrAgtBICFI, CdtrAgtBICFINM, DbtrAgtBICFI, DbtrAgtBICFI_Name);
-                                        //SR_Class.fn_Save_UserLogging_Detail("after  XML_Response", "0", "14210", "No Session");
-                                        //validate xml
-
-                                        XmlDocument TmpXLDoc = new XmlDocument();
-                                        try
-                                        {
-                                            TmpXLDoc.LoadXml(XML_Response);
-                                            try
-                                            {
-                                                if (e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.IsLocalQueue == true)
-                                                {
-                                                    SendWork(XML_Response, channel, properties, NBOL_TPP_Inst_No, Batch_Num_C, Msg_ID, "", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.IsLocalQueue == true,"");
-                                                }
-                                                else
-                                                {
-                                                    SendWork(XML_Response, channel, properties, NBOL_TPP_Inst_No, Batch_Num_C, Msg_ID, QueueName, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.IsLocalQueue == true,"");
-                                                }
-
-                                                // Guaranteed delivery
-                                                // Marking messages as persistent doesn't fully guarantee that a message won't be lost. 
-                                                // Although it tells RabbitMQ to save the message to disk, there is still a short time window when RabbitMQ 
-                                                // has accepted a message and hasn't saved it yet. 
-                                                // Also, RabbitMQ doesn't do fsync(2) for every message -- it may be just saved to cache and not really written to the disk. 
-                                                // The persistence guarantees aren't strong, but it's more than enough for our simple task queue. 
-                                                // If you need a stronger guarantee then you can use publisher confirms.
-                                                // https://www.rabbitmq.com/confirms.html
-                                                //properties.Persistent = true;
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
-                                                Utilities.LogToFile(Err_String, true);
-                                                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
-                                                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
-                                                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), trxnProduct_ID, Err_Date2));
-                                            }
-                                        }
-                                        catch
-                                        {
-                                            string Err_String = string.Format("{0} Failed XML Validation : {1}", NBOL_TPP_Inst_No, XML_Response );
-                                            Utilities.LogToFile(Err_String, true);
-                                            if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
-                                            string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
-                                            SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D","19197441", Err_String.Replace("'", "`"), trxnProduct_ID, Err_Date2));
-                                        }
-                                    }
-                                    if (channel.IsOpen) channel.Close();
-                                }
-                                if (connection.IsOpen) connection.Close();
-                            }
-                        }
-                        sqlStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
-                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], sqlStr);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
-                Utilities.LogToFile(Err_String, true);
-                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
-                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
-                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), trxnProduct_ID, Err_Date2));
-
-                sqlStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
-                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], sqlStr);
-            }
-        }
-
+         
 
         public static string fn_Create_Zeepay_Payment_Request
         (
@@ -13556,571 +13382,509 @@ namespace e_Verify_BACK_OFFICE_Service
             }
         }
 
-        string getBICFI_Name(string BICFI)
-        {
-            string result = "";
-            try
-            {
-                DataTable dt = new DataTable();
-                string sqlStr = string.Format("SELECT top 1 Bank_Name_C from  tbl_Agent_Banks WHERE Bank_Swift_Code_C= '{0}'", BICFI);
-                dt = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
-                if (dt.Rows.Count > 0)
-                {
-                    result = dt.Rows[0]["Bank_Name_C"].ToString();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //SR_Class.fn_Save_UserLogging_Detail("error in bicfiname", "0", "13837", "No Session");
-                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
-                Utilities.LogToFile(Err_String, true);
-                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
-                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
-                SqlHelper.RunSql(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), "Post_Outward_to_ZEEPAY_RABBIT", Err_Date2));
-            }
-            return result;
-        }
-        string getBICFI_ByCode(string code)
-        {
-            string result = "";
-            try
-            {
-                DataTable dt  = new DataTable();
-                string sqlStr = string.Format("SELECT top 1 Bank_Swift_Code_C from  tbl_Agent_Banks WHERE Default_Bank_Code_C= '{0}'", code);
-                dt = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
-                if (dt.Rows.Count > 0)
-                {
-                    result = dt.Rows[0]["Bank_Swift_Code_C"].ToString();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //SR_Class.fn_Save_UserLogging_Detail("error in bicfiname", "0", "13837", "No Session");
-                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
-                Utilities.LogToFile(Err_String, true);
-                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
-                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
-                SqlHelper.RunSql(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), "Post_Outward_to_ZEEPAY_RABBIT", Err_Date2));
-            }
-            return result;
-        }
-
-        string getBICFI_Name_ByCode(string code)
-        {
-            string result = "";
-            try
-            {
-                DataTable dt = new DataTable();
-                string sqlStr = string.Format("SELECT top 1 Bank_Name_C from  tbl_Agent_Banks WHERE Default_Bank_Code_C= '{0}'", code);
-                dt = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
-                if (dt.Rows.Count > 0)
-                {
-                    result = dt.Rows[0]["Bank_Name_C"].ToString();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                //SR_Class.fn_Save_UserLogging_Detail("error in bicfiname", "0", "13837", "No Session");
-                string Err_String = string.Format("{0} : {1}", ex.ToString(), ex.StackTrace.ToString());
-                Utilities.LogToFile(Err_String, true);
-                if (Err_String.Length > 3000) Err_String = Err_String.Substring(0, 3000);
-                string Err_Date2 = string.Format("{0:yyyy/MM/dd HH:mm:ss}", DateTime.Now);
-                SqlHelper.RunSql(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), string.Format("INSERT INTO tbl_ErrorLog(Err_Number_N, Err_Desc_C,Err_Module_C,Err_Date_D) SELECT '{0}' As Err_Number_N, '{1}' As Err_Desc_C, '{2}' As Err_Module, '{3}' As Err_Date_D", ex.GetHashCode().ToString(), Err_String.Replace("'", "`"), "Post_Outward_to_ZEEPAY_RABBIT", Err_Date2));
-            }
-            return result;
-        }
-
+        
         public void Parse_and_Import_SFI_File()
         {
-            string SQLStr         = "";
-            string Dest_Table     = "";
-            string trxnProduct_ID = "Parse_and_Import_SFI_File";
+            string Dest_Table = "";
             try
             {
-                string Batch_Num      = "";
+                string Batch_Num = "";
                 string Instruction_ID = "";
-                string Transfer_Type  = "";
-                string Pymnt_Type     = "";
-                string Value_Date     = "";
-                string Post_Date      = "";
-                string Trn_Curr       = "";
-                string Trn_Amnt_TMP   = "";
-                double Trn_Amnt       = 0.0;
-                string Trn_ID         = "";
-                string Trn_Desc       = "'";
-                string Trn_Type       = "";
-                string Act_Name       = "";
-                string Act_Adrr       = "";
-                string Act_Str        = "";
-                string Act_Pst_Code   = "";
-                string Act_Town       = "";
-                string Act_Dvsn       = "";
-                string Act_Cntry      = "";
-                string Acct_Num       = "";
-                string Acct_Branch    = "";
-                int    Trn_ID_Len     = 1;
-                string Benef_Swift_Code_C= "";
-                string Acct_Num_DR_C     = "";
-                string DR_CR             = "";
-                string Batch1            = "";
-                string Batch2            = "";
-                string Batch3            = "";
-                string Curr_File         = "";
-                string Benef_Bank_C      = "";
-                string Benef_Bank_Name   = "";
-                bool   Benf_Bank_Status  = true;
-                string Ref1              = "";
-                string Ref2              = "";
-                string Ref3              = "";
-                string File_Extension    = "";
-                string sGuid             = "";
-                string Trn_Amnt1         = "";
-                string sub_acc           = "";
-                string sub_acc_1         = "";
-                string sub_acc_2         = "";
-                string Interim_acc       = "";
-                string Interim_acc_1     = "";
-                string Interim_acc_2     = "";
-                string random_num        = "";
-                string Interim_Ref       = "";
-                string sub_ref1          = "";
-                string sub_ref2          = "";
-                string Source            = "";
-                string BancAbc_Branch    = "";
-                string Benef_Bank_Code   = "";
-                double BFIS_Threshold    = 0;
-                string barclays_acc_sep  = "";
-                string Bank_Prefix       = "";
+                string Transfer_Type = "";
+                string Pymnt_Type = "";
+                string Value_Date = "";
+                string Post_Date = "";
+                string Trn_Curr = "";
+                string Trn_Amnt_TMP = "";
+                double Trn_Amnt = 0.0;
+                string Trn_ID = "";
+                string Trn_Desc = "'";
+                string Trn_Type = "";
+                string Act_Name = "";
+                string Act_Adrr = "";
+                string Act_Str = "";
+                string Act_Pst_Code = "";
+                string Act_Town = "";
+                string Act_Dvsn = "";
+                string Act_Cntry = "";
+                string Acct_Num = "";
+                string Acct_Branch = "";
+                int Trn_ID_Len = 1;
+                string Benef_Swift_Code_C = "";
+                string Acct_Num_DR_C = "";
+                string DR_CR = "";
+                string Batch1 = "";
+                string Batch2 = "";
+                string Batch3 = "";
+                string Curr_File = "";
+                string Benef_Bank_C = "";
+                string Benef_Bank_Name = "";
+                bool Benf_Bank_Status = true;
+                string Ref1 = "";
+                string Ref2 = "";
+                string Ref3 = "";
+                string File_Extension = "";
+                string sGuid = "";
+                string Trn_Amnt1 = "";
+                string sub_acc = "";
+                string sub_acc_1 = "";
+                string sub_acc_2 = "";
+                string Interim_acc = "";
+                string Interim_acc_1 = "";
+                string Interim_acc_2 = "";
+                string random_num = "";
+                string Interim_Ref = "";
+                string sub_ref1 = "";
+                string sub_ref2 = "";
+                string Source = "";
+                string BancAbc_Branch = "";
+                string Benef_Bank_Code = "";
+                double BFIS_Threshold = 0;
+                string barclays_acc_sep = "";
+                string SQLStr = "";
+                string Bank_Prefix = "";
 
-                // Check if this Node is allowed to Import the SFI File. Node Configuration is Part of eVerify Suit
-                string SQL_Str = string.Format("EXEC dbo.ustp_Check_NodeConfiguration @Conf_InstitutionID = '{0}', @Conf_NodeID = '{1}', @Conf_ProcessName = '{2}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID, trxnProduct_ID);
-                if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQL_Str).Rows[0][0].ToString()) > 0)
+                string ImportTime = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), "SELECT CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,25) + ' ' +  CONVERT(VARCHAR(8),CURRENT_TIMESTAMP,108) as PostTime").Rows[0][0].ToString();
+                Random random = new Random();
+
+                string RTGS_Ref = "";
+                string sErrorString = ""; // Passed back
+                string Bck_Up_File = "";
+                string Bck_Up_File_Name = "";
+                double DLL_Status = 0;
+                string File_extension = "";
+
+                int PosSep;
+                //SR_Class.fn_Save_UserLogging_Detail("inside import file", "0", "13008", "No Session");
+                string In_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_InDirectory;
+                if (!In_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
                 {
-                    // Now Check if the Tread is free for this Function to avoid duplications.
-                    string ForcedTiming = string.Format("[dbo].[usp_CheckThreadStatus] @Thread_ID = '{0}', @ForceThreadTime = '{1}' ", trxnProduct_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Forced_ThreadMinutes_MobilePosting.ToString());
-                    string Thread_Busy  = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), ForcedTiming).Rows[0]["Thread_Response"].ToString().Trim();
-                    if (Thread_Busy == "OK FOR POSTING")
+                    In_Path += System.IO.Path.DirectorySeparatorChar;
+                }
+                string Out_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_OutDirectory;
+                if (!Out_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
+                {
+                    Out_Path += System.IO.Path.DirectorySeparatorChar;
+                }
+                string Back_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_BackupDirectory;
+                if (!Back_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
+                {
+                    Back_Path += System.IO.Path.DirectorySeparatorChar;
+                }
+
+                string[] FileList = Directory.GetFiles(In_Path);
+
+                int File_Number = 0;
+                foreach (var FileName in FileList)
+                {
+
+
+                    //int PosSep;
+                    PosSep = FileName.LastIndexOf(@"\");
+                    Curr_File = FileName.Substring((PosSep + 1), FileName.Length - (PosSep + 1));
+
+                    Bck_Up_File_Name = Curr_File;
+                    Bck_Up_File = Back_Path + Bck_Up_File_Name;
+
+                    // Check if Same File Name Exists in Backup Directory
+                    if (System.IO.File.Exists(Bck_Up_File) == true)
                     {
-                        SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
-                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), SQLStr);
+                        //PosSep = FileName.LastIndexOf(".");
+                        Bck_Up_File_Name = string.Format("{0}{1:ddMMyyyy.HHmmmss}{2}", Curr_File, DateTime.Now, File_Number.ToString());
+                        Bck_Up_File = Back_Path + Bck_Up_File_Name;
+                    }
+                    //check if file was imported previously
+                    SQLStr = String.Format("Select count(*) As recs from  tbl_FileHistory WITH (NOLOCK) where File_Name_C = '{0}'", FileName);
+                    if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), SQLStr).Rows[0][0]) > 0)
+                    {
+                        System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
+                        System.IO.File.Delete(FileName);
+                    }
+                    else
+                    {
+                        File_Extension = Curr_File.Substring(Curr_File.Length - 3, 3);
 
-                        string ImportTime       = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), "SELECT CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,25) + ' ' +  CONVERT(VARCHAR(8),CURRENT_TIMESTAMP,108) as PostTime").Rows[0][0].ToString();
-                        Random random           = new Random();
-
-                        string RTGS_Ref         = "";
-                        string sErrorString     = ""; // Passed back
-                        string Bck_Up_File      = "";
-                        string Bck_Up_File_Name = "";
-                        double DLL_Status       = 0;
-                        string File_extension   = "";
-
-                        int PosSep;
-                        //SR_Class.fn_Save_UserLogging_Detail("inside import file", "0", "13008", "No Session");
-                        string In_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_InDirectory;
-                        if (!In_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
+                        if (File_Extension == "sfi")
                         {
-                            In_Path += System.IO.Path.DirectorySeparatorChar;
+
+                            Batch1 = Curr_File.Substring(0, 5).Trim();   // bank sortcode portion
+
+                            //Batch1 = Regex.Replace(Batch1, @"\s+", " ");
+                            Batch2 = Curr_File.Substring(10, 14).Trim(); // date and time portion
+
+                            Bank_Prefix = Batch1.Substring(0, 2);
+
+                            Batch_Num = Batch1 + Batch2;
+
+                            System.Data.DataTable Curr_Rec = new System.Data.DataTable();
+
+
+                            //INSERT FILENAME INTO FILEHISTORY TABLE
+                            Hashtable file_hash = new Hashtable();
+                            var _with3 = file_hash;
+                            _with3.Add("File_Name_C", FileName);
+                            _with3.Add("File_Import_Date_D", ImportTime);
+                            _with3.Add("File_Date_D", ImportTime);
+                            _with3.Add("Exported_B", 0);
+                            _with3.Add("importStage_C", 0);
+                            SqlHelper.insertSQL(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), "tbl_FileHistory", file_hash);
+                            _with3.Clear();
                         }
-                        string Out_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_OutDirectory;
-                        if (!Out_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
+
+                        // Check for Duplicates and Save in Duplicates File
+                        Dest_Table = "tbl_NBOL_TPP";
+
+                        string TextLine = "";
+                        string TextLine_Indexed = "";
+                        Hashtable insertHash = new Hashtable();
                         {
-                            Out_Path += System.IO.Path.DirectorySeparatorChar;
-                        }
-                        string Back_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_BackupDirectory;
-                        if (!Back_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
-                        {
-                            Back_Path += System.IO.Path.DirectorySeparatorChar;
-                        }
-
-                        string[] FileList = Directory.GetFiles(In_Path);
-
-                        int File_Number = 0;
-                        foreach (var FileName in FileList)
-                        {
-                            //int PosSep;
-                            PosSep           = FileName.LastIndexOf(@"\");
-                            Curr_File        = FileName.Substring((PosSep + 1), FileName.Length - (PosSep + 1));
-
-                            Bck_Up_File_Name = Curr_File;
-                            Bck_Up_File      = Back_Path + Bck_Up_File_Name;
-
-                            // Check if Same File Name Exists in Backup Directory
-                            if (System.IO.File.Exists(Bck_Up_File) == true)
+                            var withBlock = insertHash;
+                            System.IO.StreamReader objReader = new System.IO.StreamReader(FileName);
+                            while (objReader.Peek() != -1)
                             {
-                                //PosSep = FileName.LastIndexOf(".");
-                                Bck_Up_File_Name = string.Format("{0}{1:ddMMyyyy.HHmmmss}{2}", Curr_File, DateTime.Now, File_Number.ToString());
-                                Bck_Up_File      = Back_Path + Bck_Up_File_Name;
-                            }
-                            //int PosSep;
-                            //PosSep = FileName.LastIndexOf(@"\");
-                            //Curr_File = FileName.Substring((PosSep + 1), FileName.Length - (PosSep + 1));
-
-                            File_Extension = Curr_File.Substring(Curr_File.Length - 3, 3);
-                            if (File_Extension == "sfi")
-                            {
-
-                                Batch1 = Curr_File.Substring(0, 5).Trim();   // bank sortcode portion
-
-                                // If Batch1 = "_ZWL_" Then
-                                // Batch1 = "32100"
-                                // End If
-
-                                //Batch1 = Regex.Replace(Batch1, @"\s+", " ");
-                                Batch2      = Curr_File.Substring(10, 14).Trim(); // date and time portion
-                                Bank_Prefix = Batch1.Substring(0, 2);
-                                Batch_Num   = Batch1 + Batch2;
-
-                                //System.Data.DataTable Sys_Tbl = new System.Data.DataTable();
-
-                                System.Data.DataTable Curr_Rec = new System.Data.DataTable();
-                                //System.Data.DataTable ChkRec = new System.Data.DataTable();
-                            }
-
-                            // Check for Duplicates and Save in Duplicates File
-                            Dest_Table = "tbl_NBOL_TPP";
-
-                            //if (m_databaseClass.getDataSet("SELECT top 1 File_Name_C FROM tbl_NBOL_TPP WITH (NOLOCK) Where File_Name_C = '" + In_File_Nm + "'").Tables(0).Rows.Count > 0)
-                            //   Dest_Table = "tbl_NBOL_TPP_Duplicates";
-                            ////if (m_databaseClass.getDataSet("SELECT top 1 File_Name_C FROM tbl_NBOL_TPP_Hist WITH (NOLOCK) Where File_Name_C = '" + In_File_Nm + "'").Tables(0).Rows.Count > 0)
-                            //    Dest_Table = "tbl_NBOL_TPP_Duplicates";
-
-                            string    TextLine         = "";
-                            string    TextLine_Indexed = "";
-                            Hashtable insertHash       = new Hashtable();
-                            {
-                                var withBlock = insertHash;
-                                System.IO.StreamReader objReader = new System.IO.StreamReader(FileName);
-                                while (objReader.Peek() != -1)
+                                TextLine = objReader.ReadLine() + Environment.NewLine;
+                                if (TextLine.Trim() != "")
                                 {
-                                    TextLine = objReader.ReadLine() + Environment.NewLine;
+                                    Trn_Desc = "";
+                                    Trn_Amnt_TMP = "";
+                                    Trn_Amnt = 0;
+                                    Trn_Curr = "";
+                                    Act_Name = "";
+                                    Act_Cntry = "";
+                                    Act_Adrr = "";
+                                    Act_Str = "";
+                                    Act_Pst_Code = "";
+                                    BancAbc_Branch = "";
+                                    Act_Town = "";
+                                    Act_Dvsn = "";
+                                    Act_Cntry = "";
+                                    Acct_Num = "";
+                                    Acct_Branch = "";
+                                    Source = "";
+                                    Benef_Swift_Code_C = "";
+                                    DR_CR = "";
+                                    Ref1 = "";
+                                    Ref2 = "";
+                                    Ref3 = "";
+                                    sGuid = "";
+                                    Trn_Amnt1 = "";
+                                    sub_acc = "";
+                                    sub_acc_1 = "";
+                                    Interim_acc = "";
+                                    Interim_acc_1 = "";
+                                    Interim_Ref = "";
+                                    sub_ref1 = "";
+                                    sub_ref2 = "";
+                                    barclays_acc_sep = "";
+                                    Pymnt_Type = "";
 
-                                    if (TextLine.Trim() != "")
+                                    double fieldLen = TextLine.Length;
+                                    if (1 == 1)
                                     {
-                                        //TextLine_Indexed = TextLine.Replace(Chr(28), "~|#").Trim();
-                                        Trn_Desc       = "";
-                                        Trn_Amnt_TMP   = "";
-                                        Trn_Amnt       = 0;
-                                        Trn_Curr       = "";
-                                        Act_Name       = "";
-                                        Act_Cntry      = "";
-                                        Act_Adrr       = "";
-                                        Act_Str        = "";
-                                        Act_Pst_Code   = "";
-                                        BancAbc_Branch = "";
-                                        Act_Town       = "";
-                                        Act_Dvsn       = "";
-                                        Act_Cntry      = "";
-                                        Acct_Num       = "";
-                                        Acct_Branch    = "";
-                                        Source         = "";
-                                       
-                                        DR_CR          = "";
-                                        Ref1           = "";
-                                        Ref2           = "";
-                                        Ref3           = "";
-                                        sGuid          = "";
-                                        Trn_Amnt1      = "";
-                                        sub_acc        = "";
-                                        sub_acc_1      = "";
-                                        Interim_acc    = "";
-                                        Interim_acc_1  = "";
-                                        Interim_Ref    = "";
-                                        sub_ref1       = "";
-                                        sub_ref2       = "";
-                                        Pymnt_Type     = "";
-                                        barclays_acc_sep   = "";
-                                        Benef_Swift_Code_C = "";
-                                       
-                                        double fieldLen = TextLine.Length;
-                                        if (1 == 1)
+                                        Trn_Type = TextLine.Substring(0, 3);
+                                        if (Trn_Type == "UHL")
                                         {
-                                            Trn_Type = TextLine.Substring(0, 3);
-                                            if (Trn_Type == "UHL")
+                                            Trn_ID = "0";
+                                            Post_Date = (TextLine.Substring(3, 8).Trim());
+                                        }
+
+                                        if (Trn_Type == "PAY")
+                                        {
+                                            Instruction_ID = Batch_Num;
+
+                                            Trn_Desc = TextLine.Substring(117, 15).Trim();
+                                            Trn_Amnt_TMP = TextLine.Substring(162, 24).Trim();
+                                            Trn_Amnt_TMP = string.Format("{0}.{1}", Trn_Amnt_TMP.Substring(0, 22), Trn_Amnt_TMP.Substring(22, 2));
+                                            Trn_Amnt = double.Parse(Trn_Amnt_TMP);
+                                            Benef_Swift_Code_C = "BFIS";
+
+                                            Act_Name = TextLine.Substring(150, 30).Trim();
+                                            sGuid = System.Guid.NewGuid().ToString();
+                                            DR_CR = "C";
+                                            Acct_Branch = TextLine.Substring(3, 7).Trim();
+                                            Acct_Num_DR_C = TextLine.Substring(68, 20).Trim();
+                                            Acct_Num_DR_C = Acct_Num_DR_C.TrimStart('0');
+                                            barclays_acc_sep = TextLine.Substring(19, 1).Trim();
+                                            Ref1 = TextLine.Substring(132, 30).Trim();
+                                            Interim_Ref = TextLine.Substring(202, 30);
+                                            sub_ref1 = Interim_Ref.Substring(0, 6);
+                                            sub_ref2 = Interim_Ref.Substring(0, 17);
+                                            Ref2 = Interim_Ref.Substring(0, 8);
+
+                                            if (sub_ref1 == "PAYEX-")
+                                                Ref2 = Interim_Ref.Substring(6, 8);
+
+                                            if (sub_ref2 == "PAYEX Payments - ")
+                                                Ref2 = Interim_Ref.Substring(17, 8);
+                                            // PAYEX -36367065023711    PAYEX-
+                                            // PAYEX Payments - 3633400101925
+
+                                            Ref3 = TextLine.Substring(262, 30).Trim();
+
+                                            // Manage Account Numbers Pano, by Bank. its gonna be long code, but lets do it the old fashioned way, then create an object to handle this later on.
+                                            if (Bank_Prefix == "02")
                                             {
-                                                Trn_ID = "0";
-                                                Post_Date = (TextLine.Substring(3, 8).Trim());
+                                                Acct_Num = TextLine.Substring(19, 11);
+                                                // sub_acc = Acct_Num.Substring(13, 7)
+
+                                                if (Acct_Num.Length < 11)
+                                                    Acct_Num = "tich";
                                             }
-
-                                            if (Trn_Type == "PAY")
+                                            if (Bank_Prefix == "04")
                                             {
-                                                Instruction_ID = Batch_Num;
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(7, 13);
+                                            }
+                                            if (Bank_Prefix == "05")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(7, 13);
+                                            }
+                                            if (Bank_Prefix == "06")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Interim_acc = Acct_Num.Substring(4, 16);    // 16 digit acc number
+                                                Interim_acc_1 = Acct_Num.Substring(8, 12); // 12 digit acc number
+                                                Interim_acc_2 = Acct_Num.Substring(6, 14); // 14 digit acc number
+                                                sub_acc = Interim_acc.Substring(0, 6);
+                                                sub_acc_1 = Interim_acc_1.Substring(0, 3);
 
-                                                // Trn_ID = TextLine.Substring(2, 3).Trim.Replace(Chr(28), "")  ' Define trn_id as integer and increment until end of file
-                                                // Trn_ID_Len = Trn_ID.Trim.Length
-                                                Trn_Desc           = TextLine.Substring(117, 15).Trim();
-                                                Trn_Amnt_TMP       = TextLine.Substring(162, 24).Trim();
-                                                Trn_Amnt_TMP       = string.Format("{0}.{1}", Trn_Amnt_TMP.Substring(0, 22), Trn_Amnt_TMP.Substring(22, 2));
-                                                Trn_Amnt           = double.Parse(Trn_Amnt_TMP);
-                                                Benef_Swift_Code_C = "BFIS";
+                                                Acct_Num = Acct_Num.Substring(6, 14);
+                                                if (sub_acc == "585997")
+                                                    Acct_Num = Interim_acc;
+                                                if (sub_acc_1 == "263")
+                                                    Acct_Num = Interim_acc_1;
 
-                                                Act_Name = TextLine.Substring(150, 30).Trim();
-                                                //Act_Name = Regex.Replace(Act_Name, @"\s+", " ");
-                                                //random_num = random.Next(100000, 99999999);
-                                                sGuid = System.Guid.NewGuid().ToString();
-                                                DR_CR = "C";
+                                                // If sub_acc_1 = "970" Then
+                                                // Acct_Num = Interim_acc_1
+                                                // End If
 
-                                                Acct_Branch = TextLine.Substring(3, 7).Trim();
-                                                // BancAbc_Branch = TextLine.Substring(7, 3).Trim.Replace(Chr(28), "")
-                                                Acct_Num_DR_C    = TextLine.Substring(68, 20).Trim();
-                                                Acct_Num_DR_C    = Acct_Num_DR_C.TrimStart('0');
-                                                barclays_acc_sep = TextLine.Substring(19, 1).Trim();
-
-                                                Ref1             = TextLine.Substring(132, 30).Trim();
-
-                                                Interim_Ref = TextLine.Substring(202, 30);
-                                                sub_ref1    = Interim_Ref.Substring(0, 6);
-                                                sub_ref2    = Interim_Ref.Substring(0, 17);
-                                                Ref2 = Interim_Ref.Substring(0, 8);
-
-                                                if (sub_ref1 == "PAYEX-")
-                                                    Ref2 = Interim_Ref.Substring(6, 8);
-
-                                                if (sub_ref2 == "PAYEX Payments - ")
-                                                    Ref2 = Interim_Ref.Substring(17, 8);
-                                                // PAYEX -36367065023711    PAYEX-
-                                                // PAYEX Payments - 3633400101925
-
-                                                Ref3 = TextLine.Substring(262, 30).Trim();
-
-                                                // Manage Account Numbers Pano, by Bank. its gonna be long code, but lets do it the old fashioned way, then create an object to handle this later on.
-                                                if (Bank_Prefix == "02")
+                                                if (Acct_Num.Length == 16)
                                                 {
-                                                    Acct_Num = TextLine.Substring(19, 11);
-                                                    // sub_acc = Acct_Num.Substring(13, 7)
-
-                                                    if (Acct_Num.Length < 11)
-                                                        Acct_Num = "tich";
-                                                }
-                                                if (Bank_Prefix == "04")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(7, 13);
-                                                }
-                                                if (Bank_Prefix == "05")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(7, 13);
-                                                }
-                                                if (Bank_Prefix == "06")
-                                                {
-                                                    Acct_Num      = TextLine.Substring(10, 20).Trim();
-                                                    Interim_acc   = Acct_Num.Substring(4, 16);    // 16 digit acc number
-                                                    Interim_acc_1 = Acct_Num.Substring(8, 12); // 12 digit acc number
-                                                    Interim_acc_2 = Acct_Num.Substring(6, 14); // 14 digit acc number
-                                                    sub_acc       = Interim_acc.Substring(0, 6);
-                                                    sub_acc_1     = Interim_acc_1.Substring(0, 3);
-
-                                                    Acct_Num = Acct_Num.Substring(6, 14);
-                                                    if (sub_acc == "585997")
-                                                        Acct_Num = Interim_acc;
-                                                    if (sub_acc_1 == "263")
-                                                        Acct_Num = Interim_acc_1;
-
-                                                    // If sub_acc_1 = "970" Then
-                                                    // Acct_Num = Interim_acc_1
-                                                    // End If
-
-                                                    if (Acct_Num.Length == 16)
-                                                    {
-                                                        Pymnt_Type         = "BFIS";
-                                                        Benef_Swift_Code_C = "BFIS";
-                                                    }
-                                                }
-
-                                                if (Bank_Prefix == "08")
-                                                {
-                                                    Acct_Num      = TextLine.Substring(10, 20).Trim();
-                                                    Interim_acc   = Acct_Num.Substring(7, 13);
-                                                    Interim_acc_1 = Acct_Num.Substring(4, 16);
-                                                    sub_acc       = Interim_acc_1.Substring(0, 6);
-                                                    Acct_Num      = Interim_acc;
-                                                    if (sub_acc == "601704") Acct_Num = Interim_acc_1;
-                                                }
-
-                                                if (Bank_Prefix == "09")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(7, 13);
-                                                }
-
-                                                if (Bank_Prefix == "10")
-                                                {
-                                                    Acct_Num      = TextLine.Substring(10, 20).Trim();
-                                                    Interim_acc   = Acct_Num.Substring(8, 12);
-                                                    Interim_acc_1 = Acct_Num.Substring(4, 16);
-                                                    sub_acc       = Interim_acc_1.Substring(0, 6);
-                                                    Acct_Num      = Interim_acc;
-                                                    if (sub_acc == "504875") Acct_Num = Interim_acc_1;
-                                                }
-
-                                                if (Bank_Prefix == "11")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(7, 13);
-                                                }
-
-                                                if (Bank_Prefix == "18")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.TrimStart('0');
-                                                }
-
-                                                if (Bank_Prefix == "20")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(10, 10);
-                                                }
-
-                                                if (Bank_Prefix == "21")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(6, 14);
-                                                }
-
-                                                if (Bank_Prefix == "23")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(4, 16);
-                                                }
-
-
-                                                if (Bank_Prefix == "24")
-                                                {
-                                                    Acct_Num      = TextLine.Substring(10, 20).Trim();
-                                                    Interim_acc   = Acct_Num.Substring(10, 10);
-                                                    Interim_acc_1 = Acct_Num.Substring(4, 16);
-                                                    sub_acc       = Interim_acc_1.Substring(0, 6);
-                                                    Acct_Num      = Interim_acc;
-                                                    if (sub_acc == "588892") Acct_Num = Interim_acc_1;
-                                                }
-
-                                                if (Bank_Prefix == "25")
-                                                {
-                                                    Acct_Num      = TextLine.Substring(10, 20).Trim();
-                                                    Interim_acc   = Acct_Num.Substring(8, 12);
-                                                    Interim_acc_1 = Acct_Num.Substring(4, 16);
-                                                    sub_acc       = Interim_acc_1.Substring(0, 6);
-                                                    Acct_Num      = Interim_acc;
-                                                    if (sub_acc == "605872")  Acct_Num = Interim_acc_1;
-                                                    if (sub_acc == "604845")  Acct_Num = Interim_acc_1;
-                                                }
-
-                                                if (Bank_Prefix == "26")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(4, 16);
-                                                }
-
-                                                if (Bank_Prefix == "31")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(6, 14);
-                                                }
-
-                                                if (Bank_Prefix == "32")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(7, 13);
-                                                }
-
-                                                if (Bank_Prefix == "33")
-                                                {
-                                                    Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                    Acct_Num = Acct_Num.Substring(5, 15);
+                                                    Pymnt_Type = "BFIS";
+                                                    Benef_Swift_Code_C = "BFIS";
                                                 }
                                             }
 
-
-                                            // Create entries for the suspense and settlement accounts muno umu
-                                            // Find out what is required for posting to Finacle and populate for UHL
-                                            if (Trn_Type == "UTL")
+                                            if (Bank_Prefix == "08")
                                             {
-                                                Trn_Amnt_TMP  = TextLine.Substring(30, 24).Trim();
-                                                Trn_Amnt_TMP  = string.Format("{0}.{1}", Trn_Amnt_TMP.Substring(0, 22), Trn_Amnt_TMP.Substring(22, 2));
-                                                Trn_Amnt      = double.Parse(Trn_Amnt_TMP);
-                                                DR_CR         = "D";
-                                                Act_Name      = "Settlement Account";
-                                                Trn_Desc      = string.Format(" Settlement for file '{0}'", Curr_File);
-                                                Acct_Num_DR_C = "8142819000000";
-                                                Acct_Num      = "8145108061000";
-                                                Pymnt_Type    = "FINACLE";
-                                                //random_num = random.Next(10000, 9999999);
-                                                sGuid = System.Guid.NewGuid().ToString();
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Interim_acc = Acct_Num.Substring(7, 13);
+                                                Interim_acc_1 = Acct_Num.Substring(4, 16);
+                                                sub_acc = Interim_acc_1.Substring(0, 6);
+                                                Acct_Num = Interim_acc;
+                                                if (sub_acc == "601704")
+                                                    Acct_Num = Interim_acc_1;
                                             }
 
-                                            withBlock.Clear();
-                                            withBlock.Add("File_Name_C", FileName);
-                                            withBlock.Add("Batch_Num_C", Batch_Num);
-                                            withBlock.Add("Instr_ID_C", sGuid);
-                                            withBlock.Add("Transfer_Type_C", Transfer_Type);
-                                            withBlock.Add("Pymnt_Type_C", Pymnt_Type);
-                                            withBlock.Add("Value_Date_D", Post_Date);
-                                            withBlock.Add("Post_Date_D", Post_Date);
-                                            withBlock.Add("File_Date_D", Post_Date);
-                                            ImportTime = string.Format("{0:yyyy/MM/dd HH:mmm:ss}", DateTime.Now);
-                                            withBlock.Add("Import_Date_D", ImportTime);
-                                            withBlock.Add("Trn_Curr_C", Trn_Curr);
-                                            withBlock.Add("Trn_Amnt_N", Trn_Amnt);
-                                            withBlock.Add("Trn_ID_C", Trn_ID);
-                                            withBlock.Add("Trn_Type_C", DR_CR);
-                                            withBlock.Add("Trn_Desc_C", Trn_Desc);
-                                            withBlock.Add("Act_Name_C", Act_Name);
-                                            withBlock.Add("Act_Adrr_C", Ref1);
-                                            withBlock.Add("Act_Str_C", Ref2);
-                                            withBlock.Add("Act_Pst_Code_C", Ref3);
-                                            withBlock.Add("Act_Town_C", Act_Town);
-                                            withBlock.Add("Act_Dvsn_C", Act_Dvsn);
-                                            withBlock.Add("Act_Cntry_C", sGuid);
-                                            withBlock.Add("Acct_Num_C", Acct_Num);
-                                            withBlock.Add("Acct_Num_DR_C", Acct_Num_DR_C);
-                                            withBlock.Add("Acct_Branch_C", Acct_Branch);
-                                            withBlock.Add("Trn_Posting_Type_C", "4");
-                                            withBlock.Add("Benef_Bank_C", Benef_Bank_C);
-                                            withBlock.Add("Acct_Branch_IsNum_YN_B", 1);
-                                            withBlock.Add("Posted_YN_B", "0");
-                                            withBlock.Add("Batch_Approved_YN_B", "0");
-                                            withBlock.Add("Run_No_N", "0");
-                                            withBlock.Add("ZETTS_SerNum_N", "0");
-                                            withBlock.Add("Charges_Amnt_N", "0");
-                                            withBlock.Add("Gvt_Levy_Amnt_N", "0");
-                                            withBlock.Add("Benef_Swift_Code_C", Benef_Swift_Code_C);
-                                            withBlock.Add("Response_Sent_YN_B", "0");
-                                            withBlock.Add("Source_C", "SFI");
-                                            withBlock.Add("RTGS_InwardRef_C", Benef_Bank_Name);
-                                            if ((Trn_Type == "PAY") | (Trn_Type == "UTL"))
+                                            if (Bank_Prefix == "09")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(7, 13);
+                                            }
+
+                                            if (Bank_Prefix == "10")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Interim_acc = Acct_Num.Substring(8, 12);
+                                                Interim_acc_1 = Acct_Num.Substring(4, 16);
+                                                sub_acc = Interim_acc_1.Substring(0, 6);
+                                                Acct_Num = Interim_acc;
+                                                if (sub_acc == "504875")
+                                                    Acct_Num = Interim_acc_1;
+                                            }
+
+                                            if (Bank_Prefix == "11")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(7, 13);
+                                            }
+
+                                            if (Bank_Prefix == "18")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.TrimStart('0');
+                                            }
+
+                                            if (Bank_Prefix == "20")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(10, 10);
+                                            }
+
+                                            if (Bank_Prefix == "21")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(6, 14);
+                                            }
+
+                                            if (Bank_Prefix == "23")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(4, 16);
+                                            }
+
+
+                                            if (Bank_Prefix == "24")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Interim_acc = Acct_Num.Substring(10, 10);
+                                                Interim_acc_1 = Acct_Num.Substring(4, 16);
+                                                sub_acc = Interim_acc_1.Substring(0, 6);
+                                                Acct_Num = Interim_acc;
+                                                if (sub_acc == "588892")
+                                                    Acct_Num = Interim_acc_1;
+                                            }
+
+                                            if (Bank_Prefix == "25")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Interim_acc = Acct_Num.Substring(8, 12);
+                                                Interim_acc_1 = Acct_Num.Substring(4, 16);
+                                                sub_acc = Interim_acc_1.Substring(0, 6);
+                                                Acct_Num = Interim_acc;
+                                                if (sub_acc == "605872")
+                                                    Acct_Num = Interim_acc_1;
+                                                if (sub_acc == "604845")
+                                                    Acct_Num = Interim_acc_1;
+                                            }
+
+                                            if (Bank_Prefix == "26")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(4, 16);
+                                            }
+
+                                            if (Bank_Prefix == "31")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(6, 14);
+                                            }
+
+                                            if (Bank_Prefix == "32")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(7, 13);
+                                            }
+
+                                            if (Bank_Prefix == "33")
+                                            {
+                                                Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                Acct_Num = Acct_Num.Substring(5, 15);
+                                            }
+                                        }
+
+                                        // Create entries for the suspense and settlement accounts muno umu
+                                        // Find out what is required for posting to Finacle and populate for UHL
+                                        if (Trn_Type == "UTL")
+                                        {
+                                            Trn_Amnt_TMP = TextLine.Substring(30, 24).Trim();
+                                            Trn_Amnt_TMP = string.Format("{0}.{1}", Trn_Amnt_TMP.Substring(0, 22), Trn_Amnt_TMP.Substring(22, 2));
+                                            Trn_Amnt = double.Parse(Trn_Amnt_TMP);
+                                            DR_CR = "D";
+                                            Act_Name = "Settlement Account";
+                                            Trn_Desc = string.Format(" Settlement for file '{0}'", Curr_File);
+                                            Acct_Num_DR_C = "8142819000000";
+                                            Acct_Num = "8145108061000";
+                                            Pymnt_Type = "FINACLE";
+                                            //random_num = random.Next(10000, 9999999);
+                                            sGuid = System.Guid.NewGuid().ToString();
+                                        }
+
+
+                                        //now validate customer account number based on bank configuration
+                                        withBlock.Clear();
+                                        withBlock.Add("File_Name_C", FileName);
+                                        withBlock.Add("Batch_Num_C", Batch_Num);
+                                        withBlock.Add("Instr_ID_C", sGuid);
+                                        withBlock.Add("Transfer_Type_C", Transfer_Type);
+                                        withBlock.Add("Pymnt_Type_C", Pymnt_Type);
+                                        withBlock.Add("Value_Date_D", Post_Date);
+                                        withBlock.Add("Post_Date_D", Post_Date);
+                                        withBlock.Add("File_Date_D", Post_Date);
+                                        ImportTime = string.Format("{0:yyyy/MM/dd HH:mmm:ss}", DateTime.Now);
+                                        withBlock.Add("Import_Date_D", ImportTime);
+                                        withBlock.Add("Trn_Curr_C", Trn_Curr);
+                                        withBlock.Add("Trn_Amnt_N", Trn_Amnt);
+                                        withBlock.Add("Trn_ID_C", Trn_ID);
+                                        withBlock.Add("Trn_Type_C", DR_CR);
+                                        withBlock.Add("Trn_Desc_C", Trn_Desc);
+                                        withBlock.Add("Act_Name_C", Act_Name);
+                                        withBlock.Add("Act_Adrr_C", Ref1);
+                                        withBlock.Add("Act_Str_C", Ref2);
+                                        withBlock.Add("Act_Pst_Code_C", Ref3);
+                                        withBlock.Add("Act_Town_C", Act_Town);
+                                        withBlock.Add("Act_Dvsn_C", Act_Dvsn);
+                                        withBlock.Add("Act_Cntry_C", sGuid);
+                                        withBlock.Add("Acct_Num_C", Acct_Num);
+
+                                        //logic for validating account
+                                        var AccountValid_YN = AccountValidYn(Batch1, Acct_Num_DR_C);
+
+                                        withBlock.Add("AccountValid_YN", AccountValid_YN);
+                                        withBlock.Add("Acct_Num_DR_C", Acct_Num_DR_C);
+                                        withBlock.Add("Acct_Branch_C", Acct_Branch);
+                                        withBlock.Add("Trn_Posting_Type_C", "4");
+                                        withBlock.Add("Benef_Bank_C", Benef_Bank_C);
+                                        withBlock.Add("Acct_Branch_IsNum_YN_B", 1);
+                                        withBlock.Add("Posted_YN_B", "0");
+                                        withBlock.Add("Batch_Approved_YN_B", "0");
+                                        withBlock.Add("Run_No_N", "0");
+                                        withBlock.Add("ZETTS_SerNum_N", "0");
+                                        withBlock.Add("Charges_Amnt_N", "0");
+                                        withBlock.Add("Gvt_Levy_Amnt_N", "0");
+                                        withBlock.Add("Benef_Swift_Code_C", Benef_Swift_Code_C);
+                                        withBlock.Add("Response_Sent_YN_B", "0");
+                                        withBlock.Add("Source_C", "SFI");
+                                        withBlock.Add("RTGS_InwardRef_C", Benef_Bank_Name);
+                                        if ((Trn_Type == "PAY") | (Trn_Type == "UTL"))
+                                        {
                                             SqlHelper.insertSQL(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), Dest_Table, insertHash);
                                         }
                                     }
                                 }
-
-                                //End If
-
-                                //File_Number = File_Number + 1
-                                //SQLStr = string.Format("Update tbl_nbol_tpp set Trn_Amnt_N =  (SELECT sum(Trn_Amnt_N) FROM tbl_NBOL_TPP WHERE Pymnt_Type_C = 'SFI' AND File_Name_C ='{0}') where Pymnt_Type_C = 'FINACLE' AND File_Name_C = '{1}'", FileName, FileName);
-                                // m_databaseClass.exec(SQLStr);
-                                objReader.Close();
-                                objReader.Dispose();
-                                // Now Copy the File to the Backup Directory and then Delete it
-                                System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
-                                System.IO.File.Delete(FileName);
-                                //System.IO.File.Move(FileName, Bck_Up_File);
                             }
+                            //End If
+                            //File_Number = File_Number + 1
+                            //SQLStr = string.Format("Update tbl_nbol_tpp set Trn_Amnt_N =  (SELECT sum(Trn_Amnt_N) FROM tbl_NBOL_TPP WHERE Pymnt_Type_C = 'SFI' AND File_Name_C ='{0}') where Pymnt_Type_C = 'FINACLE' AND File_Name_C = '{1}'", FileName, FileName);
+                            // m_databaseClass.exec(SQLStr);
+                            objReader.Close();
+                            objReader.Dispose();
+
+                            SQLStr = String.Format("Update tbl_FileHistory set importStage_C = 1 where File_Name_C = '{0}'", FileName);
+                            SqlHelper.RunSql(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), SQLStr);
+
+                            // Now Copy the File to the Backup Directory and then Delete it
+                            System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
+                            System.IO.File.Delete(FileName);
+                            //System.IO.File.Move(FileName, Bck_Up_File);
                         }
-                        SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
-                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
                     }
                 }
             }
             catch (Exception ex)
             {
                 //SR_Class.fn_Save_UserLogging_Detail("inside import file", "0", "13420", "No Session");
-
-                SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
-                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
             }
+        }
+
+        public static bool AccountValidYn(string Batch1, string Acct_Num)
+        {
+            bool AccountValid_YN = false;
+            if (Acct_Num != "")
+            {
+                var sqlStr =
+                    string.Format(
+                        "EXEC ustp_ValidateCPAccount  @BankID = '{0}', @AccountNum = '{1}'", Batch1.Substring(0, 5), Acct_Num);
+                var accountConfig = new DataTable();
+                accountConfig = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
+                if (accountConfig.Rows.Count > 0)
+                {
+                    AccountValid_YN = Convert.ToBoolean(accountConfig.Rows[0]["AccountValid"]);
+                }
+            }
+
+            return AccountValid_YN;
         }
         //const string QueueName = "test5";
         private static void SendWork(string work, IModel channel, IBasicProperties properties, string NBOL_TPP_Inst_No, string Batch_Num_C, string Processing_ID, string QueueName, bool IsLocalQueue, string ZEEPAYPath)
