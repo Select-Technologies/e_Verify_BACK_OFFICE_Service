@@ -13706,486 +13706,503 @@ namespace e_Verify_BACK_OFFICE_Service
         
         public void Parse_and_Import_SFI_File()
         {
-            string Dest_Table = "";
+            string Dest_Table     = "";
+            string trxnProduct_ID = "Parse_and_Import_SFI_File";
+            string SQLStr         = "";
+            string Batch_Num      = "";
+            string Instruction_ID = "";
+            string Curr_File      = "";
             try
             {
-                string Batch_Num = "";
-                string Instruction_ID = "";
-                string Transfer_Type = "";
-                string Pymnt_Type = "";
-                string Value_Date = "";
-                string Post_Date = "";
-                string Trn_Curr = "";
-                string Trn_Amnt_TMP = "";
-                double Trn_Amnt = 0.0;
-                string Trn_ID = "";
-                string Trn_Desc = "'";
-                string Trn_Type = "";
-                string Act_Name = "";
-                string Act_Adrr = "";
-                string Act_Str = "";
-                string Act_Pst_Code = "";
-                string Act_Town = "";
-                string Act_Dvsn = "";
-                string Act_Cntry = "";
-                string Acct_Num = "";
-                string Acct_Branch = "";
-                int Trn_ID_Len = 1;
-                string Benef_Swift_Code_C = "";
-                string Acct_Num_DR_C = "";
-                string DR_CR = "";
-                string Batch1 = "";
-                string Batch2 = "";
-                string Batch3 = "";
-                string Curr_File = "";
-                string Benef_Bank_C = "";
-                string Benef_Bank_Name = "";
-                bool Benf_Bank_Status = true;
-                string Ref1 = "";
-                string Ref2 = "";
-                string Ref3 = "";
-                string File_Extension = "";
-                string sGuid = "";
-                string Trn_Amnt1 = "";
-                string sub_acc = "";
-                string sub_acc_1 = "";
-                string sub_acc_2 = "";
-                string Interim_acc = "";
-                string Interim_acc_1 = "";
-                string Interim_acc_2 = "";
-                string random_num = "";
-                string Interim_Ref = "";
-                string sub_ref1 = "";
-                string sub_ref2 = "";
-                string Source = "";
-                string BancAbc_Branch = "";
-                string Benef_Bank_Code = "";
-                double BFIS_Threshold = 0;
-                string barclays_acc_sep = "";
-                string SQLStr = "";
-                string Bank_Prefix = "";
-
-                string ImportTime = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), "SELECT CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,25) + ' ' +  CONVERT(VARCHAR(8),CURRENT_TIMESTAMP,108) as PostTime").Rows[0][0].ToString();
-                Random random = new Random();
-
-                string RTGS_Ref = "";
-                string sErrorString = ""; // Passed back
-                string Bck_Up_File = "";
-                string Bck_Up_File_Name = "";
-                double DLL_Status = 0;
-                string File_extension = "";
-
-                int PosSep;
-                //SR_Class.fn_Save_UserLogging_Detail("inside import file", "0", "13008", "No Session");
-                string In_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_InDirectory;
-                if (!In_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
+                string Curr_Rec_ID = "0";
+                string SQL_Str     = string.Format("EXEC dbo.ustp_Check_NodeConfiguration @Conf_InstitutionID = '{0}', @Conf_NodeID = '{1}', @Conf_ProcessName = '{2}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID, trxnProduct_ID);
+                if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQL_Str).Rows[0][0].ToString()) > 0)
                 {
-                    In_Path += System.IO.Path.DirectorySeparatorChar;
-                }
-                string Out_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_OutDirectory;
-                if (!Out_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
-                {
-                    Out_Path += System.IO.Path.DirectorySeparatorChar;
-                }
-                string Back_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_BackupDirectory;
-                if (!Back_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
-                {
-                    Back_Path += System.IO.Path.DirectorySeparatorChar;
-                }
-
-                string[] FileList = Directory.GetFiles(In_Path);
-
-                int File_Number = 0;
-                foreach (var FileName in FileList)
-                {
-
-
-                    //int PosSep;
-                    PosSep = FileName.LastIndexOf(@"\");
-                    Curr_File = FileName.Substring((PosSep + 1), FileName.Length - (PosSep + 1));
-
-                    Bck_Up_File_Name = Curr_File;
-                    Bck_Up_File = Back_Path + Bck_Up_File_Name;
-
-                    // Check if Same File Name Exists in Backup Directory
-                    if (System.IO.File.Exists(Bck_Up_File) == true)
+                    string ForcedTiming = string.Format("[dbo].[usp_CheckThreadStatus] @Thread_ID = '{0}', @ForceThreadTime = '{1}' ", trxnProduct_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Forced_ThreadMinutes_MobilePosting.ToString());
+                    string Thread_Busy  = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), ForcedTiming).Rows[0]["Thread_Response"].ToString().Trim();
+                    if (Thread_Busy == "OK FOR POSTING")
                     {
-                        //PosSep = FileName.LastIndexOf(".");
-                        Bck_Up_File_Name = string.Format("{0}{1:ddMMyyyy.HHmmmss}{2}", Curr_File, DateTime.Now, File_Number.ToString());
-                        Bck_Up_File = Back_Path + Bck_Up_File_Name;
-                    }
-                    //check if file was imported previously
-                    SQLStr = String.Format("Select count(*) As recs from  tbl_FileHistory WITH (NOLOCK) where File_Name_C = '{0}'", FileName);
-                    if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), SQLStr).Rows[0][0]) > 0)
-                    {
-                        System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
-                        System.IO.File.Delete(FileName);
-                    }
-                    else
-                    {
-                        File_Extension = Curr_File.Substring(Curr_File.Length - 3, 3);
+                        SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
+                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
 
-                        if (File_Extension == "sfi")
+                        string Transfer_Type  = "";
+                        string Pymnt_Type     = "";
+                        string Value_Date     = "";
+                        string Post_Date      = "";
+                        string Trn_Curr       = "";
+                        string Trn_Amnt_TMP = "";
+                        double Trn_Amnt = 0.0;
+                        string Trn_ID = "";
+                        string Trn_Desc = "'";
+                        string Trn_Type = "";
+                        string Act_Name = "";
+                        string Act_Adrr = "";
+                        string Act_Str = "";
+                        string Act_Pst_Code = "";
+                        string Act_Town = "";
+                        string Act_Dvsn = "";
+                        string Act_Cntry = "";
+                        string Acct_Num = "";
+                        string Acct_Branch = "";
+                        int Trn_ID_Len = 1;
+                        string Benef_Swift_Code_C = "";
+                        string Acct_Num_DR_C = "";
+                        string DR_CR = "";
+                        string Batch1 = "";
+                        string Batch2 = "";
+                        string Batch3 = "";
+                     
+                        string Benef_Bank_C = "";
+                        string Benef_Bank_Name = "";
+                        bool Benf_Bank_Status = true;
+                        string Ref1 = "";
+                        string Ref2 = "";
+                        string Ref3 = "";
+                        string File_Extension = "";
+                        string sGuid = "";
+                        string Trn_Amnt1 = "";
+                        string sub_acc = "";
+                        string sub_acc_1 = "";
+                        string sub_acc_2 = "";
+                        string Interim_acc = "";
+                        string Interim_acc_1 = "";
+                        string Interim_acc_2 = "";
+                        string random_num = "";
+                        string Interim_Ref = "";
+                        string sub_ref1 = "";
+                        string sub_ref2 = "";
+                        string Source = "";
+                        string BancAbc_Branch = "";
+                        string Benef_Bank_Code = "";
+                        double BFIS_Threshold = 0;
+                        string barclays_acc_sep = "";
+                    
+                        string Bank_Prefix = "";
+
+                        string ImportTime = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), "SELECT CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,25) + ' ' +  CONVERT(VARCHAR(8),CURRENT_TIMESTAMP,108) as PostTime").Rows[0][0].ToString();
+                        Random random = new Random();
+
+                        string RTGS_Ref = "";
+                        string sErrorString = ""; // Passed back
+                        string Bck_Up_File = "";
+                        string Bck_Up_File_Name = "";
+                        double DLL_Status = 0;
+                        string File_extension = "";
+
+                        int PosSep;
+                        //SR_Class.fn_Save_UserLogging_Detail("inside import file", "0", "13008", "No Session");
+                        string In_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_InDirectory;
+                        if (!In_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
                         {
-
-                            Batch1 = Curr_File.Substring(0, 5).Trim();   // bank sortcode portion
-
-                            //Batch1 = Regex.Replace(Batch1, @"\s+", " ");
-                            Batch2 = Curr_File.Substring(10, 14).Trim(); // date and time portion
-
-                            Bank_Prefix = Batch1.Substring(0, 2);
-
-                            Batch_Num = Batch1 + Batch2;
-
-                            System.Data.DataTable Curr_Rec = new System.Data.DataTable();
-
-
-                            //INSERT FILENAME INTO FILEHISTORY TABLE
-                            Hashtable file_hash = new Hashtable();
-                            var _with3 = file_hash;
-                            _with3.Add("File_Name_C", FileName);
-                            _with3.Add("File_Import_Date_D", ImportTime);
-                            _with3.Add("File_Date_D", ImportTime);
-                            _with3.Add("Exported_B", 0);
-                            _with3.Add("importStage_C", 0);
-                            SqlHelper.insertSQL(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), "tbl_FileHistory", file_hash);
-                            _with3.Clear();
+                            In_Path += System.IO.Path.DirectorySeparatorChar;
+                        }
+                        string Out_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_OutDirectory;
+                        if (!Out_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
+                        {
+                            Out_Path += System.IO.Path.DirectorySeparatorChar;
+                        }
+                        string Back_Path = e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.SFI_BackupDirectory;
+                        if (!Back_Path.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
+                        {
+                            Back_Path += System.IO.Path.DirectorySeparatorChar;
                         }
 
-                        // Check for Duplicates and Save in Duplicates File
-                        Dest_Table = "tbl_NBOL_TPP";
+                        string[] FileList = Directory.GetFiles(In_Path);
 
-                        string TextLine = "";
-                        string TextLine_Indexed = "";
-                        Hashtable insertHash = new Hashtable();
+                        int File_Number = 0;
+                        foreach (var FileName in FileList)
                         {
-                            var withBlock = insertHash;
-                            System.IO.StreamReader objReader = new System.IO.StreamReader(FileName);
-                            while (objReader.Peek() != -1)
+
+                            //int PosSep;
+                            PosSep = FileName.LastIndexOf(@"\");
+                            Curr_File = FileName.Substring((PosSep + 1), FileName.Length - (PosSep + 1));
+
+                            Bck_Up_File_Name = Curr_File;
+                            Bck_Up_File = Back_Path + Bck_Up_File_Name;
+
+                            // Check if Same File Name Exists in Backup Directory
+                            if (System.IO.File.Exists(Bck_Up_File) == true)
                             {
-                                TextLine = objReader.ReadLine() + Environment.NewLine;
-                                if (TextLine.Trim() != "")
+                                //PosSep = FileName.LastIndexOf(".");
+                                Bck_Up_File_Name = string.Format("{0}{1:ddMMyyyy.HHmmmss}{2}", Curr_File, DateTime.Now, File_Number.ToString());
+                                Bck_Up_File = Back_Path + Bck_Up_File_Name;
+                            }
+                            //check if file was imported previously
+                            SQLStr = String.Format("Select count(*) As recs from  tbl_FileHistory WITH (NOLOCK) where File_Name_C = '{0}'", FileName);
+                            if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), SQLStr).Rows[0][0]) > 0)
+                            {
+                                System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
+                                System.IO.File.Delete(FileName);
+                            }
+                            else
+                            {
+                                File_Extension = Curr_File.Substring(Curr_File.Length - 3, 3);
+
+                                if (File_Extension == "sfi")
                                 {
-                                    Trn_Desc = "";
-                                    Trn_Amnt_TMP = "";
-                                    Trn_Amnt = 0;
-                                    Trn_Curr = "";
-                                    Act_Name = "";
-                                    Act_Cntry = "";
-                                    Act_Adrr = "";
-                                    Act_Str = "";
-                                    Act_Pst_Code = "";
-                                    BancAbc_Branch = "";
-                                    Act_Town = "";
-                                    Act_Dvsn = "";
-                                    Act_Cntry = "";
-                                    Acct_Num = "";
-                                    Acct_Branch = "";
-                                    Source = "";
-                                    Benef_Swift_Code_C = "";
-                                    DR_CR = "";
-                                    Ref1 = "";
-                                    Ref2 = "";
-                                    Ref3 = "";
-                                    sGuid = "";
-                                    Trn_Amnt1 = "";
-                                    sub_acc = "";
-                                    sub_acc_1 = "";
-                                    Interim_acc = "";
-                                    Interim_acc_1 = "";
-                                    Interim_Ref = "";
-                                    sub_ref1 = "";
-                                    sub_ref2 = "";
-                                    barclays_acc_sep = "";
-                                    Pymnt_Type = "";
 
-                                    double fieldLen = TextLine.Length;
-                                    if (1 == 1)
+                                    Batch1 = Curr_File.Substring(0, 5).Trim();   // bank sortcode portion
+
+                                    //Batch1 = Regex.Replace(Batch1, @"\s+", " ");
+                                    Batch2 = Curr_File.Substring(10, 14).Trim(); // date and time portion
+
+                                    Bank_Prefix = Batch1.Substring(0, 2);
+
+                                    Batch_Num = Batch1 + Batch2;
+
+                                    System.Data.DataTable Curr_Rec = new System.Data.DataTable();
+
+                                    //INSERT FILENAME INTO FILEHISTORY TABLE
+                                    Hashtable file_hash = new Hashtable();
+                                    var _with3 = file_hash;
+                                    _with3.Add("File_Name_C", FileName);
+                                    _with3.Add("File_Import_Date_D", ImportTime);
+                                    _with3.Add("File_Date_D", ImportTime);
+                                    _with3.Add("Exported_B", 0);
+                                    _with3.Add("importStage_C", 0);
+                                    SqlHelper.insertSQL(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), "tbl_FileHistory", file_hash);
+                                    _with3.Clear();
+                                }
+
+                                // Check for Duplicates and Save in Duplicates File
+                                Dest_Table = "tbl_NBOL_TPP";
+
+                                string TextLine = "";
+                                string TextLine_Indexed = "";
+                                Hashtable insertHash = new Hashtable();
+                                {
+                                    var withBlock = insertHash;
+                                    System.IO.StreamReader objReader = new System.IO.StreamReader(FileName);
+                                    while (objReader.Peek() != -1)
                                     {
-                                        Trn_Type = TextLine.Substring(0, 3);
-                                        if (Trn_Type == "UHL")
+                                        TextLine = objReader.ReadLine() + Environment.NewLine;
+                                        if (TextLine.Trim() != "")
                                         {
-                                            Trn_ID = "0";
-                                            Post_Date = (TextLine.Substring(3, 8).Trim());
-                                        }
+                                            Trn_Desc = "";
+                                            Trn_Amnt_TMP = "";
+                                            Trn_Amnt = 0;
+                                            Trn_Curr = "";
+                                            Act_Name = "";
+                                            Act_Cntry = "";
+                                            Act_Adrr = "";
+                                            Act_Str = "";
+                                            Act_Pst_Code = "";
+                                            BancAbc_Branch = "";
+                                            Act_Town = "";
+                                            Act_Dvsn = "";
+                                            Act_Cntry = "";
+                                            Acct_Num = "";
+                                            Acct_Branch = "";
+                                            Source = "";
+                                            Benef_Swift_Code_C = "";
+                                            DR_CR = "";
+                                            Ref1 = "";
+                                            Ref2 = "";
+                                            Ref3 = "";
+                                            sGuid = "";
+                                            Trn_Amnt1 = "";
+                                            sub_acc = "";
+                                            sub_acc_1 = "";
+                                            Interim_acc = "";
+                                            Interim_acc_1 = "";
+                                            Interim_Ref = "";
+                                            sub_ref1 = "";
+                                            sub_ref2 = "";
+                                            barclays_acc_sep = "";
+                                            Pymnt_Type = "";
 
-                                        if (Trn_Type == "PAY")
-                                        {
-                                            Instruction_ID = Batch_Num;
-
-                                            Trn_Desc = TextLine.Substring(117, 15).Trim();
-                                            Trn_Amnt_TMP = TextLine.Substring(162, 24).Trim();
-                                            Trn_Amnt_TMP = string.Format("{0}.{1}", Trn_Amnt_TMP.Substring(0, 22), Trn_Amnt_TMP.Substring(22, 2));
-                                            Trn_Amnt = double.Parse(Trn_Amnt_TMP);
-                                            Benef_Swift_Code_C = "BFIS";
-
-                                            Act_Name = TextLine.Substring(150, 30).Trim();
-                                            sGuid = System.Guid.NewGuid().ToString();
-                                            DR_CR = "C";
-                                            Acct_Branch = TextLine.Substring(3, 7).Trim();
-                                            Acct_Num_DR_C = TextLine.Substring(68, 20).Trim();
-                                            Acct_Num_DR_C = Acct_Num_DR_C.TrimStart('0');
-                                            barclays_acc_sep = TextLine.Substring(19, 1).Trim();
-                                            Ref1 = TextLine.Substring(132, 30).Trim();
-                                            Interim_Ref = TextLine.Substring(202, 30);
-                                            sub_ref1 = Interim_Ref.Substring(0, 6);
-                                            sub_ref2 = Interim_Ref.Substring(0, 17);
-                                            Ref2 = Interim_Ref.Substring(0, 8);
-
-                                            if (sub_ref1 == "PAYEX-")
-                                                Ref2 = Interim_Ref.Substring(6, 8);
-
-                                            if (sub_ref2 == "PAYEX Payments - ")
-                                                Ref2 = Interim_Ref.Substring(17, 8);
-                                            // PAYEX -36367065023711    PAYEX-
-                                            // PAYEX Payments - 3633400101925
-
-                                            Ref3 = TextLine.Substring(262, 30).Trim();
-
-                                            // Manage Account Numbers Pano, by Bank. its gonna be long code, but lets do it the old fashioned way, then create an object to handle this later on.
-                                            if (Bank_Prefix == "02")
+                                            double fieldLen = TextLine.Length;
+                                            if (1 == 1)
                                             {
-                                                Acct_Num = TextLine.Substring(19, 11);
-                                                // sub_acc = Acct_Num.Substring(13, 7)
-
-                                                if (Acct_Num.Length < 11)
-                                                    Acct_Num = "tich";
-                                            }
-                                            if (Bank_Prefix == "04")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(7, 13);
-                                            }
-                                            if (Bank_Prefix == "05")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(7, 13);
-                                            }
-                                            if (Bank_Prefix == "06")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Interim_acc = Acct_Num.Substring(4, 16);    // 16 digit acc number
-                                                Interim_acc_1 = Acct_Num.Substring(8, 12); // 12 digit acc number
-                                                Interim_acc_2 = Acct_Num.Substring(6, 14); // 14 digit acc number
-                                                sub_acc = Interim_acc.Substring(0, 6);
-                                                sub_acc_1 = Interim_acc_1.Substring(0, 3);
-
-                                                Acct_Num = Acct_Num.Substring(6, 14);
-                                                if (sub_acc == "585997")
-                                                    Acct_Num = Interim_acc;
-                                                if (sub_acc_1 == "263")
-                                                    Acct_Num = Interim_acc_1;
-
-                                                // If sub_acc_1 = "970" Then
-                                                // Acct_Num = Interim_acc_1
-                                                // End If
-
-                                                if (Acct_Num.Length == 16)
+                                                Trn_Type = TextLine.Substring(0, 3);
+                                                if (Trn_Type == "UHL")
                                                 {
-                                                    Pymnt_Type = "BFIS";
+                                                    Trn_ID = "0";
+                                                    Post_Date = (TextLine.Substring(3, 8).Trim());
+                                                }
+
+                                                if (Trn_Type == "PAY")
+                                                {
+                                                    Instruction_ID = Batch_Num;
+
+                                                    Trn_Desc = TextLine.Substring(117, 15).Trim();
+                                                    Trn_Amnt_TMP = TextLine.Substring(162, 24).Trim();
+                                                    Trn_Amnt_TMP = string.Format("{0}.{1}", Trn_Amnt_TMP.Substring(0, 22), Trn_Amnt_TMP.Substring(22, 2));
+                                                    Trn_Amnt = double.Parse(Trn_Amnt_TMP);
                                                     Benef_Swift_Code_C = "BFIS";
+
+                                                    Act_Name = TextLine.Substring(150, 30).Trim();
+                                                    sGuid = System.Guid.NewGuid().ToString();
+                                                    DR_CR = "C";
+                                                    Acct_Branch = TextLine.Substring(3, 7).Trim();
+                                                    Acct_Num_DR_C = TextLine.Substring(68, 20).Trim();
+                                                    Acct_Num_DR_C = Acct_Num_DR_C.TrimStart('0');
+                                                    barclays_acc_sep = TextLine.Substring(19, 1).Trim();
+                                                    Ref1 = TextLine.Substring(132, 30).Trim();
+                                                    Interim_Ref = TextLine.Substring(202, 30);
+                                                    sub_ref1 = Interim_Ref.Substring(0, 6);
+                                                    sub_ref2 = Interim_Ref.Substring(0, 17);
+                                                    Ref2 = Interim_Ref.Substring(0, 8);
+
+                                                    if (sub_ref1 == "PAYEX-")
+                                                        Ref2 = Interim_Ref.Substring(6, 8);
+
+                                                    if (sub_ref2 == "PAYEX Payments - ")
+                                                        Ref2 = Interim_Ref.Substring(17, 8);
+                                                    // PAYEX -36367065023711    PAYEX-
+                                                    // PAYEX Payments - 3633400101925
+
+                                                    Ref3 = TextLine.Substring(262, 30).Trim();
+
+                                                    // Manage Account Numbers Pano, by Bank. its gonna be long code, but lets do it the old fashioned way, then create an object to handle this later on.
+                                                    if (Bank_Prefix == "02")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(19, 11);
+                                                        // sub_acc = Acct_Num.Substring(13, 7)
+
+                                                        if (Acct_Num.Length < 11)
+                                                            Acct_Num = "tich";
+                                                    }
+                                                    if (Bank_Prefix == "04")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(7, 13);
+                                                    }
+                                                    if (Bank_Prefix == "05")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(7, 13);
+                                                    }
+                                                    if (Bank_Prefix == "06")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Interim_acc = Acct_Num.Substring(4, 16);    // 16 digit acc number
+                                                        Interim_acc_1 = Acct_Num.Substring(8, 12); // 12 digit acc number
+                                                        Interim_acc_2 = Acct_Num.Substring(6, 14); // 14 digit acc number
+                                                        sub_acc = Interim_acc.Substring(0, 6);
+                                                        sub_acc_1 = Interim_acc_1.Substring(0, 3);
+
+                                                        Acct_Num = Acct_Num.Substring(6, 14);
+                                                        if (sub_acc == "585997")
+                                                            Acct_Num = Interim_acc;
+                                                        if (sub_acc_1 == "263")
+                                                            Acct_Num = Interim_acc_1;
+
+                                                        // If sub_acc_1 = "970" Then
+                                                        // Acct_Num = Interim_acc_1
+                                                        // End If
+
+                                                        if (Acct_Num.Length == 16)
+                                                        {
+                                                            Pymnt_Type = "BFIS";
+                                                            Benef_Swift_Code_C = "BFIS";
+                                                        }
+                                                    }
+
+                                                    if (Bank_Prefix == "08")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Interim_acc = Acct_Num.Substring(7, 13);
+                                                        Interim_acc_1 = Acct_Num.Substring(4, 16);
+                                                        sub_acc = Interim_acc_1.Substring(0, 6);
+                                                        Acct_Num = Interim_acc;
+                                                        if (sub_acc == "601704")
+                                                            Acct_Num = Interim_acc_1;
+                                                    }
+
+                                                    if (Bank_Prefix == "09")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(7, 13);
+                                                    }
+
+                                                    if (Bank_Prefix == "10")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Interim_acc = Acct_Num.Substring(8, 12);
+                                                        Interim_acc_1 = Acct_Num.Substring(4, 16);
+                                                        sub_acc = Interim_acc_1.Substring(0, 6);
+                                                        Acct_Num = Interim_acc;
+                                                        if (sub_acc == "504875")
+                                                            Acct_Num = Interim_acc_1;
+                                                    }
+
+                                                    if (Bank_Prefix == "11")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(7, 13);
+                                                    }
+
+                                                    if (Bank_Prefix == "18")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.TrimStart('0');
+                                                    }
+
+                                                    if (Bank_Prefix == "20")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(10, 10);
+                                                    }
+
+                                                    if (Bank_Prefix == "21")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(6, 14);
+                                                    }
+
+                                                    if (Bank_Prefix == "23")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(4, 16);
+                                                    }
+
+
+                                                    if (Bank_Prefix == "24")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Interim_acc = Acct_Num.Substring(10, 10);
+                                                        Interim_acc_1 = Acct_Num.Substring(4, 16);
+                                                        sub_acc = Interim_acc_1.Substring(0, 6);
+                                                        Acct_Num = Interim_acc;
+                                                        if (sub_acc == "588892")
+                                                            Acct_Num = Interim_acc_1;
+                                                    }
+
+                                                    if (Bank_Prefix == "25")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Interim_acc = Acct_Num.Substring(8, 12);
+                                                        Interim_acc_1 = Acct_Num.Substring(4, 16);
+                                                        sub_acc = Interim_acc_1.Substring(0, 6);
+                                                        Acct_Num = Interim_acc;
+                                                        if (sub_acc == "605872")
+                                                            Acct_Num = Interim_acc_1;
+                                                        if (sub_acc == "604845")
+                                                            Acct_Num = Interim_acc_1;
+                                                    }
+
+                                                    if (Bank_Prefix == "26")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(4, 16);
+                                                    }
+
+                                                    if (Bank_Prefix == "31")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(6, 14);
+                                                    }
+
+                                                    if (Bank_Prefix == "32")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(7, 13);
+                                                    }
+
+                                                    if (Bank_Prefix == "33")
+                                                    {
+                                                        Acct_Num = TextLine.Substring(10, 20).Trim();
+                                                        Acct_Num = Acct_Num.Substring(5, 15);
+                                                    }
+                                                }
+
+                                                // Create entries for the suspense and settlement accounts muno umu
+                                                // Find out what is required for posting to Finacle and populate for UHL
+                                                if (Trn_Type == "UTL")
+                                                {
+                                                    Trn_Amnt_TMP = TextLine.Substring(30, 24).Trim();
+                                                    Trn_Amnt_TMP = string.Format("{0}.{1}", Trn_Amnt_TMP.Substring(0, 22), Trn_Amnt_TMP.Substring(22, 2));
+                                                    Trn_Amnt = double.Parse(Trn_Amnt_TMP);
+                                                    DR_CR = "D";
+                                                    Act_Name = "Settlement Account";
+                                                    Trn_Desc = string.Format(" Settlement for file '{0}'", Curr_File);
+                                                    Acct_Num_DR_C = "8142819000000";
+                                                    Acct_Num = "8145108061000";
+                                                    Pymnt_Type = "FINACLE";
+                                                    //random_num = random.Next(10000, 9999999);
+                                                    sGuid = System.Guid.NewGuid().ToString();
+                                                }
+
+
+                                                //now validate customer account number based on bank configuration
+                                                withBlock.Clear();
+                                                withBlock.Add("File_Name_C", FileName);
+                                                withBlock.Add("Batch_Num_C", Batch_Num);
+                                                withBlock.Add("Instr_ID_C", sGuid);
+                                                withBlock.Add("Transfer_Type_C", Transfer_Type);
+                                                withBlock.Add("Pymnt_Type_C", Pymnt_Type);
+                                                withBlock.Add("Value_Date_D", Post_Date);
+                                                withBlock.Add("Post_Date_D", Post_Date);
+                                                withBlock.Add("File_Date_D", Post_Date);
+                                                ImportTime = string.Format("{0:yyyy/MM/dd HH:mmm:ss}", DateTime.Now);
+                                                withBlock.Add("Import_Date_D", ImportTime);
+                                                withBlock.Add("Trn_Curr_C", Trn_Curr);
+                                                withBlock.Add("Trn_Amnt_N", Trn_Amnt);
+                                                withBlock.Add("Trn_ID_C", Trn_ID);
+                                                withBlock.Add("Trn_Type_C", DR_CR);
+                                                withBlock.Add("Trn_Desc_C", Trn_Desc);
+                                                withBlock.Add("Act_Name_C", Act_Name);
+                                                withBlock.Add("Act_Adrr_C", Ref1);
+                                                withBlock.Add("Act_Str_C", Ref2);
+                                                withBlock.Add("Act_Pst_Code_C", Ref3);
+                                                withBlock.Add("Act_Town_C", Act_Town);
+                                                withBlock.Add("Act_Dvsn_C", Act_Dvsn);
+                                                withBlock.Add("Act_Cntry_C", sGuid);
+                                                withBlock.Add("Acct_Num_C", Acct_Num);
+
+                                                //logic for validating account
+                                                var AccountValid_YN = AccountValidYn(Batch1, Acct_Num_DR_C);
+
+                                                withBlock.Add("AccountValid_YN", AccountValid_YN);
+                                                withBlock.Add("Acct_Num_DR_C", Acct_Num_DR_C);
+                                                withBlock.Add("Acct_Branch_C", Acct_Branch);
+                                                withBlock.Add("Trn_Posting_Type_C", "4");
+                                                withBlock.Add("Benef_Bank_C", Benef_Bank_C);
+                                                withBlock.Add("Acct_Branch_IsNum_YN_B", 1);
+                                                withBlock.Add("Posted_YN_B", "0");
+                                                withBlock.Add("Batch_Approved_YN_B", "0");
+                                                withBlock.Add("Run_No_N", "0");
+                                                withBlock.Add("ZETTS_SerNum_N", "0");
+                                                withBlock.Add("Charges_Amnt_N", "0");
+                                                withBlock.Add("Gvt_Levy_Amnt_N", "0");
+                                                withBlock.Add("Benef_Swift_Code_C", Benef_Swift_Code_C);
+                                                withBlock.Add("Response_Sent_YN_B", "0");
+                                                withBlock.Add("Source_C", "SFI");
+                                                withBlock.Add("RTGS_InwardRef_C", Benef_Bank_Name);
+                                                if ((Trn_Type == "PAY") | (Trn_Type == "UTL"))
+                                                {
+                                                    SqlHelper.insertSQL(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), Dest_Table, insertHash);
                                                 }
                                             }
-
-                                            if (Bank_Prefix == "08")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Interim_acc = Acct_Num.Substring(7, 13);
-                                                Interim_acc_1 = Acct_Num.Substring(4, 16);
-                                                sub_acc = Interim_acc_1.Substring(0, 6);
-                                                Acct_Num = Interim_acc;
-                                                if (sub_acc == "601704")
-                                                    Acct_Num = Interim_acc_1;
-                                            }
-
-                                            if (Bank_Prefix == "09")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(7, 13);
-                                            }
-
-                                            if (Bank_Prefix == "10")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Interim_acc = Acct_Num.Substring(8, 12);
-                                                Interim_acc_1 = Acct_Num.Substring(4, 16);
-                                                sub_acc = Interim_acc_1.Substring(0, 6);
-                                                Acct_Num = Interim_acc;
-                                                if (sub_acc == "504875")
-                                                    Acct_Num = Interim_acc_1;
-                                            }
-
-                                            if (Bank_Prefix == "11")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(7, 13);
-                                            }
-
-                                            if (Bank_Prefix == "18")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.TrimStart('0');
-                                            }
-
-                                            if (Bank_Prefix == "20")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(10, 10);
-                                            }
-
-                                            if (Bank_Prefix == "21")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(6, 14);
-                                            }
-
-                                            if (Bank_Prefix == "23")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(4, 16);
-                                            }
-
-
-                                            if (Bank_Prefix == "24")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Interim_acc = Acct_Num.Substring(10, 10);
-                                                Interim_acc_1 = Acct_Num.Substring(4, 16);
-                                                sub_acc = Interim_acc_1.Substring(0, 6);
-                                                Acct_Num = Interim_acc;
-                                                if (sub_acc == "588892")
-                                                    Acct_Num = Interim_acc_1;
-                                            }
-
-                                            if (Bank_Prefix == "25")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Interim_acc = Acct_Num.Substring(8, 12);
-                                                Interim_acc_1 = Acct_Num.Substring(4, 16);
-                                                sub_acc = Interim_acc_1.Substring(0, 6);
-                                                Acct_Num = Interim_acc;
-                                                if (sub_acc == "605872")
-                                                    Acct_Num = Interim_acc_1;
-                                                if (sub_acc == "604845")
-                                                    Acct_Num = Interim_acc_1;
-                                            }
-
-                                            if (Bank_Prefix == "26")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(4, 16);
-                                            }
-
-                                            if (Bank_Prefix == "31")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(6, 14);
-                                            }
-
-                                            if (Bank_Prefix == "32")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(7, 13);
-                                            }
-
-                                            if (Bank_Prefix == "33")
-                                            {
-                                                Acct_Num = TextLine.Substring(10, 20).Trim();
-                                                Acct_Num = Acct_Num.Substring(5, 15);
-                                            }
-                                        }
-
-                                        // Create entries for the suspense and settlement accounts muno umu
-                                        // Find out what is required for posting to Finacle and populate for UHL
-                                        if (Trn_Type == "UTL")
-                                        {
-                                            Trn_Amnt_TMP = TextLine.Substring(30, 24).Trim();
-                                            Trn_Amnt_TMP = string.Format("{0}.{1}", Trn_Amnt_TMP.Substring(0, 22), Trn_Amnt_TMP.Substring(22, 2));
-                                            Trn_Amnt = double.Parse(Trn_Amnt_TMP);
-                                            DR_CR = "D";
-                                            Act_Name = "Settlement Account";
-                                            Trn_Desc = string.Format(" Settlement for file '{0}'", Curr_File);
-                                            Acct_Num_DR_C = "8142819000000";
-                                            Acct_Num = "8145108061000";
-                                            Pymnt_Type = "FINACLE";
-                                            //random_num = random.Next(10000, 9999999);
-                                            sGuid = System.Guid.NewGuid().ToString();
-                                        }
-
-
-                                        //now validate customer account number based on bank configuration
-                                        withBlock.Clear();
-                                        withBlock.Add("File_Name_C", FileName);
-                                        withBlock.Add("Batch_Num_C", Batch_Num);
-                                        withBlock.Add("Instr_ID_C", sGuid);
-                                        withBlock.Add("Transfer_Type_C", Transfer_Type);
-                                        withBlock.Add("Pymnt_Type_C", Pymnt_Type);
-                                        withBlock.Add("Value_Date_D", Post_Date);
-                                        withBlock.Add("Post_Date_D", Post_Date);
-                                        withBlock.Add("File_Date_D", Post_Date);
-                                        ImportTime = string.Format("{0:yyyy/MM/dd HH:mmm:ss}", DateTime.Now);
-                                        withBlock.Add("Import_Date_D", ImportTime);
-                                        withBlock.Add("Trn_Curr_C", Trn_Curr);
-                                        withBlock.Add("Trn_Amnt_N", Trn_Amnt);
-                                        withBlock.Add("Trn_ID_C", Trn_ID);
-                                        withBlock.Add("Trn_Type_C", DR_CR);
-                                        withBlock.Add("Trn_Desc_C", Trn_Desc);
-                                        withBlock.Add("Act_Name_C", Act_Name);
-                                        withBlock.Add("Act_Adrr_C", Ref1);
-                                        withBlock.Add("Act_Str_C", Ref2);
-                                        withBlock.Add("Act_Pst_Code_C", Ref3);
-                                        withBlock.Add("Act_Town_C", Act_Town);
-                                        withBlock.Add("Act_Dvsn_C", Act_Dvsn);
-                                        withBlock.Add("Act_Cntry_C", sGuid);
-                                        withBlock.Add("Acct_Num_C", Acct_Num);
-
-                                        //logic for validating account
-                                        var AccountValid_YN = AccountValidYn(Batch1, Acct_Num_DR_C);
-
-                                        withBlock.Add("AccountValid_YN", AccountValid_YN);
-                                        withBlock.Add("Acct_Num_DR_C", Acct_Num_DR_C);
-                                        withBlock.Add("Acct_Branch_C", Acct_Branch);
-                                        withBlock.Add("Trn_Posting_Type_C", "4");
-                                        withBlock.Add("Benef_Bank_C", Benef_Bank_C);
-                                        withBlock.Add("Acct_Branch_IsNum_YN_B", 1);
-                                        withBlock.Add("Posted_YN_B", "0");
-                                        withBlock.Add("Batch_Approved_YN_B", "0");
-                                        withBlock.Add("Run_No_N", "0");
-                                        withBlock.Add("ZETTS_SerNum_N", "0");
-                                        withBlock.Add("Charges_Amnt_N", "0");
-                                        withBlock.Add("Gvt_Levy_Amnt_N", "0");
-                                        withBlock.Add("Benef_Swift_Code_C", Benef_Swift_Code_C);
-                                        withBlock.Add("Response_Sent_YN_B", "0");
-                                        withBlock.Add("Source_C", "SFI");
-                                        withBlock.Add("RTGS_InwardRef_C", Benef_Bank_Name);
-                                        if ((Trn_Type == "PAY") | (Trn_Type == "UTL"))
-                                        {
-                                            SqlHelper.insertSQL(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), Dest_Table, insertHash);
                                         }
                                     }
+                                    //End If
+                                    //File_Number = File_Number + 1
+                                    //SQLStr = string.Format("Update tbl_nbol_tpp set Trn_Amnt_N =  (SELECT sum(Trn_Amnt_N) FROM tbl_NBOL_TPP WHERE Pymnt_Type_C = 'SFI' AND File_Name_C ='{0}') where Pymnt_Type_C = 'FINACLE' AND File_Name_C = '{1}'", FileName, FileName);
+                                    // m_databaseClass.exec(SQLStr);
+                                    objReader.Close();
+                                    objReader.Dispose();
+
+                                    SQLStr = String.Format("Update tbl_FileHistory set importStage_C = 1 where File_Name_C = '{0}'", FileName);
+                                    SqlHelper.RunSql(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), SQLStr);
+
+                                    // Now Copy the File to the Backup Directory and then Delete it
+                                    System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
+                                    System.IO.File.Delete(FileName);
+                                    //System.IO.File.Move(FileName, Bck_Up_File);
                                 }
                             }
-                            //End If
-                            //File_Number = File_Number + 1
-                            //SQLStr = string.Format("Update tbl_nbol_tpp set Trn_Amnt_N =  (SELECT sum(Trn_Amnt_N) FROM tbl_NBOL_TPP WHERE Pymnt_Type_C = 'SFI' AND File_Name_C ='{0}') where Pymnt_Type_C = 'FINACLE' AND File_Name_C = '{1}'", FileName, FileName);
-                            // m_databaseClass.exec(SQLStr);
-                            objReader.Close();
-                            objReader.Dispose();
-
-                            SQLStr = String.Format("Update tbl_FileHistory set importStage_C = 1 where File_Name_C = '{0}'", FileName);
-                            SqlHelper.RunSql(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), SQLStr);
-
-                            // Now Copy the File to the Backup Directory and then Delete it
-                            System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
-                            System.IO.File.Delete(FileName);
-                            //System.IO.File.Move(FileName, Bck_Up_File);
                         }
+                        SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
+                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception Parse_and_Import_ex)
             {
-                //SR_Class.fn_Save_UserLogging_Detail("inside import file", "0", "13420", "No Session");
+                string ErrDet = string.Format("Batch_Num={0} Instruction_ID={1}",Batch_Num, Instruction_ID);
+                LogError("390014", trxnProduct_ID, Parse_and_Import_ex, ErrDet, false, string .Format("{0} on : {1}", Parse_and_Import_ex.Message, Curr_File));
             }
         }
 
@@ -14194,11 +14211,9 @@ namespace e_Verify_BACK_OFFICE_Service
             bool AccountValid_YN = false;
             if (Acct_Num != "")
             {
-                var sqlStr =
-                    string.Format(
-                        "EXEC ustp_ValidateCPAccount  @BankID = '{0}', @AccountNum = '{1}'", Batch1.Substring(0, 5), Acct_Num);
-                var accountConfig = new DataTable();
-                accountConfig = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
+                string    sqlStr        = string.Format("EXEC ustp_ValidateCPAccount  @BankID = '{0}', @AccountNum = '{1}'", Batch1.Substring(0, 5), Acct_Num);
+                DataTable accountConfig = new DataTable();
+                accountConfig     = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
                 if (accountConfig.Rows.Count > 0)
                 {
                     AccountValid_YN = Convert.ToBoolean(accountConfig.Rows[0]["AccountValid"]);
