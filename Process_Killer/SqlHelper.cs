@@ -226,7 +226,6 @@ namespace e_Verify_BACK_OFFICE_Service
             return result == null ? null : result.ToString();
         }
 
-
         public static string ExecuteScalar(string connectionStr, string storedProcedure, SqlParameter[] parameters)
         {
             object result = null;
