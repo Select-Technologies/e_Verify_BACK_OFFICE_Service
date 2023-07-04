@@ -8,9 +8,9 @@ namespace e_Verify_BACK_OFFICE_Service
     public class cls_MobileCredentials
     {
 
-        public string mobUserID       { get; set; }
-        public string mobUserPassword { get; set; }
-        public bool   mobUserLive     { get; set; }
+        public string mobUserID       { get; set; } = "";
+        public string mobUserPassword { get; set; } = "";
+        public bool   mobUserLive     { get; set; } = false;
 
         public string Initialise()
         {
