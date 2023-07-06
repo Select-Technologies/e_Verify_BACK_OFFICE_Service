@@ -2462,7 +2462,7 @@ namespace e_Verify_BACK_OFFICE_Service
 
         public void Reverse_Mobile_Transactions_SCB()
         {
-            string Curr_Rec_ID     = "";
+            string Curr_Rec_ID    = "";
             string trxnProduct_ID = "ECOREV_SCB";
             try
             {
@@ -2881,7 +2881,6 @@ namespace e_Verify_BACK_OFFICE_Service
                     {
                         SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
                         SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
-
 
                         Sys_Tbl = new DataTable();
                         SQLStr  = string.Format("SELECT Parameter_Value, Parameter_ID  FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('ENABLE_DEBUG_LOGGING','SYNCH_ZIMRA_BPARTNERS','SYNCH_ZIMRA_BPARTNERS_DAYS') AND Bank_ID = '{0}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
@@ -10648,7 +10647,7 @@ namespace e_Verify_BACK_OFFICE_Service
             return Tmp_License_Obj;
         }
 
-        string LogError(string error_Number, string error_Module, Exception error_Exception, string UniqueRef, bool WriteErrorToFile, string error_Details)
+        public string LogError(string error_Number, string error_Module, Exception error_Exception, string UniqueRef, bool WriteErrorToFile, string error_Details)
         {
             string Error_Text     = System.Text.RegularExpressions.Regex.Replace(error_Exception.StackTrace.ToString(), @"\s{2,}", " ").Replace("\n", "");
             
@@ -13807,7 +13806,7 @@ namespace e_Verify_BACK_OFFICE_Service
                     
                         string Bank_Prefix      = "";
 
-                        string ImportTime = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), "SELECT CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,25) + ' ' +  CONVERT(VARCHAR(8),CURRENT_TIMESTAMP,108) as PostTime").Rows[0][0].ToString();
+                        string ImportTime = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), "SELECT CONVERT(VARCHAR(19),CURRENT_TIMESTAMP,25) as PostTime").Rows[0][0].ToString();
                         Random random     = new Random();
 
                         string RTGS_Ref         = "";
@@ -13856,8 +13855,8 @@ namespace e_Verify_BACK_OFFICE_Service
                                 Bck_Up_File      = Back_Path + Bck_Up_File_Name;
                             }
                             //check if file was imported previously
-                            SQLStr = String.Format("Select count(*) As recs from  tbl_FileHistory WITH (NOLOCK) where File_Name_C = '{0}'", FileName);
-                            if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), SQLStr).Rows[0][0]) > 0)
+                            SQLStr = String.Format("Select count(*) As recs, CONVERT(VARCHAR(19),CURRENT_TIMESTAMP,25) as PostTime from  tbl_FileHistory WITH (NOLOCK) where File_Name_C = '{0}'", FileName);
+                            if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), SQLStr).Rows[0]["recs"]) > 0)
                             {
                                 System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
                                 System.IO.File.Delete(FileName);
@@ -14085,7 +14084,6 @@ namespace e_Verify_BACK_OFFICE_Service
                                                         Acct_Num = Acct_Num.Substring(4, 16);
                                                     }
 
-
                                                     if (Bank_Prefix == "24")
                                                     {
                                                         Acct_Num      = TextLine.Substring(10, 20).Trim();
@@ -14179,7 +14177,7 @@ namespace e_Verify_BACK_OFFICE_Service
                                                 withBlock.Add("Acct_Num_C"       , Acct_Num);
 
                                                 //logic for validating account
-                                                var AccountValid_YN = AccountValidYn(Batch1, Acct_Num_DR_C);
+                                                bool AccountValid_YN = AccountValidYn(Batch1, Acct_Num_DR_C);
 
                                                 withBlock.Add("AccountValid_YN"   , AccountValid_YN);
                                                 withBlock.Add("Acct_Num_DR_C"     , Acct_Num_DR_C);
@@ -14236,19 +14234,30 @@ namespace e_Verify_BACK_OFFICE_Service
             }
         }
 
-        public static bool AccountValidYn(string Batch1, string Acct_Num)
+        public bool AccountValidYn(string Batch1, string Acct_Num)
         {
-            bool AccountValid_YN = false;
-            if (Acct_Num != "")
+            string trxnProduct_ID = "AccountValidYn";
+            bool AccountValid_YN  = false;
+            try
             {
-                string    sqlStr        = string.Format("EXEC ustp_ValidateCPAccount  @BankID = '{0}', @AccountNum = '{1}'", Batch1.Substring(0, 5), Acct_Num);
-                DataTable accountConfig = new DataTable();
-                accountConfig           = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
-                if (accountConfig.Rows.Count > 0)
+                if (Acct_Num != "")
                 {
-                    AccountValid_YN = Convert.ToBoolean(accountConfig.Rows[0]["AccountValid"]);
+                    string sqlStr = string.Format("EXEC ustp_ValidateCPAccount  @BankID = '{0}', @AccountNum = '{1}'", Batch1.Substring(0, 5), Acct_Num);
+                    DataTable accountConfig = new DataTable();
+                    accountConfig = SqlHelper.GetTable(ConfigurationManager.AppSettings["EPayments_DB"].ToString(), sqlStr);
+                    if (accountConfig.Rows.Count > 0)
+                    {
+                        AccountValid_YN = Convert.ToBoolean(accountConfig.Rows[0]["AccountValid"]);
+                    }
                 }
             }
+            catch (Exception AccountValidYn_ex)
+            {
+                AccountValid_YN = false;
+                string ErrDet = string.Format("Batch_Num={0} Acct_Num={1}", Batch1, Acct_Num);
+                ErrDet = LogError("3409504", trxnProduct_ID, AccountValidYn_ex, ErrDet, false, string.Format("{0} on : {1}", AccountValidYn_ex.Message, Acct_Num));
+            }
+            finally { }
             return AccountValid_YN;
         }
 
