@@ -14177,7 +14177,7 @@ namespace e_Verify_BACK_OFFICE_Service
                                                 withBlock.Add("Acct_Num_C"       , Acct_Num);
 
                                                 //logic for validating account
-                                                bool AccountValid_YN = AccountValidYn(Batch1, Acct_Num_DR_C);
+                                                bool AccountValid_YN = AccountValidYn(Batch1, Acct_Num);
 
                                                 withBlock.Add("AccountValid_YN"   , AccountValid_YN);
                                                 withBlock.Add("Acct_Num_DR_C"     , Acct_Num_DR_C);
