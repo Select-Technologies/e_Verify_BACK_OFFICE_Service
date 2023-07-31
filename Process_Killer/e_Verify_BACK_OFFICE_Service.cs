@@ -14178,8 +14178,12 @@ namespace e_Verify_BACK_OFFICE_Service
 
                                                 //logic for validating account
                                                 bool AccountValid_YN = AccountValidYn(Batch1, Acct_Num);
-
                                                 withBlock.Add("AccountValid_YN"   , AccountValid_YN);
+                                                if (!AccountValid_YN)
+                                                {
+                                                    withBlock.Add("TransactionRespCode", "RJCT");
+
+                                                }
                                                 withBlock.Add("Acct_Num_DR_C"     , Acct_Num_DR_C);
                                                 withBlock.Add("Acct_Branch_C"     , Acct_Branch);
                                                 withBlock.Add("Trn_Posting_Type_C", "4");
