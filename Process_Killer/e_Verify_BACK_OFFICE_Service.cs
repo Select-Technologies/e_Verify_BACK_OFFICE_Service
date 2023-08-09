@@ -14181,8 +14181,9 @@ namespace e_Verify_BACK_OFFICE_Service
                                                 withBlock.Add("AccountValid_YN"   , AccountValid_YN);
                                                 if (!AccountValid_YN)
                                                 {
-                                                    withBlock.Add("TransactionRespCode", "RR22");
+                                                    withBlock.Add("TransactionRespCode", "RJCT");
                                                     withBlock.Add("endToEndID", "InvalidDebtorAccountNumberFormat");
+                                                    withBlock.Add("respMsg", "RR22");
                                                 }
                                                 withBlock.Add("Acct_Num_DR_C"     , Acct_Num_DR_C);
                                                 withBlock.Add("Acct_Branch_C"     , Acct_Branch);
