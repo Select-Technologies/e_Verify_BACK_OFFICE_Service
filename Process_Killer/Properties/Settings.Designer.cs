@@ -250,33 +250,6 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool RTGS_Outwards_MQ_DataPosting {
-            get {
-                return ((bool)(this["RTGS_Outwards_MQ_DataPosting"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool RTGS_Inwards_MQ_DataAquisition {
-            get {
-                return ((bool)(this["RTGS_Inwards_MQ_DataAquisition"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool RTGS_Inwards_FCUBS_DataPosting {
-            get {
-                return ((bool)(this["RTGS_Inwards_FCUBS_DataPosting"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("zwfcc11")]
         public string FCUBS_Schema {
             get {
@@ -290,15 +263,6 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.Properties {
         public string Acquire_RTGS_Outward_ZIPP {
             get {
                 return ((string)(this["Acquire_RTGS_Outward_ZIPP"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool RTGS_Inwards_Post_Failures_to_Suspense {
-            get {
-                return ((bool)(this["RTGS_Inwards_Post_Failures_to_Suspense"]));
             }
         }
         
@@ -493,7 +457,43 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("BABC_ZW")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RTGS_Outwards_MQ_DataPosting {
+            get {
+                return ((bool)(this["RTGS_Outwards_MQ_DataPosting"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RTGS_Inwards_MQ_DataAquisition {
+            get {
+                return ((bool)(this["RTGS_Inwards_MQ_DataAquisition"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RTGS_Inwards_FCUBS_DataPosting {
+            get {
+                return ((bool)(this["RTGS_Inwards_FCUBS_DataPosting"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RTGS_Inwards_Post_Failures_to_Suspense {
+            get {
+                return ((bool)(this["RTGS_Inwards_Post_Failures_to_Suspense"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("STB")]
         public string Institution_ID {
             get {
                 return ((string)(this["Institution_ID"]));

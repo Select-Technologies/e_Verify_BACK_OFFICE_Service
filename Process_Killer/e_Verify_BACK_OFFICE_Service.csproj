@@ -117,10 +117,10 @@
       <HintPath>..\..\BancABC_BankingWebService_Tan\packages\Oracle.ManagedDataAccess.19.11.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client">
-      <HintPath>..\..\e_VerifyBACKOFFICE_ServiceResp\Process_Killer\bin\Debug\RabbitMQ.Client.dll</HintPath>
+      <HintPath>bin\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="Select_Research">
-      <HintPath>..\..\e_VerifyBACKOFFICE_ServiceResp\Process_Killer\bin\Select_Research.dll</HintPath>
+      <HintPath>bin\Select_Research.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">

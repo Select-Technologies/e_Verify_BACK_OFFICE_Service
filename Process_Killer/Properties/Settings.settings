@@ -77,23 +77,11 @@
     <Setting Name="autoRegister2MNO_Enabled" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="RTGS_Outwards_MQ_DataPosting" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="RTGS_Inwards_MQ_DataAquisition" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="RTGS_Inwards_FCUBS_DataPosting" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="FCUBS_Schema" Type="System.String" Scope="Application">
       <Value Profile="(Default)">zwfcc11</Value>
     </Setting>
     <Setting Name="Acquire_RTGS_Outward_ZIPP" Type="System.String" Scope="Application">
       <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="RTGS_Inwards_Post_Failures_to_Suspense" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Mobile_Trxn_Reversal_Data_Insert" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
@@ -158,8 +146,20 @@
     <Setting Name="IsLocalQueue" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="RTGS_Outwards_MQ_DataPosting" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RTGS_Inwards_MQ_DataAquisition" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RTGS_Inwards_FCUBS_DataPosting" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RTGS_Inwards_Post_Failures_to_Suspense" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
     <Setting Name="Institution_ID" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">BABC_ZW</Value>
+      <Value Profile="(Default)">STB</Value>
     </Setting>
   </Settings>
 </SettingsFile>
