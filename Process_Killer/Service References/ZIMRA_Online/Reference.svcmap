@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="d57ef36a-c238-4ac5-92e6-02375c394e0f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="159be446-99f8-4c45-ae0c-715aef78b95a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
     <EnableDataBinding>true</EnableDataBinding>
     <ExcludedTypes />
     <ImportXmlTypes>false</ImportXmlTypes>
@@ -21,8 +22,8 @@
     <MetadataSource Address="http://localhost:62190/ZimraOnline.asmx" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="ZimraOnline.disco" MetadataType="Disco" ID="2e7b835c-a7fc-4066-bdb2-a11b9c32dfff" SourceId="1" SourceUrl="http://localhost:62190/ZimraOnline.asmx?disco" />
-    <MetadataFile FileName="ZimraOnline.wsdl" MetadataType="Wsdl" ID="3bc5dd3b-1216-4844-854f-4ae9fd87a938" SourceId="1" SourceUrl="http://localhost:62190/ZimraOnline.asmx?wsdl" />
+    <MetadataFile FileName="ZimraOnline.disco" MetadataType="Disco" ID="7755fd54-d403-49dc-8ba7-daf4c2ab6435" SourceId="1" SourceUrl="http://localhost:62190/ZimraOnline.asmx?disco" />
+    <MetadataFile FileName="ZimraOnline.wsdl" MetadataType="Wsdl" ID="c0135d4b-64b2-4a59-84aa-3c2e1d6ae434" SourceId="1" SourceUrl="http://localhost:62190/ZimraOnline.asmx?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

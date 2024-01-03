@@ -16,65 +16,177 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online {
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://10.237.61.33:62188/Zimra.asmx/", ConfigurationName="ZIMRA_Online.ZimraWebServiceSoap")]
     public interface ZimraWebServiceSoap {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/CheckStatus", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/iniCheckStatus", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        int CheckStatus();
+        int iniCheckStatus();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/iniCheckStatus", ReplyAction="*")]
+        System.Threading.Tasks.Task<int> iniCheckStatusAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_PaymentAdvice", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string ZIMRA_PaymentAdvice(string SelectCode, string AccountNumber, string Amount, string BPNumber, string CaptureTime, string ClientName, string Currency, string PaymentDate, string ReferenceNumber, string Region, string RRN, string SerialNumber, string TaxCode, string UserID);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_PaymentAdvice", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> ZIMRA_PaymentAdviceAsync(string SelectCode, string AccountNumber, string Amount, string BPNumber, string CaptureTime, string ClientName, string Currency, string PaymentDate, string ReferenceNumber, string Region, string RRN, string SerialNumber, string TaxCode, string UserID);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_ContractQry", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Response ZIMRA_ContractQry(string SelectCode, string BPNumber_C, string TaxCoder_C);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_ContractQry", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Response> ZIMRA_ContractQryAsync(string SelectCode, string BPNumber_C, string TaxCoder_C);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/AU_PostTransaction", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string AU_PostTransaction(string SelectCode, string schoolCode, double bankAccNo, string studentID, string studentName, double payAmnt, string paymentRef, string PaymentDesc, string PaymentType, string UniqueRef);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/AU_PostTransaction", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> AU_PostTransactionAsync(string SelectCode, string schoolCode, double bankAccNo, string studentID, string studentName, double payAmnt, string paymentRef, string PaymentDesc, string PaymentType, string UniqueRef);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/AU_verifyStudent_No", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Data.DataTable AU_verifyStudent_No(string SelectCode, string studentNO_Local, string schoolCode);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/AU_verifyStudent_No", ReplyAction="*")]
+        System.Threading.Tasks.Task<System.Data.DataTable> AU_verifyStudent_NoAsync(string SelectCode, string studentNO_Local, string schoolCode);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/get_RRN", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.RRN_Response get_RRN(string userID, string userPassword, string BPNumber, string uniqueTrnID, string requestType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/get_RRN", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.RRN_Response> get_RRNAsync(string userID, string userPassword, string BPNumber, string uniqueTrnID, string requestType);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_PaymentAdvice_Proxy", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Receipt ZIMRA_PaymentAdvice_Proxy(string AccountNumber, string Amount, string BPNumber, string CaptureTime, string ClientName, string Currency, string PaymentDate, string ReferenceNumber, string Region, string RRN, string SerialNumber, string TaxCode, string UserID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_PaymentAdvice_Proxy", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Receipt> ZIMRA_PaymentAdvice_ProxyAsync(string AccountNumber, string Amount, string BPNumber, string CaptureTime, string ClientName, string Currency, string PaymentDate, string ReferenceNumber, string Region, string RRN, string SerialNumber, string TaxCode, string UserID);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/post_ZIMRA_Transaction_with_Retry", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.post_ZIMRA_Transaction_Response post_ZIMRA_Transaction_with_Retry(string postingUserID, string postingUserPass, string BPN, string stationCode, string obligationID, bool isWalkIn, double tranAmount, string currencyCode, string sourceReference, string mobileNo, string drAcc, string crAcc, int RetryNum);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/post_ZIMRA_Transaction_with_Retry", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.post_ZIMRA_Transaction_Response> post_ZIMRA_Transaction_with_RetryAsync(string postingUserID, string postingUserPass, string BPN, string stationCode, string obligationID, bool isWalkIn, double tranAmount, string currencyCode, string sourceReference, string mobileNo, string drAcc, string crAcc, int RetryNum);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/post_ZIMRA_Transaction", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.post_ZIMRA_Transaction_Response post_ZIMRA_Transaction(string postingUserID, string postingUserPass, string BPN, string stationCode, string obligationID, bool isWalkIn, double tranAmount, string currencyCode, string sourceReference);
+        e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.post_ZIMRA_Transaction_Response post_ZIMRA_Transaction(string postingUserID, string postingUserPass, string BPN, string stationCode, string obligationID, bool isWalkIn, double tranAmount, string currencyCode, string sourceReference, string mobileNo, string drAcc, string crAcc);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/post_ZIMRA_Transaction", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.post_ZIMRA_Transaction_Response> post_ZIMRA_TransactionAsync(string postingUserID, string postingUserPass, string BPN, string stationCode, string obligationID, bool isWalkIn, double tranAmount, string currencyCode, string sourceReference, string mobileNo, string drAcc, string crAcc);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/OTP_Auth_Request", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.auth_Response OTP_Auth_Request(string authUserID, string authPass, string MSISDN, int OTPRetry, string RequestKey);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/OTP_Auth_Request", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.auth_Response> OTP_Auth_RequestAsync(string authUserID, string authPass, string MSISDN, int OTPRetry, string RequestKey);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/OTP_Auth_Verify", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.auth_Response OTP_Auth_Verify(string authUserID, string authPass, string MSISDN, int OTPSession, string RequestKey);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/OTP_Auth_Verify", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.auth_Response> OTP_Auth_VerifyAsync(string authUserID, string authPass, string MSISDN, int OTPSession, string RequestKey);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/keyField_Verification_Text", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        string keyField_Verification_Text(string searchUserID, string searchUserPass, string searchProduct, string searchType, string searchKey);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/keyField_Verification_Text", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> keyField_Verification_TextAsync(string searchUserID, string searchUserPass, string searchProduct, string searchType, string searchKey);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/keyField_Verification", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Data.DataTable keyField_Verification(string searchUserID, string searchUserPass, string searchProduct, string searchType, string searchKey);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/keyField_Verification", ReplyAction="*")]
+        System.Threading.Tasks.Task<System.Data.DataTable> keyField_VerificationAsync(string searchUserID, string searchUserPass, string searchProduct, string searchType, string searchKey);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/CIMAS_verifyMember_No", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string CIMAS_verifyMember_No(string SelectCode, string memberType, string memberNo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/CIMAS_verifyMember_No", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> CIMAS_verifyMember_NoAsync(string SelectCode, string memberType, string memberNo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/BFIS_AuthToken", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        string BFIS_AuthToken(string SelectCode);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/BFIS_AuthToken", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> BFIS_AuthTokenAsync(string SelectCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/Presbyterian_verifyMember_No", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.cls_Presbyterian_Detail Presbyterian_verifyMember_No(string SelectCode, string memberType, string memberNo);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/Presbyterian_verifyMember_No", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.cls_Presbyterian_Detail> Presbyterian_verifyMember_NoAsync(string SelectCode, string memberType, string memberNo);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/MSU_Payment", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.MSU_Custom_Response MSU_Payment(string userID, string userPass, string local_bankCode, string local_currencyCode, string local_paymentCode, string local_referenceNumber, string local_studentRegistrationNumber, string local_amount);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/MSU_Payment", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.MSU_Custom_Response> MSU_PaymentAsync(string userID, string userPass, string local_bankCode, string local_currencyCode, string local_paymentCode, string local_referenceNumber, string local_studentRegistrationNumber, string local_amount);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/Presbyterian_Payment", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
-        e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.cls_Presbyterian_Detail Presbyterian_Payment(string SelectCode, string studentID, string studentName, string payAmount, string refNum, string Narration);
+        e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.cls_Presbyterian_Detail Presbyterian_Payment(string SelectCode, string studentID, string studentName, string payAmount, string feesCode, string refNum, string Narration);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/Presbyterian_Payment", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.cls_Presbyterian_Detail> Presbyterian_PaymentAsync(string SelectCode, string studentID, string studentName, string payAmount, string feesCode, string refNum, string Narration);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/AU_GetAllStudents", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         System.Data.DataTable AU_GetAllStudents(string SelectCode, string schoolCode);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/AU_GetAllStudents", ReplyAction="*")]
+        System.Threading.Tasks.Task<System.Data.DataTable> AU_GetAllStudentsAsync(string SelectCode, string schoolCode);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_RecieverRequest", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Record[] ZIMRA_RecieverRequest(string SelectCode, string dt_DateCreated);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/ZIMRA_RecieverRequest", ReplyAction="*")]
+        System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Record[]> ZIMRA_RecieverRequestAsync(string SelectCode, string dt_DateCreated);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/PPC_PaymentAdvice", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string PPC_PaymentAdvice(string SelectCode, string Trn_CustName, System.DateTime Trn_Date, System.DateTime Trn_ValueDate, string Trn_Burks, string Trn_AgentCode, string Trn_Txt, string Trn_Amnt, string Trn_Invoice);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/PPC_PaymentAdvice", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> PPC_PaymentAdviceAsync(string SelectCode, string Trn_CustName, System.DateTime Trn_Date, System.DateTime Trn_ValueDate, string Trn_Burks, string Trn_AgentCode, string Trn_Txt, string Trn_Amnt, string Trn_Invoice);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/getRelatedAccounts", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        string getRelatedAccounts(string searchUserID, string searchUserPass, string accountNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/getRelatedAccounts", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> getRelatedAccountsAsync(string searchUserID, string searchUserPass, string accountNumber);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/synch_Accounts_to_ZIMRA", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        string synch_Accounts_to_ZIMRA(string UserID, string UserPass, string accountNumber, string accountName, string primaryAccount, string TIN, string Currency);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/synch_Accounts_to_ZIMRA", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> synch_Accounts_to_ZIMRAAsync(string UserID, string UserPass, string accountNumber, string accountName, string primaryAccount, string TIN, string Currency);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/ZesaTokenPurchase", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
         string ZesaTokenPurchase(string SelectCode, string SelectPin, string mobile, string BillID, double paymentAmount, string Trxn_ID, string Source_System);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://10.237.61.33:62188/Zimra.asmx/ZesaTokenPurchase", ReplyAction="*")]
+        System.Threading.Tasks.Task<string> ZesaTokenPurchaseAsync(string SelectCode, string SelectPin, string mobile, string BillID, double paymentAmount, string Trxn_ID, string Source_System);
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -134,7 +246,7 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -152,7 +264,7 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -240,7 +352,67 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://10.237.61.33:62188/Zimra.asmx/")]
+    public partial class MSU_Custom_Response : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string mSU_Response_codeField;
+        
+        private string mSU_Response_messageField;
+        
+        private string mSU_Response_CustomMessageField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string MSU_Response_code {
+            get {
+                return this.mSU_Response_codeField;
+            }
+            set {
+                this.mSU_Response_codeField = value;
+                this.RaisePropertyChanged("MSU_Response_code");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string MSU_Response_message {
+            get {
+                return this.mSU_Response_messageField;
+            }
+            set {
+                this.mSU_Response_messageField = value;
+                this.RaisePropertyChanged("MSU_Response_message");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string MSU_Response_CustomMessage {
+            get {
+                return this.mSU_Response_CustomMessageField;
+            }
+            set {
+                this.mSU_Response_CustomMessageField = value;
+                this.RaisePropertyChanged("MSU_Response_CustomMessage");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -328,7 +500,201 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.4084.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://10.237.61.33:62188/Zimra.asmx/")]
+    public partial class Auth_Account : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private string accountNumField;
+        
+        private string aCCT_NAMEField;
+        
+        private string aCCT_CRNCY_CODEField;
+        
+        private bool isMainAccountField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public string AccountNum {
+            get {
+                return this.accountNumField;
+            }
+            set {
+                this.accountNumField = value;
+                this.RaisePropertyChanged("AccountNum");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string ACCT_NAME {
+            get {
+                return this.aCCT_NAMEField;
+            }
+            set {
+                this.aCCT_NAMEField = value;
+                this.RaisePropertyChanged("ACCT_NAME");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string ACCT_CRNCY_CODE {
+            get {
+                return this.aCCT_CRNCY_CODEField;
+            }
+            set {
+                this.aCCT_CRNCY_CODEField = value;
+                this.RaisePropertyChanged("ACCT_CRNCY_CODE");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public bool IsMainAccount {
+            get {
+                return this.isMainAccountField;
+            }
+            set {
+                this.isMainAccountField = value;
+                this.RaisePropertyChanged("IsMainAccount");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://10.237.61.33:62188/Zimra.asmx/")]
+    public partial class auth_Accounts : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private Auth_Account[] acclinstField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute(Order=0)]
+        public Auth_Account[] Acclinst {
+            get {
+                return this.acclinstField;
+            }
+            set {
+                this.acclinstField = value;
+                this.RaisePropertyChanged("Acclinst");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://10.237.61.33:62188/Zimra.asmx/")]
+    public partial class auth_Response : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private auth_Accounts authAccontListField;
+        
+        private bool authStatusField;
+        
+        private int authTokenField;
+        
+        private string authMessageField;
+        
+        private System.DateTime authTimeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public auth_Accounts AuthAccontList {
+            get {
+                return this.authAccontListField;
+            }
+            set {
+                this.authAccontListField = value;
+                this.RaisePropertyChanged("AuthAccontList");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public bool authStatus {
+            get {
+                return this.authStatusField;
+            }
+            set {
+                this.authStatusField = value;
+                this.RaisePropertyChanged("authStatus");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public int authToken {
+            get {
+                return this.authTokenField;
+            }
+            set {
+                this.authTokenField = value;
+                this.RaisePropertyChanged("authToken");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string authMessage {
+            get {
+                return this.authMessageField;
+            }
+            set {
+                this.authMessageField = value;
+                this.RaisePropertyChanged("authMessage");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public System.DateTime authTime {
+            get {
+                return this.authTimeField;
+            }
+            set {
+                this.authTimeField = value;
+                this.RaisePropertyChanged("authTime");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -344,6 +710,14 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online {
         private bool responseErrorField;
         
         private System.DateTime responseTimeField;
+        
+        private bool posted_OnlineField;
+        
+        private string zIMRA_RecieptField;
+        
+        private string zIMRA_RRNField;
+        
+        private string serialNField;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order=0)]
@@ -405,6 +779,608 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online {
             }
         }
         
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public bool Posted_Online {
+            get {
+                return this.posted_OnlineField;
+            }
+            set {
+                this.posted_OnlineField = value;
+                this.RaisePropertyChanged("Posted_Online");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string ZIMRA_Reciept {
+            get {
+                return this.zIMRA_RecieptField;
+            }
+            set {
+                this.zIMRA_RecieptField = value;
+                this.RaisePropertyChanged("ZIMRA_Reciept");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string ZIMRA_RRN {
+            get {
+                return this.zIMRA_RRNField;
+            }
+            set {
+                this.zIMRA_RRNField = value;
+                this.RaisePropertyChanged("ZIMRA_RRN");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string SerialN {
+            get {
+                return this.serialNField;
+            }
+            set {
+                this.serialNField = value;
+                this.RaisePropertyChanged("SerialN");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://10.237.61.33:62188/Zimra.asmx/")]
+    public partial class Receipt : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private ExtensionDataObject extensionDataField;
+        
+        private string serialNumberField;
+        
+        private string referenceNumberField;
+        
+        private string bPNumberField;
+        
+        private string clientNameField;
+        
+        private string accountNumberField;
+        
+        private string taxCodeField;
+        
+        private string regionField;
+        
+        private string currencyField;
+        
+        private string amountField;
+        
+        private string paymentDateField;
+        
+        private string captureTimeField;
+        
+        private string receiptNumberField;
+        
+        private string customsReceiptNumberField;
+        
+        private string receiptDateField;
+        
+        private string customsReceiptDateField;
+        
+        private string receiptTimeField;
+        
+        private string typeField;
+        
+        private string idField;
+        
+        private string numberField;
+        
+        private string messageField;
+        
+        private string logNumberField;
+        
+        private string logMessageNumberField;
+        
+        private string messageV1Field;
+        
+        private string messageV2Field;
+        
+        private string messageV3Field;
+        
+        private string messageV4Field;
+        
+        private string customsMessageField;
+        
+        private string rRNField;
+        
+        private string userIDField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+                this.RaisePropertyChanged("ExtensionData");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string SerialNumber {
+            get {
+                return this.serialNumberField;
+            }
+            set {
+                this.serialNumberField = value;
+                this.RaisePropertyChanged("SerialNumber");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string ReferenceNumber {
+            get {
+                return this.referenceNumberField;
+            }
+            set {
+                this.referenceNumberField = value;
+                this.RaisePropertyChanged("ReferenceNumber");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string BPNumber {
+            get {
+                return this.bPNumberField;
+            }
+            set {
+                this.bPNumberField = value;
+                this.RaisePropertyChanged("BPNumber");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public string ClientName {
+            get {
+                return this.clientNameField;
+            }
+            set {
+                this.clientNameField = value;
+                this.RaisePropertyChanged("ClientName");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string AccountNumber {
+            get {
+                return this.accountNumberField;
+            }
+            set {
+                this.accountNumberField = value;
+                this.RaisePropertyChanged("AccountNumber");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string TaxCode {
+            get {
+                return this.taxCodeField;
+            }
+            set {
+                this.taxCodeField = value;
+                this.RaisePropertyChanged("TaxCode");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=7)]
+        public string Region {
+            get {
+                return this.regionField;
+            }
+            set {
+                this.regionField = value;
+                this.RaisePropertyChanged("Region");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=8)]
+        public string Currency {
+            get {
+                return this.currencyField;
+            }
+            set {
+                this.currencyField = value;
+                this.RaisePropertyChanged("Currency");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=9)]
+        public string Amount {
+            get {
+                return this.amountField;
+            }
+            set {
+                this.amountField = value;
+                this.RaisePropertyChanged("Amount");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=10)]
+        public string PaymentDate {
+            get {
+                return this.paymentDateField;
+            }
+            set {
+                this.paymentDateField = value;
+                this.RaisePropertyChanged("PaymentDate");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=11)]
+        public string CaptureTime {
+            get {
+                return this.captureTimeField;
+            }
+            set {
+                this.captureTimeField = value;
+                this.RaisePropertyChanged("CaptureTime");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=12)]
+        public string ReceiptNumber {
+            get {
+                return this.receiptNumberField;
+            }
+            set {
+                this.receiptNumberField = value;
+                this.RaisePropertyChanged("ReceiptNumber");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=13)]
+        public string CustomsReceiptNumber {
+            get {
+                return this.customsReceiptNumberField;
+            }
+            set {
+                this.customsReceiptNumberField = value;
+                this.RaisePropertyChanged("CustomsReceiptNumber");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=14)]
+        public string ReceiptDate {
+            get {
+                return this.receiptDateField;
+            }
+            set {
+                this.receiptDateField = value;
+                this.RaisePropertyChanged("ReceiptDate");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=15)]
+        public string CustomsReceiptDate {
+            get {
+                return this.customsReceiptDateField;
+            }
+            set {
+                this.customsReceiptDateField = value;
+                this.RaisePropertyChanged("CustomsReceiptDate");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=16)]
+        public string ReceiptTime {
+            get {
+                return this.receiptTimeField;
+            }
+            set {
+                this.receiptTimeField = value;
+                this.RaisePropertyChanged("ReceiptTime");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=17)]
+        public string Type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+                this.RaisePropertyChanged("Type");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=18)]
+        public string ID {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+                this.RaisePropertyChanged("ID");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=19)]
+        public string Number {
+            get {
+                return this.numberField;
+            }
+            set {
+                this.numberField = value;
+                this.RaisePropertyChanged("Number");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=20)]
+        public string Message {
+            get {
+                return this.messageField;
+            }
+            set {
+                this.messageField = value;
+                this.RaisePropertyChanged("Message");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=21)]
+        public string LogNumber {
+            get {
+                return this.logNumberField;
+            }
+            set {
+                this.logNumberField = value;
+                this.RaisePropertyChanged("LogNumber");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=22)]
+        public string LogMessageNumber {
+            get {
+                return this.logMessageNumberField;
+            }
+            set {
+                this.logMessageNumberField = value;
+                this.RaisePropertyChanged("LogMessageNumber");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=23)]
+        public string MessageV1 {
+            get {
+                return this.messageV1Field;
+            }
+            set {
+                this.messageV1Field = value;
+                this.RaisePropertyChanged("MessageV1");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=24)]
+        public string MessageV2 {
+            get {
+                return this.messageV2Field;
+            }
+            set {
+                this.messageV2Field = value;
+                this.RaisePropertyChanged("MessageV2");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=25)]
+        public string MessageV3 {
+            get {
+                return this.messageV3Field;
+            }
+            set {
+                this.messageV3Field = value;
+                this.RaisePropertyChanged("MessageV3");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=26)]
+        public string MessageV4 {
+            get {
+                return this.messageV4Field;
+            }
+            set {
+                this.messageV4Field = value;
+                this.RaisePropertyChanged("MessageV4");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=27)]
+        public string CustomsMessage {
+            get {
+                return this.customsMessageField;
+            }
+            set {
+                this.customsMessageField = value;
+                this.RaisePropertyChanged("CustomsMessage");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=28)]
+        public string RRN {
+            get {
+                return this.rRNField;
+            }
+            set {
+                this.rRNField = value;
+                this.RaisePropertyChanged("RRN");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=29)]
+        public string UserID {
+            get {
+                return this.userIDField;
+            }
+            set {
+                this.userIDField = value;
+                this.RaisePropertyChanged("UserID");
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://10.237.61.33:62188/Zimra.asmx/")]
+    public partial class RRN_Response : object, System.ComponentModel.INotifyPropertyChanged {
+        
+        private bool rRNRequestSuccessYNField;
+        
+        private string rRN_messageField;
+        
+        private string serialField;
+        
+        private string rRNField;
+        
+        private System.DateTime rRN_DateField;
+        
+        private string bpNumberField;
+        
+        private string trnIDField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=0)]
+        public bool RRNRequestSuccessYN {
+            get {
+                return this.rRNRequestSuccessYNField;
+            }
+            set {
+                this.rRNRequestSuccessYNField = value;
+                this.RaisePropertyChanged("RRNRequestSuccessYN");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=1)]
+        public string RRN_message {
+            get {
+                return this.rRN_messageField;
+            }
+            set {
+                this.rRN_messageField = value;
+                this.RaisePropertyChanged("RRN_message");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=2)]
+        public string Serial {
+            get {
+                return this.serialField;
+            }
+            set {
+                this.serialField = value;
+                this.RaisePropertyChanged("Serial");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=3)]
+        public string RRN {
+            get {
+                return this.rRNField;
+            }
+            set {
+                this.rRNField = value;
+                this.RaisePropertyChanged("RRN");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=4)]
+        public System.DateTime RRN_Date {
+            get {
+                return this.rRN_DateField;
+            }
+            set {
+                this.rRN_DateField = value;
+                this.RaisePropertyChanged("RRN_Date");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=5)]
+        public string bpNumber {
+            get {
+                return this.bpNumberField;
+            }
+            set {
+                this.bpNumberField = value;
+                this.RaisePropertyChanged("bpNumber");
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Order=6)]
+        public string trnID {
+            get {
+                return this.trnIDField;
+            }
+            set {
+                this.trnIDField = value;
+                this.RaisePropertyChanged("trnID");
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -442,60 +1418,196 @@ namespace e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online {
                 base(binding, remoteAddress) {
         }
         
-        public int CheckStatus() {
-            return base.Channel.CheckStatus();
+        public int iniCheckStatus() {
+            return base.Channel.iniCheckStatus();
+        }
+        
+        public System.Threading.Tasks.Task<int> iniCheckStatusAsync() {
+            return base.Channel.iniCheckStatusAsync();
         }
         
         public string ZIMRA_PaymentAdvice(string SelectCode, string AccountNumber, string Amount, string BPNumber, string CaptureTime, string ClientName, string Currency, string PaymentDate, string ReferenceNumber, string Region, string RRN, string SerialNumber, string TaxCode, string UserID) {
             return base.Channel.ZIMRA_PaymentAdvice(SelectCode, AccountNumber, Amount, BPNumber, CaptureTime, ClientName, Currency, PaymentDate, ReferenceNumber, Region, RRN, SerialNumber, TaxCode, UserID);
         }
         
+        public System.Threading.Tasks.Task<string> ZIMRA_PaymentAdviceAsync(string SelectCode, string AccountNumber, string Amount, string BPNumber, string CaptureTime, string ClientName, string Currency, string PaymentDate, string ReferenceNumber, string Region, string RRN, string SerialNumber, string TaxCode, string UserID) {
+            return base.Channel.ZIMRA_PaymentAdviceAsync(SelectCode, AccountNumber, Amount, BPNumber, CaptureTime, ClientName, Currency, PaymentDate, ReferenceNumber, Region, RRN, SerialNumber, TaxCode, UserID);
+        }
+        
         public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Response ZIMRA_ContractQry(string SelectCode, string BPNumber_C, string TaxCoder_C) {
             return base.Channel.ZIMRA_ContractQry(SelectCode, BPNumber_C, TaxCoder_C);
+        }
+        
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Response> ZIMRA_ContractQryAsync(string SelectCode, string BPNumber_C, string TaxCoder_C) {
+            return base.Channel.ZIMRA_ContractQryAsync(SelectCode, BPNumber_C, TaxCoder_C);
         }
         
         public string AU_PostTransaction(string SelectCode, string schoolCode, double bankAccNo, string studentID, string studentName, double payAmnt, string paymentRef, string PaymentDesc, string PaymentType, string UniqueRef) {
             return base.Channel.AU_PostTransaction(SelectCode, schoolCode, bankAccNo, studentID, studentName, payAmnt, paymentRef, PaymentDesc, PaymentType, UniqueRef);
         }
         
+        public System.Threading.Tasks.Task<string> AU_PostTransactionAsync(string SelectCode, string schoolCode, double bankAccNo, string studentID, string studentName, double payAmnt, string paymentRef, string PaymentDesc, string PaymentType, string UniqueRef) {
+            return base.Channel.AU_PostTransactionAsync(SelectCode, schoolCode, bankAccNo, studentID, studentName, payAmnt, paymentRef, PaymentDesc, PaymentType, UniqueRef);
+        }
+        
         public System.Data.DataTable AU_verifyStudent_No(string SelectCode, string studentNO_Local, string schoolCode) {
             return base.Channel.AU_verifyStudent_No(SelectCode, studentNO_Local, schoolCode);
         }
         
-        public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.post_ZIMRA_Transaction_Response post_ZIMRA_Transaction(string postingUserID, string postingUserPass, string BPN, string stationCode, string obligationID, bool isWalkIn, double tranAmount, string currencyCode, string sourceReference) {
-            return base.Channel.post_ZIMRA_Transaction(postingUserID, postingUserPass, BPN, stationCode, obligationID, isWalkIn, tranAmount, currencyCode, sourceReference);
+        public System.Threading.Tasks.Task<System.Data.DataTable> AU_verifyStudent_NoAsync(string SelectCode, string studentNO_Local, string schoolCode) {
+            return base.Channel.AU_verifyStudent_NoAsync(SelectCode, studentNO_Local, schoolCode);
+        }
+        
+        public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.RRN_Response get_RRN(string userID, string userPassword, string BPNumber, string uniqueTrnID, string requestType) {
+            return base.Channel.get_RRN(userID, userPassword, BPNumber, uniqueTrnID, requestType);
+        }
+        
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.RRN_Response> get_RRNAsync(string userID, string userPassword, string BPNumber, string uniqueTrnID, string requestType) {
+            return base.Channel.get_RRNAsync(userID, userPassword, BPNumber, uniqueTrnID, requestType);
+        }
+        
+        public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Receipt ZIMRA_PaymentAdvice_Proxy(string AccountNumber, string Amount, string BPNumber, string CaptureTime, string ClientName, string Currency, string PaymentDate, string ReferenceNumber, string Region, string RRN, string SerialNumber, string TaxCode, string UserID) {
+            return base.Channel.ZIMRA_PaymentAdvice_Proxy(AccountNumber, Amount, BPNumber, CaptureTime, ClientName, Currency, PaymentDate, ReferenceNumber, Region, RRN, SerialNumber, TaxCode, UserID);
+        }
+        
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Receipt> ZIMRA_PaymentAdvice_ProxyAsync(string AccountNumber, string Amount, string BPNumber, string CaptureTime, string ClientName, string Currency, string PaymentDate, string ReferenceNumber, string Region, string RRN, string SerialNumber, string TaxCode, string UserID) {
+            return base.Channel.ZIMRA_PaymentAdvice_ProxyAsync(AccountNumber, Amount, BPNumber, CaptureTime, ClientName, Currency, PaymentDate, ReferenceNumber, Region, RRN, SerialNumber, TaxCode, UserID);
+        }
+        
+        public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.post_ZIMRA_Transaction_Response post_ZIMRA_Transaction_with_Retry(string postingUserID, string postingUserPass, string BPN, string stationCode, string obligationID, bool isWalkIn, double tranAmount, string currencyCode, string sourceReference, string mobileNo, string drAcc, string crAcc, int RetryNum) {
+            return base.Channel.post_ZIMRA_Transaction_with_Retry(postingUserID, postingUserPass, BPN, stationCode, obligationID, isWalkIn, tranAmount, currencyCode, sourceReference, mobileNo, drAcc, crAcc, RetryNum);
+        }
+        
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.post_ZIMRA_Transaction_Response> post_ZIMRA_Transaction_with_RetryAsync(string postingUserID, string postingUserPass, string BPN, string stationCode, string obligationID, bool isWalkIn, double tranAmount, string currencyCode, string sourceReference, string mobileNo, string drAcc, string crAcc, int RetryNum) {
+            return base.Channel.post_ZIMRA_Transaction_with_RetryAsync(postingUserID, postingUserPass, BPN, stationCode, obligationID, isWalkIn, tranAmount, currencyCode, sourceReference, mobileNo, drAcc, crAcc, RetryNum);
+        }
+        
+        public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.post_ZIMRA_Transaction_Response post_ZIMRA_Transaction(string postingUserID, string postingUserPass, string BPN, string stationCode, string obligationID, bool isWalkIn, double tranAmount, string currencyCode, string sourceReference, string mobileNo, string drAcc, string crAcc) {
+            return base.Channel.post_ZIMRA_Transaction(postingUserID, postingUserPass, BPN, stationCode, obligationID, isWalkIn, tranAmount, currencyCode, sourceReference, mobileNo, drAcc, crAcc);
+        }
+        
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.post_ZIMRA_Transaction_Response> post_ZIMRA_TransactionAsync(string postingUserID, string postingUserPass, string BPN, string stationCode, string obligationID, bool isWalkIn, double tranAmount, string currencyCode, string sourceReference, string mobileNo, string drAcc, string crAcc) {
+            return base.Channel.post_ZIMRA_TransactionAsync(postingUserID, postingUserPass, BPN, stationCode, obligationID, isWalkIn, tranAmount, currencyCode, sourceReference, mobileNo, drAcc, crAcc);
+        }
+        
+        public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.auth_Response OTP_Auth_Request(string authUserID, string authPass, string MSISDN, int OTPRetry, string RequestKey) {
+            return base.Channel.OTP_Auth_Request(authUserID, authPass, MSISDN, OTPRetry, RequestKey);
+        }
+        
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.auth_Response> OTP_Auth_RequestAsync(string authUserID, string authPass, string MSISDN, int OTPRetry, string RequestKey) {
+            return base.Channel.OTP_Auth_RequestAsync(authUserID, authPass, MSISDN, OTPRetry, RequestKey);
+        }
+        
+        public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.auth_Response OTP_Auth_Verify(string authUserID, string authPass, string MSISDN, int OTPSession, string RequestKey) {
+            return base.Channel.OTP_Auth_Verify(authUserID, authPass, MSISDN, OTPSession, RequestKey);
+        }
+        
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.auth_Response> OTP_Auth_VerifyAsync(string authUserID, string authPass, string MSISDN, int OTPSession, string RequestKey) {
+            return base.Channel.OTP_Auth_VerifyAsync(authUserID, authPass, MSISDN, OTPSession, RequestKey);
+        }
+        
+        public string keyField_Verification_Text(string searchUserID, string searchUserPass, string searchProduct, string searchType, string searchKey) {
+            return base.Channel.keyField_Verification_Text(searchUserID, searchUserPass, searchProduct, searchType, searchKey);
+        }
+        
+        public System.Threading.Tasks.Task<string> keyField_Verification_TextAsync(string searchUserID, string searchUserPass, string searchProduct, string searchType, string searchKey) {
+            return base.Channel.keyField_Verification_TextAsync(searchUserID, searchUserPass, searchProduct, searchType, searchKey);
         }
         
         public System.Data.DataTable keyField_Verification(string searchUserID, string searchUserPass, string searchProduct, string searchType, string searchKey) {
             return base.Channel.keyField_Verification(searchUserID, searchUserPass, searchProduct, searchType, searchKey);
         }
         
+        public System.Threading.Tasks.Task<System.Data.DataTable> keyField_VerificationAsync(string searchUserID, string searchUserPass, string searchProduct, string searchType, string searchKey) {
+            return base.Channel.keyField_VerificationAsync(searchUserID, searchUserPass, searchProduct, searchType, searchKey);
+        }
+        
         public string CIMAS_verifyMember_No(string SelectCode, string memberType, string memberNo) {
             return base.Channel.CIMAS_verifyMember_No(SelectCode, memberType, memberNo);
+        }
+        
+        public System.Threading.Tasks.Task<string> CIMAS_verifyMember_NoAsync(string SelectCode, string memberType, string memberNo) {
+            return base.Channel.CIMAS_verifyMember_NoAsync(SelectCode, memberType, memberNo);
+        }
+        
+        public string BFIS_AuthToken(string SelectCode) {
+            return base.Channel.BFIS_AuthToken(SelectCode);
+        }
+        
+        public System.Threading.Tasks.Task<string> BFIS_AuthTokenAsync(string SelectCode) {
+            return base.Channel.BFIS_AuthTokenAsync(SelectCode);
         }
         
         public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.cls_Presbyterian_Detail Presbyterian_verifyMember_No(string SelectCode, string memberType, string memberNo) {
             return base.Channel.Presbyterian_verifyMember_No(SelectCode, memberType, memberNo);
         }
         
-        public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.cls_Presbyterian_Detail Presbyterian_Payment(string SelectCode, string studentID, string studentName, string payAmount, string refNum, string Narration) {
-            return base.Channel.Presbyterian_Payment(SelectCode, studentID, studentName, payAmount, refNum, Narration);
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.cls_Presbyterian_Detail> Presbyterian_verifyMember_NoAsync(string SelectCode, string memberType, string memberNo) {
+            return base.Channel.Presbyterian_verifyMember_NoAsync(SelectCode, memberType, memberNo);
+        }
+        
+        public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.MSU_Custom_Response MSU_Payment(string userID, string userPass, string local_bankCode, string local_currencyCode, string local_paymentCode, string local_referenceNumber, string local_studentRegistrationNumber, string local_amount) {
+            return base.Channel.MSU_Payment(userID, userPass, local_bankCode, local_currencyCode, local_paymentCode, local_referenceNumber, local_studentRegistrationNumber, local_amount);
+        }
+        
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.MSU_Custom_Response> MSU_PaymentAsync(string userID, string userPass, string local_bankCode, string local_currencyCode, string local_paymentCode, string local_referenceNumber, string local_studentRegistrationNumber, string local_amount) {
+            return base.Channel.MSU_PaymentAsync(userID, userPass, local_bankCode, local_currencyCode, local_paymentCode, local_referenceNumber, local_studentRegistrationNumber, local_amount);
+        }
+        
+        public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.cls_Presbyterian_Detail Presbyterian_Payment(string SelectCode, string studentID, string studentName, string payAmount, string feesCode, string refNum, string Narration) {
+            return base.Channel.Presbyterian_Payment(SelectCode, studentID, studentName, payAmount, feesCode, refNum, Narration);
+        }
+        
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.cls_Presbyterian_Detail> Presbyterian_PaymentAsync(string SelectCode, string studentID, string studentName, string payAmount, string feesCode, string refNum, string Narration) {
+            return base.Channel.Presbyterian_PaymentAsync(SelectCode, studentID, studentName, payAmount, feesCode, refNum, Narration);
         }
         
         public System.Data.DataTable AU_GetAllStudents(string SelectCode, string schoolCode) {
             return base.Channel.AU_GetAllStudents(SelectCode, schoolCode);
         }
         
+        public System.Threading.Tasks.Task<System.Data.DataTable> AU_GetAllStudentsAsync(string SelectCode, string schoolCode) {
+            return base.Channel.AU_GetAllStudentsAsync(SelectCode, schoolCode);
+        }
+        
         public e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Record[] ZIMRA_RecieverRequest(string SelectCode, string dt_DateCreated) {
             return base.Channel.ZIMRA_RecieverRequest(SelectCode, dt_DateCreated);
+        }
+        
+        public System.Threading.Tasks.Task<e_Verify_BACK_OFFICE_Service_Interface.ZIMRA_Online.Record[]> ZIMRA_RecieverRequestAsync(string SelectCode, string dt_DateCreated) {
+            return base.Channel.ZIMRA_RecieverRequestAsync(SelectCode, dt_DateCreated);
         }
         
         public string PPC_PaymentAdvice(string SelectCode, string Trn_CustName, System.DateTime Trn_Date, System.DateTime Trn_ValueDate, string Trn_Burks, string Trn_AgentCode, string Trn_Txt, string Trn_Amnt, string Trn_Invoice) {
             return base.Channel.PPC_PaymentAdvice(SelectCode, Trn_CustName, Trn_Date, Trn_ValueDate, Trn_Burks, Trn_AgentCode, Trn_Txt, Trn_Amnt, Trn_Invoice);
         }
         
+        public System.Threading.Tasks.Task<string> PPC_PaymentAdviceAsync(string SelectCode, string Trn_CustName, System.DateTime Trn_Date, System.DateTime Trn_ValueDate, string Trn_Burks, string Trn_AgentCode, string Trn_Txt, string Trn_Amnt, string Trn_Invoice) {
+            return base.Channel.PPC_PaymentAdviceAsync(SelectCode, Trn_CustName, Trn_Date, Trn_ValueDate, Trn_Burks, Trn_AgentCode, Trn_Txt, Trn_Amnt, Trn_Invoice);
+        }
+        
+        public string getRelatedAccounts(string searchUserID, string searchUserPass, string accountNumber) {
+            return base.Channel.getRelatedAccounts(searchUserID, searchUserPass, accountNumber);
+        }
+        
+        public System.Threading.Tasks.Task<string> getRelatedAccountsAsync(string searchUserID, string searchUserPass, string accountNumber) {
+            return base.Channel.getRelatedAccountsAsync(searchUserID, searchUserPass, accountNumber);
+        }
+        
+        public string synch_Accounts_to_ZIMRA(string UserID, string UserPass, string accountNumber, string accountName, string primaryAccount, string TIN, string Currency) {
+            return base.Channel.synch_Accounts_to_ZIMRA(UserID, UserPass, accountNumber, accountName, primaryAccount, TIN, Currency);
+        }
+        
+        public System.Threading.Tasks.Task<string> synch_Accounts_to_ZIMRAAsync(string UserID, string UserPass, string accountNumber, string accountName, string primaryAccount, string TIN, string Currency) {
+            return base.Channel.synch_Accounts_to_ZIMRAAsync(UserID, UserPass, accountNumber, accountName, primaryAccount, TIN, Currency);
+        }
+        
         public string ZesaTokenPurchase(string SelectCode, string SelectPin, string mobile, string BillID, double paymentAmount, string Trxn_ID, string Source_System) {
             return base.Channel.ZesaTokenPurchase(SelectCode, SelectPin, mobile, BillID, paymentAmount, Trxn_ID, Source_System);
+        }
+        
+        public System.Threading.Tasks.Task<string> ZesaTokenPurchaseAsync(string SelectCode, string SelectPin, string mobile, string BillID, double paymentAmount, string Trxn_ID, string Source_System) {
+            return base.Channel.ZesaTokenPurchaseAsync(SelectCode, SelectPin, mobile, BillID, paymentAmount, Trxn_ID, Source_System);
         }
     }
 }
