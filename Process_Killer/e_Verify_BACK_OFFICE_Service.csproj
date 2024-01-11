@@ -223,6 +223,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Account_Branch.cs" />
+    <Compile Include="agentBankingPayload.cs" />
     <Compile Include="cls_BillerResponse.cs" />
     <Compile Include="cls_IBankingTrxn.cs" />
     <Compile Include="cls_License.cs" />

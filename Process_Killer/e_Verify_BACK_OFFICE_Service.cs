@@ -8218,7 +8218,6 @@ namespace e_Verify_BACK_OFFICE_Service
             catch (Exception IntotoBcdExpt)
             {
                 LogToFile(string.Format("IntToBcd pvalue = {0}, ByteLen = {1}", pValue, ByteLen), IntotoBcdExpt.StackTrace.ToString());
-              
             }
             return returnByte;
         }
@@ -8838,79 +8837,172 @@ namespace e_Verify_BACK_OFFICE_Service
         //    LogStep("fn_Post_to_ZIMRA_OfflineFile Step 3", "fn_Post_to_ZIMRA_OfflineFile Main Exit");
         //    return "4";
         //}
+     
 
-      
+        public cls_BillerResponse fn_PosttoBiller(string url, string JPayload, System.Collections.IDictionary header, string tokenId, string UniqueRef)
+        {
+            JObject   ITempObject = new JObject();
+            WebClient httpClient  = new WebClient();
+            string    ItemKey_C   = "";
+            string    ItemValue_C = "";
+            double    logResponse = 0.0;
+            string    errorCode   = "";
+            int       headerItems = header.Count;
+            cls_BillerResponse cls_BillerResponse = new cls_BillerResponse();
+
+            try
+            {
+                // Log the request
+                LogErrorXMLFile("Request", JPayload, tokenId, "fn_PostToBiller", UniqueRef);
+
+                HttpWebRequest request   = (HttpWebRequest)WebRequest.Create(url);
+                Uri            targetURI = new Uri(url);
+
+                //var postData = jsonHash.ToString().Replace("{{", "{").Replace("}}", "}");
+                //var data     = Encoding.ASCII.GetBytes(postData);
+
+                var data     = Encoding.ASCII.GetBytes(JPayload);
+
+                foreach (DictionaryEntry tmpHash in header)
+                {
+                    if (tmpHash.Value.ToString() != "")
+                    {
+                        ItemKey_C   = tmpHash.Key.ToString().Trim();
+                        ItemValue_C = tmpHash.Value.ToString().Replace("#R#", ",");
+                        ItemKey_C   = tmpHash.Key.ToString().Trim();
+                        request.Headers.Add(ItemKey_C, ItemValue_C);
+                    }
+                }
+
+                request.UserAgent             = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36";
+                request.UseDefaultCredentials = true;
+                request.Credentials           = CredentialCache.DefaultCredentials;
+                request.Method          = WebRequestMethods.Http.Post;
+                request.ContentType     = "application/json";
+                request.Accept          = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+                request.ContentLength   = data.Length;
+                
+                request.ProtocolVersion = HttpVersion.Version11;   // THIS DOES THE TRICK
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol  = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
+                using (var stream = request.GetRequestStream())
+                { 
+                    try
+                    {
+                        using (var WebResp = request.GetRequestStream())
+                        {
+                            WebResp.Write(data, 0, data.Length);
+                        }
+
+                        using (WebResponse WebResp = request.GetResponse())
+                        {
+                            {
+                                HttpWebResponse httpResponse = (HttpWebResponse)WebResp;
+                                using (StreamReader rd = new StreamReader(WebResp.GetResponseStream()))
+                                {
+                                    string soapResult = rd.ReadToEnd();
+
+                                    var responseString = soapResult;
+                                    responseString     = Regex.Replace(responseString, @"\t|\n|\r", "");
+
+                                    LogErrorXMLFile("Response", responseString.ToString(), tokenId, "fn_PostToBiller", UniqueRef);
+
+                                    JObject jObject = JObject.Parse(responseString);
+                                    cls_BillerResponse.transid    = (string)jObject["transid"];
+                                    cls_BillerResponse.reference  = (string)jObject["reference"];
+                                    cls_BillerResponse.resultcode = (string)jObject["resultcode"];
+                                    cls_BillerResponse.result     = (string)jObject["result"];
+                                    cls_BillerResponse.message    = (string)jObject["message"];
+                                    cls_BillerResponse.status     = (string)jObject["status"];
+                                    cls_BillerResponse.rawdata    = responseString;
+                                    JToken dataToken              = jObject.GetValue("data");
+                                    //cls_BillerResponse.data       = JsonConvert.DeserializeObject<List<string>>(dataToken.ToString());
+                                }
+                            }
+                        }
+                    }
+                    catch (WebException WebExpt)
+                    {
+                        using (WebResponse WebResp = WebExpt.Response)
+                        {
+                            HttpWebResponse httpResponse = (HttpWebResponse)WebResp;
+                            errorCode       = httpResponse.StatusCode.ToString();
+
+                            if (!WebExpt.StackTrace.ToString().Contains("an error: (500) Internal"))
+                            {
+                                LogError("884637", "fn_PosttoBiller", WebExpt, tokenId, true, WebExpt.Message);
+                            }
+                            using (var streamReader = new StreamReader(WebResp.GetResponseStream()))
+                            {
+                                var responseString  = streamReader.ReadToEnd();
+                                responseString      = Regex.Replace(responseString, @"\t|\n|\r", "");
+
+                                LogErrorXMLFile("Response", responseString.ToString(), tokenId, "fn_PostToBiller", UniqueRef);
+
+                                try
+                                {
+                                    JObject               jObject = JObject.Parse(responseString);
+                                    cls_BillerResponse.transid    = (string)jObject["transid"];
+                                    cls_BillerResponse.reference  = (string)jObject["reference"];
+                                    cls_BillerResponse.resultcode = (string)jObject["resultcode"];
+                                    cls_BillerResponse.result     = (string)jObject["result"];
+                                    cls_BillerResponse.message    = (string)jObject["message"];
+                                    cls_BillerResponse.status     = (string)jObject["status"];
+                                    cls_BillerResponse.rawdata    = responseString;
+                                    JToken dataToken              = jObject.GetValue("data");
+                                    //cls_BillerResponse.data       = JsonConvert.DeserializeObject<List<string>>(dataToken.ToString());
+                                }
+                                catch (Exception PostExpt1)
+                                {
+                                    LogError("884636", "fn_PosttoBiller", PostExpt1, tokenId, true, PostExpt1.Message);
+                                }
+                            }
+                        }
+                    }
+                    return cls_BillerResponse;
+                }
+            }
+            catch (Exception PostExpt)
+            {
+                LogError("884635", "fn_PosttoBiller", PostExpt, tokenId, true, PostExpt.Message);
+            }
+            finally
+            { }
+            return cls_BillerResponse;
+        }
+
+
         public string Post_TZ_Compliance_MobileTransactions()
         {
-            string Trn_Ref             = "";
             string Curr_Rec_ID         = "";
+            string Trn_ID_C            = "";
             string Fin_TrnUniqueID_C   = "";
             string Fin_ChannelRefNum_C = "";
             string Trn_GUID            = "";
             string SQLStr              = "";
             string trxnProduct_ID      = "Post_TZ_Compliance_MobileTransaction";
-            bool   LCs_Integrated      = false;
             string Curr_Short_Name     = "TZS";
 
             try
             {
-                DataTable Data_Table = new DataTable();
                 DataTable Data_Rec   = new DataTable();
-                DataTable Temp_Rec   = new DataTable();
-                DataTable Curr_Rec   = new DataTable();
                 DataTable SysRec     = new DataTable();
+                string    Benef_Acc  = "";
+                double    File_Recs  = 0;
 
-                string Instance_Name = "";
-                bool   CreateTestXML = false;
-                double Curr_Run_No   = 0.0;
-                string Curr_License;
-                string Svr_Lic_Date;
-                string Out_Dir;
-              
-                string Out_File_Name;
-                string Trn_Desc;
-             
-                string TRH_GroupID;
-                string Benef_Acc;
-                string Debit_Acc;
-                string Curr_Code;
-                string Source_TrnID;
+                string Compliance_MobileBankingReporting_EndPoint = "";
+                string Compliance_AgencyBankingReporting_EndPoint = "";
+                string Compliance_Bearer_Token                    = "";
+                string Compliance_informationCode                 = "";
+                string jsonPayloadString                          = "";
 
-                string ValAmnt = "0";
-             
-                string TrnDateTime;
-                double File_Recs;
-            
-                string FinWebUserID        = "";
-                string FinWebUserPassword  = "";
+                Hashtable            file_hash  = new Hashtable();
+                mobileBankingPayload mobPyld    = new mobileBankingPayload();
+                cls_BillerResponse   billerResp = new cls_BillerResponse();
 
-                string customerName               = "";
-                string gender                     = "";
-                string accountStatus              = "1";
-                string transacctionDate           = "";
-                string lastTransactionDate        = "";
-                string uniqueIdentificationNumber = "";
-                string customerCategory           = "1";
-                string mobileTransactionType      = "";
-                string serviceCategory            = "";
-                string subServiceCategory         = "";
-                string serviceStatus              = "";
-                string transactionRef             = "";
-                string currency                   = "";
-                decimal orgAmount                  = 0;
-                decimal tzsAmount                  = 0;
-                decimal valueAddedTaxAmount        = 0;
-                decimal exciseDutyAmount           = 0;
-                decimal electronicLevyAmount       = 0;
-
-                Hashtable            file_hash = new Hashtable();
-                mobileBankingPayload mobPyld   = new mobileBankingPayload();
-
-                e_Verify_BACK_OFFICE_Service_Interface.eCoCash.MobileTransactionSoapClient EcoSvc     = new e_Verify_BACK_OFFICE_Service_Interface.eCoCash.MobileTransactionSoapClient();
+                e_Verify_BACK_OFFICE_Service_Interface.eCoCash.MobileTransactionSoapClient MobSrvc    = new e_Verify_BACK_OFFICE_Service_Interface.eCoCash.MobileTransactionSoapClient();
                 e_Verify_BACK_OFFICE_Service_Interface.eCoCash.customer_Detail             CustDetail = new e_Verify_BACK_OFFICE_Service_Interface.eCoCash.customer_Detail();
-
-                e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_Response_Detail tmpPostingResponse = new e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_Response_Detail();
-                Trn_Narr1_Narr2_AndRef Trn_Ref_and_Narr = new Trn_Narr1_Narr2_AndRef();
 
                 SQLStr = string.Format("EXEC dbo.ustp_Check_NodeConfiguration @Conf_InstitutionID = '{0}', @Conf_NodeID = '{1}', @Conf_ProcessName = '{2}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID, trxnProduct_ID);
                 if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr).Rows[0][0].ToString()) > 0)
@@ -8920,92 +9012,89 @@ namespace e_Verify_BACK_OFFICE_Service
                     if (Thread_Busy == "OK FOR POSTING")
                     {
                         SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"],string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID));
-                        string Trn_Desc_Dr = "";
 
                         // Mark Records per currency
                         Trn_GUID = System.Guid.NewGuid().ToString();
                         SQLStr   = string.Format("[dbo].[ustp_Mark_MobileTransaction_Batch] @Curr_Code = '{0}', @Processing_ID = '{1}'", Curr_Short_Name, Trn_GUID);
-                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+                        SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"], SQLStr);
 
                         // SQLStr = "Select Tr.*, dbo.[ustp_GetPostDate](Tr.TRH_Post_Date, CURRENT_TIMESTAMP) as Forced_Value_Date_D, Tbr.Is_BackVerify_YN  from EXTRHFLE Tr, tbl_Branches Tbr Where (Tr.TRH_Posted = 0 AND Tr.TRH_Rejected_YN_B = 0 AND Tbr.Branch_Code = Tr.TRH_Branch_Code AND SUBSTRING(Tr.TRH_CR_AccNo_C,1,2)  = '" & Curr_Code & "') AND ((Tbr. Is_BackVerify_YN  = 1 AND Tr.TRH_Mgr_Approved =1) OR (Tbr.Is_BackVerify_YN=0)) Order By TRH_Teller_ID,TRH_ID"
                         SQLStr   = string.Format("Select * from vw_MobileTransaction_Batch Where Processing_ID = '{0}'", Trn_GUID);
                         Data_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), SQLStr);
                         if (Data_Rec.Rows.Count > 0)
                         {
-                            File_Recs = 0;
+                            // Read Parameters to use
+                            SQLStr = string.Format("SELECT Parameter_Value, Parameter_ID FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('Compliance_MobileBankingReporting_EndPoint','Compliance_AgencyBankingReporting_EndPoint','Compliance_Bearer_Token','Compliance_informationCode') AND Bank_ID = '{0}' AND [Parameter_Authorised_YN] = 1", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
+                            SysRec = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+                            if (SysRec.Rows.Count > 0)
+                            {
+                                foreach (DataRow param_Row in SysRec.Rows)
+                                {
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "Compliance_MobileBankingReporting_EndPoint".ToUpper()) Compliance_MobileBankingReporting_EndPoint = param_Row["Parameter_Value"].ToString().Trim();
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "Compliance_AgencyBankingReporting_EndPoint".ToUpper()) Compliance_AgencyBankingReporting_EndPoint = param_Row["Parameter_Value"].ToString().Trim();
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "Compliance_Bearer_Token".ToUpper())                    Compliance_Bearer_Token                    = param_Row["Parameter_Value"].ToString().Trim();
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "Compliance_informationCode".ToUpper())                 Compliance_informationCode                 = param_Row["Parameter_Value"].ToString().Trim();
+                                }
+                            }
+
                             foreach (DataRow TranRow in Data_Rec.Rows)
                             {
                                 Curr_Rec_ID          = TranRow["Inst_No_N"].ToString();
+                                Trn_ID_C             = TranRow["Trn_ID_C"].ToString();
                                 Benef_Acc            = TranRow["AccountToUse"].ToString().Trim();
 
-                                CustDetail           = EcoSvc.FCUBS_AccountEnquiry(Benef_Acc, false, "FCUBS");
+                                CustDetail           = MobSrvc.FCUBS_AccountEnquiry(Benef_Acc, false, "FCUBS");
 
-                                mobPyld.customerName         = Utilities.RemoveSpecialCharacters_SWIFT(CustDetail.Cust_Name);
-                                mobPyld.gender = Utilities.RemoveSpecialCharacters_SWIFT(CustDetail.Cust_Sex);
+                                mobPyld.customerName = Utilities.RemoveSpecialCharacters_SWIFT(CustDetail.Cust_Name);
+                                mobPyld.gender       = Utilities.RemoveSpecialCharacters_SWIFT(CustDetail.Cust_Sex);
                                 if (mobPyld.gender == "M")
                                 {
-                                    mobPyld.gender = "1";
+                                    mobPyld.gender = "Male";
                                 }
                                 else if (mobPyld.gender == "F")
+                                     {
+                                        mobPyld.gender = "Female";
+                                     }
+                                     else
+                                     {
+                                       mobPyld.gender = "Not Applicable";
+                                     }
+
+                                mobPyld.accountStatus              = TranRow["accountStatus"].ToString();
+                                mobPyld.transactionDate            = TranRow["transactionDate"].ToString();
+                                mobPyld.lastTransactionDate        = TranRow["lastTransactionDate"].ToString();
+                                mobPyld.uniqueIdentificationNumber = TranRow["uniqueIdentificationNumber"].ToString();
+                                mobPyld.customerCategory           = TranRow["customerCategory"].ToString();
+                                mobPyld.mobileTransactionType      = TranRow["mobileTransactionType"].ToString();
+                                mobPyld.serviceCategory            = TranRow["serviceCategory"].ToString();
+                                mobPyld.subServiceCategory         = TranRow["subServiceCategory"].ToString();
+                                mobPyld.serviceStatus              = TranRow["serviceStatus"].ToString();
+                                mobPyld.transactionRef             = TranRow["transactionRef"].ToString();
+                                mobPyld.currency                   = TranRow["currency"].ToString();
+                                mobPyld.orgAmount                  = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["orgAmount"].ToString()));
+                                mobPyld.tzsAmount                  = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["tzsAmount"].ToString()));
+                                mobPyld.valueAddedTaxAmount        = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["valueAddedTaxAmount"].ToString()));
+                                mobPyld.exciseDutyAmount           = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["exciseDutyAmount"].ToString()));
+                                mobPyld.electronicLevyAmount       = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["electronicLevyAmount"].ToString()));
+
+                                jsonPayloadString                  = JsonConvert.SerializeObject(mobPyld);
+
+                                // Now post the transaction
+                                System.Collections.IDictionary payloadHeader = new Hashtable();
+                                payloadHeader.Add("Authorization"  , string.Format("Bearer {0}",Compliance_Bearer_Token));
+                                payloadHeader.Add("informationCode", Compliance_informationCode);
+
+                                billerResp = fn_PosttoBiller(Compliance_MobileBankingReporting_EndPoint, jsonPayloadString, payloadHeader, Curr_Rec_ID, Trn_ID_C);
+
+                                if (billerResp.status == "200")
                                 {
-                                    mobPyld.gender = "2";
+                                    SQLStr = string.Format("Update Payment_Instruction Set Extracted_YN_B = 1, Extracted_Response = '{1}' Where Inst_No_N = {0}", Curr_Rec_ID, billerResp.status);
                                 }
-                                else { mobPyld.gender = "3"; }
-
-                                mobPyld.accountStatus               = TranRow["accountStatus"].ToString();
-                                mobPyld.transactionDate             = TranRow["transacctionDate"].ToString();
-                                mobPyld.lastTransactionDate         = TranRow["lastTransactionDate"].ToString();
-                                mobPyld.uniqueIdentificationNumber  = TranRow["uniqueIdentificationNumber"].ToString();
-                                mobPyld.customerCategory            = TranRow["customerCategory"].ToString();
-                                mobPyld.mobileTransactionType       = TranRow["mobileTransactionType"].ToString();
-                                mobPyld.serviceCategory             = TranRow["serviceCategory"].ToString();
-                                mobPyld.subServiceCategory          = TranRow["subServiceCategory"].ToString();
-                                mobPyld.serviceStatus               = TranRow["serviceStatus"].ToString();
-                                mobPyld.transactionRef              = TranRow["transactionRef"].ToString();
-                                mobPyld.currency                    = TranRow["currency"].ToString();
-                                mobPyld.orgAmount                   = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["orgAmount"].ToString()));
-                                mobPyld.tzsAmount                   = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["tzsAmount"].ToString()));
-                                mobPyld.valueAddedTaxAmount         = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["valueAddedTaxAmount"].ToString()));
-                                mobPyld.exciseDutyAmount            = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["exciseDutyAmount"].ToString()));
-                                mobPyld.electronicLevyAmount        = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["electronicLevyAmount"].ToString()));
-
-                                string output = JsonConvert.SerializeObject(mobPyld);
-
-                                tmpPostingResponse = new e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_Response_Detail();
-
-                                //if (Convert.ToDouble(ValAmnt) == 0.0)
-                                //{
-                                //    SQLStr = string.Format("Update EXTRHFLE SET HTTP_Retries_N = COALESCE(HTTP_Retries_N, 0) + 10, HTTP_Responce_C = 'E', TRH_Posted = 0, TRH_XML_File = '{0}', TRH_XML_Time = CURRENT_TIMESTAMP  Where TRH_ID = '{1}' And Processing_ID ='{2}'", Fin_ChannelRefNum_C, Curr_Rec_ID, Trn_GUID);
-                                //}
-                                //else
-                                //{
-                                //    tmpPostingResponse = fn_Post_Finacle_Transaction(FinWebUserID, FinWebUserPassword, "EVF", Fin_TrnUniqueID_C, Fin_ChannelRefNum_C, false, "1001", ValAmnt, Curr_Short_Name, Debit_Acc, Benef_Acc, TrnDateTime, "SIBCZWHX", "SBICZWHX", Trn_CustName.Replace("/", ""),"", Trn_Ref_and_Narr, "TRF", "TRF", "EVF");
-                                //    if (tmpPostingResponse.SuccessOrFailure == "Y")
-                                //    {
-                                //        SQLStr = string.Format("Update EXTRHFLE SET HTTP_Retries_N = COALESCE(HTTP_Retries_N,0) + 1, HTTP_Responce_C = '{0}', TRH_Posted = 1, TRH_XML_File = '{1}', TRH_XML_Time = CURRENT_TIMESTAMP  Where TRH_ID = '{2}' And Processing_ID ='{3}'", tmpPostingResponse.SuccessOrFailure, Fin_ChannelRefNum_C, Curr_Rec_ID, Trn_GUID);
-                                //        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
-
-                                //        // Save Record for Zimra Integration - Inward to Zimra
-                                //        if ((Row["TRH_Acc_Group_C"].ToString().Trim() == "ZIMRA") && (Row["Trh_Trxn_Type"].ToString().Trim() == "PST"))
-                                //        {
-                                //            SQLStr = string.Format("[dbo].[ustp_ZimraIntegration_Insert] @ZIMRA_Out_FileName_C = 'eVeriryPosting', @ZIMRA_Ref_C = '{0}', @ZIMRA_Amnt_N = '{1}'", TRH_GroupID, ValAmnt);
-                                //            SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
-                                //        }
-
-                                //  }
-                                //    else
-                                //    { 
-                                //        if (tmpPostingResponse.Error_Code == "FAILUREINTF1128")  // This still has to be provided for StanChart
-                                //        {
-                                //            SQLStr = string.Format("Update EXTRHFLE SET HTTP_Retries_N = COALESCE(HTTP_Retries_N,0)+ 1, HTTP_Responce_C = '{0} #R# {4} - FAILUREINTF1128 : Duplicate Inference', TRH_Posted = 1, TRH_XML_File = '{1}', TRH_XML_Time = CURRENT_TIMESTAMP Where TRH_ID = '{2}' And Processing_ID ='{3}'", tmpPostingResponse.SuccessOrFailure, Fin_ChannelRefNum_C, Curr_Rec_ID, Trn_GUID, tmpPostingResponse.Resp_Code);
-                                //        }
-                                //        else
-                                //        {
-                                //            SQLStr = string.Format("Update EXTRHFLE SET HTTP_Retries_N = COALESCE(HTTP_Retries_N,0)+ 1, HTTP_Responce_C = '{0} #R# {4}', TRH_Posted = 0, TRH_XML_File = '{1}', TRH_XML_Time = CURRENT_TIMESTAMP Where TRH_ID = '{2}' And Processing_ID ='{3}'", tmpPostingResponse.SuccessOrFailure, Fin_ChannelRefNum_C, Curr_Rec_ID, Trn_GUID, tmpPostingResponse.Resp_Code);
-                                //        }
-                                //    }
-                                //}
-                                //SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+                                else
+                                {
+                                    SQLStr = string.Format("Update Payment_Instruction Set Extracted_YN_B = 0, Extracted_Response = '{1}' Where Inst_No_N = {0}", Curr_Rec_ID, billerResp.rawdata);
+                                }
+                                SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"], SQLStr);
 
                                 File_Recs = File_Recs + 1;
                             }
@@ -9022,11 +9111,9 @@ namespace e_Verify_BACK_OFFICE_Service
                 string ErrRet = LogError("4796638", "Post_Everify_EXTRHFLE_Transactions", ex, Fin_TrnUniqueID_C);
                 return "2";
             }
-
             finally { }
             return "1";
         }
-
         
         public string RePost_Syb_Zimra_Outgoing_Transactions()
         {
@@ -9152,8 +9239,6 @@ namespace e_Verify_BACK_OFFICE_Service
             finally { }
             return "1";
         }
-
-
 
         public string Post_Everify_EXTRHFLE_Transactions()
         {
@@ -9438,7 +9523,7 @@ namespace e_Verify_BACK_OFFICE_Service
                                                 {
                                                     if (TRH_Trn_Ref.Length >= 8)
                                                     {
-                                                        TRH_Trn_Ref = (Post_to_RTGS_Live)       ? TRH_Trn_Ref.Substring(0, 8).Trim()      : string.Format("{0}0", TRH_Trn_Ref.Substring(0, 7).Trim());
+                                                        TRH_Trn_Ref       = (Post_to_RTGS_Live) ? TRH_Trn_Ref.Substring(0, 8).Trim()       : string.Format("{0}0", TRH_Trn_Ref.Substring(0, 7).Trim());
                                                     }
                                                     if (Bank_SWIFT_Addr_C.Length >= 8)
                                                     {
@@ -9460,7 +9545,7 @@ namespace e_Verify_BACK_OFFICE_Service
                                                     RTGSTrxn.reference                = string.Format("ex {0} {1} {2}", Bank_SWIFT_Addr_C, TRH_BPart, TRH_Narr_2);
                                                     RTGSTrxn.valueDate                = (Use_Sybrin_ForcePosting_Date) ? Sybrin_ForcePosting_Date : TrnDateTime;
 
-                                                    var rtgsJSON = JsonConvert.SerializeObject(RTGSTrxn);
+                                                    var rtgsJSON                      = JsonConvert.SerializeObject(RTGSTrxn);
                                                     // Sybrin handles the debit and credit and Finacle handles the RTGS stop Outward extract of MT103
                                                     if (Use_Sybrin_Pseudo_Response)
                                                     {
@@ -9469,7 +9554,7 @@ namespace e_Verify_BACK_OFFICE_Service
                                                     }
                                                     else
                                                     {
-                                                        BillResp         = fn_PosttoBiller(Sybrin_RTGS_EndPoint, rtgsJSON, "", RTGSTrxn.reference, TRH_Reference, "POST");
+                                                        BillResp            = fn_PosttoBiller(Sybrin_RTGS_EndPoint, rtgsJSON, "", RTGSTrxn.reference, TRH_Reference, "POST");
                                                     }
 
                                                     BillResp_XML         = JsonConvert.DeserializeXmlNode(BillResp.result, "root");
@@ -9564,7 +9649,7 @@ namespace e_Verify_BACK_OFFICE_Service
             }
             catch (Exception ex)
             {
-                SQLStr = string.Format("Update EXTRHFLE SET HTTP_Retries_N = COALESCE(HTTP_Retries_N,0)+ 1, HTTP_Responce_C = 'E - Exception', TRH_Posted = 0, TRH_XML_File = '{0}', TRH_XML_Time = CURRENT_TIMESTAMP  Where TRH_ID = '{1}' And Processing_ID ='{2}'", Fin_ChannelRefNum_C, Curr_Rec_ID, Trn_GUID);
+                SQLStr        = string.Format("Update EXTRHFLE SET HTTP_Retries_N = COALESCE(HTTP_Retries_N,0)+ 1, HTTP_Responce_C = 'E - Exception', TRH_Posted = 0, TRH_XML_File = '{0}', TRH_XML_Time = CURRENT_TIMESTAMP  Where TRH_ID = '{1}' And Processing_ID ='{2}'", Fin_ChannelRefNum_C, Curr_Rec_ID, Trn_GUID);
                 SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
                 string ErrRet = LogError("4796638", "Post_Everify_EXTRHFLE_Transactions", ex, Fin_TrnUniqueID_C);
                 return "2";
@@ -11804,7 +11889,11 @@ namespace e_Verify_BACK_OFFICE_Service
                     //}
                     if (e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.INSTALLATION_TYPE == "SERVER")
                     {
-                        // fn_Post_to_ZIMRA();
+                        Post_TZ_Compliance_MobileTransactions();
+                        //fnGetTextfromPdf();
+                        //fn_Post_to_ZIMRA();
+
+                        //Post_OfflineTrxns_ABC();
                         RePost_Syb_Zimra_Outgoing_Transactions();
                         Zimra_Integration();
                         Post_Everify_EXTRHFLE_Transactions();
@@ -21075,6 +21164,7 @@ namespace e_Verify_BACK_OFFICE_Service
 
                 if (e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.INSTALLATION_TYPE == "SERVER")
                 {
+                    Post_TZ_Compliance_MobileTransactions();
                     //fnGetTextfromPdf();
                     //fn_Post_to_ZIMRA();
 
