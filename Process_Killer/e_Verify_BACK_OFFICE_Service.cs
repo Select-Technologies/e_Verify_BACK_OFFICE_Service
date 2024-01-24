@@ -29,6 +29,7 @@ using iText.Kernel.Pdf.Canvas.Parser.Listener;
 using iText.Kernel.Pdf.Canvas.Parser;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Sylvan.Data.Csv;
 
 namespace e_Verify_BACK_OFFICE_Service
 //namespace e_Verify_BACK_OFFICE_Service
@@ -53,9 +54,10 @@ namespace e_Verify_BACK_OFFICE_Service
         {
             Hashtable tmpHash1 = new Hashtable();
             string Error_Time1 = string.Format("{0:yyyy-MM-dd} {1}", DateTime.Today.Date, DateTime.Now.ToString("HH:mm:ss"));
-            tmpHash1.Add("STEP_DESCR", " e_Verify_BACK_OFFICE_Service 1");
-            tmpHash1.Add("LOGGER_DESCR", " e_Verify_BACK_OFFICE_Service 1");
-            tmpHash1.Add("DATE_LOGGED", Error_Time1);
+            tmpHash1.Add("STEP_DESCR"    , " e_Verify_BACK_OFFICE_Service 1");
+            tmpHash1.Add("LOGGER_DESCR"  , " e_Verify_BACK_OFFICE_Service 1");
+            tmpHash1.Add("DATE_LOGGED"   , Error_Time1);
+            tmpHash1.Add("LOGGER_NODE_ID", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID);
             SqlHelper.insertSQL(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "Service_Logger", tmpHash1);
 
             InitializeComponent();
@@ -91,9 +93,10 @@ namespace e_Verify_BACK_OFFICE_Service
 
             Hashtable tmpHash2 = new Hashtable();
             string Error_Time2 = string.Format("{0:yyyy-MM-dd} {1}", DateTime.Today.Date, DateTime.Now.ToString("HH:mm:ss"));
-            tmpHash2.Add("STEP_DESCR", " e_Verify_BACK_OFFICE_Service 2");
-            tmpHash2.Add("LOGGER_DESCR", " e_Verify_BACK_OFFICE_Service 2");
-            tmpHash2.Add("DATE_LOGGED", Error_Time2);
+            tmpHash2.Add("STEP_DESCR"    , " e_Verify_BACK_OFFICE_Service 2");
+            tmpHash2.Add("LOGGER_DESCR"  , " e_Verify_BACK_OFFICE_Service 2");
+            tmpHash2.Add("DATE_LOGGED"   , Error_Time2);
+            tmpHash2.Add("LOGGER_NODE_ID", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID);
             SqlHelper.insertSQL(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "Service_Logger", tmpHash2);
 
         }
@@ -1885,6 +1888,170 @@ namespace e_Verify_BACK_OFFICE_Service
         }
 
 
+
+        //public void Post_MobileCharges_n_Levy_STB()
+        //{
+        //    string Curr_Rec_ID = "";
+        //    string trxnProduct_ID = "POST_MOBCHG_STB";
+        //    string SQLStr = "";
+        //    try
+        //    {
+        //        //Check if this Node is allowed to Run 
+        //        SQLStr = string.Format("EXEC dbo.ustp_Check_NodeConfiguration @Conf_InstitutionID = '{0}', @Conf_NodeID = '{1}', @Conf_ProcessName = '{2}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID, trxnProduct_ID);
+        //        if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr).Rows[0][0].ToString()) > 0)
+        //        {
+        //            if (!e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Post_Charges_SCB)
+        //            {
+        //                LogStep(trxnProduct_ID, "Post_Mobile_Charges_n_Levy disabled");
+        //                //return "0";
+        //            }
+        //            else
+        //            {
+        //                DataTable Curr_Rec = new DataTable();
+        //                DataTable SysRec = new DataTable();
+        //                DataTable Entity_Rec = new DataTable();
+        //                DataTable XML_Request_Rec = new DataTable();
+        //                string Str_TrnAmnt = "0.00";
+        //                string Out_Dir;
+        //                double Curr_Run_No = 0;
+        //                string Out_File_Name;
+        //                string Instance_Name = "";
+        //                bool CreateTestXML = false;
+        //                string Curr_License;
+        //                string Svr_Lic_Date;
+        //                string Trn_Desc;
+        //                string Trn_Ref = "";
+        //                string ValAmnt;
+        //                string Post_Date;
+        //                double File_Recs;
+        //                int Lic_Response_Code = 0;
+        //                bool Econet_Integrated = false;
+        //                bool postMobChargesThruEverify_F = false;
+        //                string Source_TrnID;
+        //                string Trn_GUID = "";
+        //                string FinWebUserID = "";
+        //                string FinWebUserPassword = "";
+        //                bool Fin_PseudoResponse_Use = false;
+        //                bool Finacle_Live = false;
+
+        //                e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_BridgeSoapClient Finacle_Bridge = new e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_BridgeSoapClient();
+        //                Trn_Narr1_Narr2_AndRef Trn_Ref_and_Narr = new Trn_Narr1_Narr2_AndRef();
+        //                e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_Response_Detail tmpPostingResponse = new e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_Response_Detail();
+        //                string PostTime = "";
+        //                string TrnDateTime = "";
+        //                string Entity_ID_C_Tmp;
+        //                bool Posting_Status_Tmp;
+        //                string Posting_Entities = "(";
+        //                int Processing_Retry_Max = 0;
+        //                int Processing_Retry_Interval = 0;
+
+        //                string Source_Trn_ID = "";
+        //                string Parm_TranParticularsCodeDr = "CHG";
+        //                string Parm_TranParticularsCodeCr = "CHG";
+
+
+        //                string ForcedTiming = string.Format("[dbo].[usp_CheckThreadStatus] @Thread_ID ='{0}', @ForceThreadTime ='{1}' ", trxnProduct_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Forced_ThreadMinutes);
+        //                string Thread_Busy  = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], ForcedTiming).Rows[0]["Thread_Response"].ToString().Trim();
+
+        //                if ((Thread_Busy == "OK FOR POSTING"))
+        //                {
+        //                    SqlHelper.RunSql(string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID));
+        //                    SQLStr = "SELECT *, CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,21) AS Svr_Lic_Date, CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,25) as TrnDateTime FROM tbl_SysParam WITH (NOLOCK) WHERE ParamID = 'CTL'";
+        //                    SysRec = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+
+        //                    foreach (DataRow Sys_Row in SysRec.Rows)
+        //                    {
+        //                        Instance_Name               = Sys_Row["Instance_Name_C"].ToString().Trim();
+        //                        Econet_Integrated           = bool.Parse(Sys_Row["EcoCash_Interface_YN_B"].ToString());
+        //                        CreateTestXML               = bool.Parse(Sys_Row["Create_TestXML_YN_B"].ToString());
+        //                        Curr_License                = Sys_Row["License_Code_C"].ToString().Trim();
+        //                        Svr_Lic_Date                = Sys_Row["Svr_Lic_Date"].ToString().Trim();
+        //                        TrnDateTime                 = Sys_Row["TrnDateTime"].ToString();
+        //                        Out_Dir                     = Sys_Row["OutFileDir"].ToString().Trim();
+        //                        FinWebUserID                = Sys_Row["FinWebUserID"].ToString();
+        //                        Finacle_Live                = bool.Parse(Sys_Row["Finacle_Live"].ToString());
+        //                        FinWebUserPassword          = Sys_Row["FinWebUserPassword"].ToString();
+        //                        Fin_PseudoResponse_Use      = bool.Parse(Sys_Row["UseFinaclePseudoResponse_B"].ToString());
+        //                        Processing_Retry_Max        = Convert.ToInt16(Sys_Row["Processing_Retry_Max"].ToString());
+        //                        Processing_Retry_Interval   = Convert.ToInt16(Sys_Row["Processing_Retry_Interval"].ToString());
+        //                        postMobChargesThruEverify_F = Convert.ToBoolean(Sys_Row["postMobChargesThruEverify_F"]);
+        //                    }
+
+        //                    if (((Econet_Integrated == true) && (postMobChargesThruEverify_F == true)))
+        //                    {
+        //                        //  Mark the Batch
+        //                        Trn_GUID = Guid.NewGuid().ToString();
+        //                        SQLStr   = string.Format("[dbo].[ustp_Mark_eVerify_Batch] @Curr_Run = '{0}'", Trn_GUID);
+        //                        SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), SQLStr);
+
+        //                        Curr_Rec = new DataTable();
+        //                        SQLStr   = string.Format("SELECT PayInst.*, Acc.Acc_Name_C FROM Payment_Instruction PayInst INNER JOIN UserAccount Acc ON PayInst.sourceAccountNo = Acc.AccountNo WHERE PayInst.Processing_ID  = '{0}'", Trn_GUID);
+        //                        Curr_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), SQLStr);
+
+        //                        foreach (DataRow revRow in Curr_Rec.Rows)
+        //                        {
+        //                            Curr_Rec_ID     = revRow["Trn_ID_N"].ToString().Trim();
+        //                            Source_Trn_ID   = revRow["sourceReference"].ToString().Trim();
+        //                            // tmpFinBridgeSC = New Finacle_Bridge.Finacle_BridgeSoapClient
+        //                            Trn_Desc        = revRow["DR_Narrative_C"].ToString().Trim();
+        //                            XmlDocument xml = new XmlDocument();
+        //                            try
+        //                            {
+        //                                xml.LoadXml(Trn_Desc);
+        //                                Trn_Ref_and_Narr = new Trn_Narr1_Narr2_AndRef();
+        //                                Trn_Ref_and_Narr.IntialiseObject();
+
+        //                                Trn_Ref_and_Narr.DR_Trn_Reference  = Utilities.getXMLPathValue(xml, "Trn_Narr1_Narr2/DR_Trn_Reference");
+        //                                Trn_Ref_and_Narr.DR_Trn_Narrative1 = Utilities.getXMLPathValue(xml, "Trn_Narr1_Narr2/DR_Trn_Narrative1");
+        //                                Trn_Ref_and_Narr.DR_Trn_Narrative2 = Utilities.getXMLPathValue(xml, "Trn_Narr1_Narr2/DR_Trn_Narrative2");
+
+        //                                Trn_Ref_and_Narr.CR_Trn_Reference  = Utilities.getXMLPathValue(xml, "Trn_Narr1_Narr2/DR_Trn_Reference");
+        //                                Trn_Ref_and_Narr.CR_Trn_Narrative1 = Utilities.getXMLPathValue(xml, "Trn_Narr1_Narr2/DR_Trn_Narrative1");
+        //                                Trn_Ref_and_Narr.CR_Trn_Narrative2 = Utilities.getXMLPathValue(xml, "Trn_Narr1_Narr2/DR_Trn_Narrative2");
+        //                            }
+        //                            catch (Exception ex_xmlLoad)
+        //                            {
+        //                                LogError(ex_xmlLoad.GetHashCode().ToString(), string.Format("{0} xml", trxnProduct_ID), ex_xmlLoad, Curr_Rec_ID);
+        //                            }
+
+        //                            Str_TrnAmnt        = string.Format("{0:####0.00}", revRow["paymentAmount"].ToString().Replace("-", ""));
+        //                            tmpPostingResponse = new e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_Response_Detail();
+
+        //                            if (Convert.ToDouble(Str_TrnAmnt) == 0.0)
+        //                            {
+        //                                SQLStr = String.Format("UPDATE Payment_Instruction SET Posted_B = 0, Posted_In_MUB_B = 0, Fin_SuccessOrFailure_C = 'N', Fin_Response_Det_C = 'Zero Amount Ignored', Fin_Retry_No = 15 WHERE Trn_ID_N = '{0}'", Curr_Rec_ID);
+        //                            }
+        //                            else
+        //                            {
+        //                                tmpPostingResponse = fn_Post_Finacle_Transaction(FinWebUserID, FinWebUserPassword, "EVF", revRow["Fin_TrnUniqueID_C"].ToString().Trim(), revRow["Fin_ChannelRefNum_C"].ToString().Trim(), false, "1001", Str_TrnAmnt, revRow["Fin_CurrCode_C"].ToString().Trim(), revRow["sourceAccountNo"].ToString().Trim(), revRow["destinationAccount"].ToString().Trim(), TrnDateTime, "SIBCZWHX", "SBICZWHX", revRow["Acc_Name_C"].ToString().Trim().Replace("/", ""), "", Trn_Ref_and_Narr, Parm_TranParticularsCodeDr, Parm_TranParticularsCodeCr, "EVF");
+        //                                if ((tmpPostingResponse.SuccessOrFailure == "Y"))
+        //                                {
+        //                                    SQLStr = string.Format("UPDATE Payment_Instruction SET Posted_B = 1, Posted_In_MUB_B = 1, Fin_SuccessOrFailure_C = 'Y', Fin_Response_Det_C = '{1} #R# {2}' WHERE Trn_ID_N = '{0}'", Curr_Rec_ID, tmpPostingResponse.Resp_Code, tmpPostingResponse.Resp_Remarks);
+        //                                }
+        //                                else if ((tmpPostingResponse.Error_Code == "FAILUREINTF1128"))  // This still has to be provided for StanChart
+        //                                {
+        //                                    SQLStr = string.Format("UPDATE Payment_Instruction SET Posted_B = 1, Posted_In_MUB_B = 1, Fin_SuccessOrFailure_C = 'Y', Fin_Response_Det_C = '{1} #R# {2} - FAILUREINTF1128 : Duplicate Inference' WHERE Trn_ID_N = '{0}'", Curr_Rec_ID, tmpPostingResponse.Resp_Code, tmpPostingResponse.Resp_Remarks);
+        //                                }
+        //                                else
+        //                                {
+        //                                    SQLStr = string.Format("UPDATE Payment_Instruction SET  Fin_Response_Det_C = '{1} #R# {2}' WHERE Trn_ID_N = '{0}'", Curr_Rec_ID, tmpPostingResponse.Resp_Code, tmpPostingResponse.Resp_Remarks);
+        //                                }
+        //                            }
+        //                            SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"], SQLStr);
+        //                        }
+        //                    }
+        //                }
+        //                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C= '{0}'", trxnProduct_ID));
+        //            }
+        //        }
+        //    }
+        //    catch (Exception PostCharge_Exception)
+        //    {
+        //        string retErr = LogError(PostCharge_Exception.GetHashCode().ToString(), trxnProduct_ID, PostCharge_Exception, Curr_Rec_ID);
+        //    }
+        //}
+
+
         public void Post_MobileCharges_n_Levy_STB()
         {
             string Curr_Rec_ID    = "";
@@ -2098,6 +2265,7 @@ namespace e_Verify_BACK_OFFICE_Service
                     DataTable Sys_Tbl                          = new DataTable();
                     bool      AUTHORISE_OFFLINE                = false;
                     bool      ENABLE_ASYNCH_SINGLE_DAY_POSTING = false;
+                    string    AUTHORISE_OFFLINE_START_TIME    = "";
                     string    ASYNCH_SINGLE_DAY_POSTING_DATE   = "";
 
                     if (!e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Post_Charges_ABC)
@@ -2141,13 +2309,14 @@ namespace e_Verify_BACK_OFFICE_Service
                             {
                                 // Check if not Offline Authourising
                                 Sys_Tbl = new DataTable();
-                                SQLStr = string.Format("SELECT Parameter_Value, Parameter_ID FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('AUTHORISE_OFFLINE','ASYNCH_SINGLE_DAY_POSTING_DATE','ENABLE_ASYNCH_SINGLE_DAY_POSTING') AND Bank_ID = '{0}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
+                                SQLStr = string.Format("SELECT Parameter_Value, Parameter_ID FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('AUTHORISE_OFFLINE','ASYNCH_SINGLE_DAY_POSTING_DATE','ENABLE_ASYNCH_SINGLE_DAY_POSTING','AUTHORISE_OFFLINE_START_TIME') AND Bank_ID = '{0}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
                                 Sys_Tbl = SqlHelper.GetTable(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"], SQLStr);
                                 foreach (DataRow param_Row in Sys_Tbl.Rows)
                                 {
                                     if (param_Row["Parameter_ID"].ToString().ToUpper() == "AUTHORISE_OFFLINE".ToUpper())                AUTHORISE_OFFLINE                = ((param_Row["Parameter_Value"].ToString().ToUpper().Contains("TRUE")) || (param_Row["Parameter_Value"].ToString().ToUpper().Contains("YES")) || (param_Row["Parameter_Value"].ToString().ToUpper() == "1")) ? true : false;
                                     if (param_Row["Parameter_ID"].ToString().ToUpper() == "ENABLE_ASYNCH_SINGLE_DAY_POSTING".ToUpper()) ENABLE_ASYNCH_SINGLE_DAY_POSTING = ((param_Row["Parameter_Value"].ToString().ToUpper().Contains("TRUE")) || (param_Row["Parameter_Value"].ToString().ToUpper().Contains("YES")) || (param_Row["Parameter_Value"].ToString().ToUpper() == "1")) ? true : false;
                                     if (param_Row["Parameter_ID"].ToString().ToUpper() == "ASYNCH_SINGLE_DAY_POSTING_DATE".ToUpper())   ASYNCH_SINGLE_DAY_POSTING_DATE   = param_Row["Parameter_Value"].ToString();
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "AUTHORISE_OFFLINE_START_TIME".ToUpper())     AUTHORISE_OFFLINE_START_TIME     = param_Row["Parameter_Value"].ToString();
                                 }
                                 if (!AUTHORISE_OFFLINE)
                                 {
@@ -2159,13 +2328,16 @@ namespace e_Verify_BACK_OFFICE_Service
                                     }
                                     else
                                     {
-                                        SQLStr = string.Format("[dbo].[ustp_Mark_eVerify_Batch] @Curr_Run = '{0}'", Trn_GUID);
+                                        SQLStr = string.Format("[dbo].[ustp_Mark_eVerify_Batch_OfflineCatchup] @Curr_Run = '{0}'", Trn_GUID);
                                     }
 
                                     SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"], SQLStr);
+                                   
                                     Curr_Rec = new DataTable();
-                                    //SQLStr   = string.Format("SELECT * FROM dbo.Payment_Instruction WITH (NOLOCK) WHERE Processing_ID  = '{0}'",Trn_GUID);
-                                    SQLStr = string.Format("Select * from Payment_Instruction Where Trn_Date_D >= '2023-12-09 19:20:08' and trnReference in ('ASYNCH','SUCCEESS - OFFLINE') And  Posted_B = 0 order by 1 desc", Trn_GUID);
+
+                                    //SQLStr = string.Format("Select * From Payment_Instruction Where Trn_Date_D >= '{1}' and trnReference in ('ASYNCH','SUCCEESS - OFFLINE') And  Posted_B = 0 order by 1 Desc", Trn_GUID, AUTHORISE_OFFLINE_START_TIME);
+                                    SQLStr   = string.Format("SELECT * FROM dbo.Payment_Instruction WITH (NOLOCK) WHERE Processing_ID  = '{0}'",Trn_GUID);
+                                   
                                     Curr_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"], SQLStr);
 
                                     if (Curr_Rec.Rows.Count > 0)
@@ -2675,8 +2847,8 @@ namespace e_Verify_BACK_OFFICE_Service
 
                         string Curr_License      = null;
                         string Svr_Lic_Date      = null;
-                        int   Lic_Response_Code  = 0;
-                        bool  Econet_Integrated  = false;
+                        int    Lic_Response_Code = 0;
+                        bool   Econet_Integrated = false;
                         string Source_TrnID      = null;
         
                         string FinWebUserID           = "";
@@ -2744,7 +2916,7 @@ namespace e_Verify_BACK_OFFICE_Service
                             {
                                 // Process the Reversals Only
                                 Curr_Rec = new DataTable();
-                                SQLStr = "SELECT TOP 40 *, TrnType_SubType_C AS TrnType1 FROM Payment_Instruction PyInst,  (SELECT TOP 1 [Id] AS [UsrID], [Password] AS Usr_Pass FROM UserInfo WITH (NOLOCK) WHERE Live_YN_B = '1') UsrConnInfo WHERE PyInst.TrnType_C = 'REV' AND PyInst.Posted_B = 0 AND  PyInst.Reversed_B = 0 AND PyInst.Fin_Retry_No < 5 AND DATEDIFF(MINUTE,  PyInst.Trn_Time, CURRENT_TIMESTAMP) >= (10 * PyInst.Fin_Retry_No) AND DATEDIFF(MINUTE,  COALESCE(PyInst.Processing_Time,DATEADD(MINUTE,-7,CURRENT_TIMESTAMP)), CURRENT_TIMESTAMP) >= 5 AND DATEDIFF(HOUR,PyInst.Trn_Time, CURRENT_TIMESTAMP) < 12 ORDER BY Fin_Retry_No ASC, Trn_Time DESC";
+                                SQLStr   = "SELECT TOP 40 *, TrnType_SubType_C AS TrnType1 FROM Payment_Instruction PyInst,  (SELECT TOP 1 [Id] AS [UsrID], [Password] AS Usr_Pass FROM UserInfo WITH (NOLOCK) WHERE Live_YN_B = '1') UsrConnInfo WHERE PyInst.TrnType_C = 'REV' AND PyInst.Posted_B = 0 AND  PyInst.Reversed_B = 0 AND PyInst.Fin_Retry_No < 5 AND DATEDIFF(MINUTE,  PyInst.Trn_Time, CURRENT_TIMESTAMP) >= (10 * PyInst.Fin_Retry_No) AND DATEDIFF(MINUTE,  COALESCE(PyInst.Processing_Time,DATEADD(MINUTE,-7,CURRENT_TIMESTAMP)), CURRENT_TIMESTAMP) >= 5 AND DATEDIFF(HOUR,PyInst.Trn_Time, CURRENT_TIMESTAMP) < 12 ORDER BY Fin_Retry_No ASC, Trn_Time DESC";
 
                                 Curr_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"], SQLStr);
                                 if (Curr_Rec.Rows.Count > 0)
@@ -8845,7 +9017,6 @@ namespace e_Verify_BACK_OFFICE_Service
             WebClient httpClient  = new WebClient();
             string    ItemKey_C   = "";
             string    ItemValue_C = "";
-            double    logResponse = 0.0;
             string    errorCode   = "";
             int       headerItems = header.Count;
             cls_BillerResponse cls_BillerResponse = new cls_BillerResponse();
@@ -8986,10 +9157,10 @@ namespace e_Verify_BACK_OFFICE_Service
 
             try
             {
-                DataTable Data_Rec   = new DataTable();
-                DataTable SysRec     = new DataTable();
-                string    Benef_Acc  = "";
-                double    File_Recs  = 0;
+                DataTable Data_Rec  = new DataTable();
+                DataTable SysRec    = new DataTable();
+                string    Benef_Acc = "";
+                double    File_Recs = 0;
 
                 string Compliance_MobileBankingReporting_EndPoint = "";
                 string Compliance_AgencyBankingReporting_EndPoint = "";
@@ -9106,15 +9277,289 @@ namespace e_Verify_BACK_OFFICE_Service
             }
             catch (Exception ex)
             {
-                SQLStr = string.Format("Update EXTRHFLE SET HTTP_Retries_N = COALESCE(HTTP_Retries_N,0)+ 1, HTTP_Responce_C = 'E - Exception', TRH_Posted = 0, TRH_XML_File = '{0}', TRH_XML_Time = CURRENT_TIMESTAMP  Where TRH_ID = '{1}' And Processing_ID ='{2}'", Fin_ChannelRefNum_C, Curr_Rec_ID, Trn_GUID);
-                SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
-                string ErrRet = LogError("4796638", "Post_Everify_EXTRHFLE_Transactions", ex, Fin_TrnUniqueID_C);
+                //SQLStr        = string.Format("Update EXTRHFLE SET HTTP_Retries_N = COALESCE(HTTP_Retries_N,0)+ 1, HTTP_Responce_C = 'E - Exception', TRH_Posted = 0, TRH_XML_File = '{0}', TRH_XML_Time = CURRENT_TIMESTAMP  Where TRH_ID = '{1}' And Processing_ID ='{2}'", Fin_ChannelRefNum_C, Curr_Rec_ID, Trn_GUID);
+                //SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+                string ErrRet = LogError("7899601", trxnProduct_ID, ex, Fin_TrnUniqueID_C);
                 return "2";
             }
             finally { }
             return "1";
         }
+
         
+        public string getExchageRateFromWeb()
+        {
+            string Fin_TrnUniqueID_C   = "";
+            string SQLStr              = "";
+            string trxnProduct_ID      = "getExchageRateFromWeb";
+            string Curr_Short_Name     = "";
+            string[] TagSeparator      = { "/" };
+            TagSeparator.SetValue("/", 0);
+            int Array_Len  = 0;
+            int Array_Loop = 0;
+            string[] Search_String_Params;
+
+            string[] subTagSeparator = { "/" };
+            subTagSeparator.SetValue("/", 0);
+            int subArray_Len = 0;
+            string[] subSearch_String_Params;
+
+            string subText = "";
+            webExchangeRate tmpwebExchangeRate = new webExchangeRate();
+            DataTable       SysRec             = new DataTable();
+
+            try
+            {
+                string exchangeRateFileUri                = "";
+                string exchangeRatedownloadTempFolder     = "";
+                string exchangeRatesToDownloadList        = "";
+                string ParamTime                          = "";
+                string exchangeRateText                   = "";
+                string exchangeRatesNetworkUser           = "";
+                string exchangeRatesNetworkPassword       = "";
+                bool   useExchangeRatesNetworkCredentials = false;
+
+                SQLStr = string.Format("EXEC dbo.ustp_Check_NodeConfiguration @Conf_InstitutionID = '{0}', @Conf_NodeID = '{1}', @Conf_ProcessName = '{2}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID, trxnProduct_ID);
+                if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr).Rows[0][0].ToString()) > 0)
+                {
+                    string ForcedTiming = string.Format("[dbo].[usp_CheckThreadStatus] @Thread_ID = '{0}', @ForceThreadTime = '{1}' ", trxnProduct_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Forced_ThreadMinutes.ToString());
+                    string Thread_Busy  = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"],ForcedTiming).Rows[0]["Thread_Response"].ToString().Trim();
+                    if (Thread_Busy == "OK FOR POSTING")
+                    {
+                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"],string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID));
+
+                        // Read Parameters to use
+                        SQLStr = string.Format("SELECT replace(replace(replace(replace(convert(varchar(50),CURRENT_TIMESTAMP,25),'-',''),':',''),' ',''),'.','') ParamTime, Parameter_Value, Parameter_ID FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('exchangeRateFileUri','exchangeRatedownloadTempFolder','exchangeRatesToDownloadList','exchangeRatesNetworkUser','exchangeRatesNetworkPassword','useExchangeRatesNetworkCredentials') AND Bank_ID = '{0}' AND [Parameter_Authorised_YN] = 1", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
+                        SysRec = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+                        if (SysRec.Rows.Count > 0)
+                        {
+                            foreach (DataRow param_Row in SysRec.Rows)
+                            {
+                                ParamTime = param_Row["ParamTime"].ToString();
+
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "useExchangeRatesNetworkCredentials".ToUpper()) useExchangeRatesNetworkCredentials = ((param_Row["Parameter_Value"].ToString().ToUpper().Trim().Contains("TRUE")) || (param_Row["Parameter_Value"].ToString().Trim().ToUpper().Contains("YES")) || (param_Row["Parameter_Value"].ToString().Trim().ToUpper() == "1")) ? true : false;
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "exchangeRateFileUri".ToUpper())                exchangeRateFileUri                = param_Row["Parameter_Value"].ToString().Trim();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "exchangeRatedownloadTempFolder".ToUpper())     exchangeRatedownloadTempFolder     = param_Row["Parameter_Value"].ToString().Trim();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "exchangeRatesToDownloadList".ToUpper())        exchangeRatesToDownloadList        = param_Row["Parameter_Value"].ToString().Trim();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "exchangeRatesNetworkUser".ToUpper())           exchangeRatesNetworkUser           = param_Row["Parameter_Value"].ToString().Trim();
+                                if (param_Row["Parameter_ID"].ToString().ToUpper() == "exchangeRatesNetworkPassword".ToUpper())       exchangeRatesNetworkPassword       = param_Row["Parameter_Value"].ToString().Trim();
+                            }
+                        }
+
+                        if (!(exchangeRatedownloadTempFolder.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))) exchangeRatedownloadTempFolder += System.IO.Path.DirectorySeparatorChar.ToString();
+
+                        exchangeRatedownloadTempFolder = string.Format("{0}TmpRateFle{1}.pdf", exchangeRatedownloadTempFolder, ParamTime);
+
+                        //WebProxy Http_proxy;
+                        //Http_proxy = (Proxy_Port_Str == "") ? new WebProxy(Proxy_IP) : new WebProxy(Proxy_IP, Proxy_Port);
+                        //Http_proxy.Credentials = new NetworkCredential(Proxy_User, Proxy_Password, Proxy_Domain);
+                        //Http_proxy.BypassProxyOnLocal = Proxy_BypassProxyOnLocal;
+
+                        //WebClient client = new WebClient();
+                        //client.Proxy = (Proxy_InUse) ? Http_proxy : null;
+
+                        WebClient client   = new WebClient();
+
+                        if (useExchangeRatesNetworkCredentials)
+                        {
+                            client.Credentials = new NetworkCredential(exchangeRatesNetworkUser, exchangeRatesNetworkPassword);
+                        }
+
+                        client.DownloadFile(exchangeRateFileUri, exchangeRatedownloadTempFolder);
+
+                        var pdfDocument = new PdfDocument(new PdfReader(exchangeRatedownloadTempFolder));
+                        var strategy    = new LocationTextExtractionStrategy();
+
+                        StringBuilder   processed = new StringBuilder();
+
+                        for (int i = 1; i <= pdfDocument.GetNumberOfPages(); ++i)
+                        { 
+                            var    page = pdfDocument.GetPage(i);
+                            string text = PdfTextExtractor.GetTextFromPage(page, strategy);
+                            processed.Append(text);
+                        }
+                        exchangeRateText = processed.ToString();
+
+                        pdfDocument.Close();
+
+                        exchangeRateText = Regex.Replace(exchangeRateText, " {2,}", " ");
+
+                        // Log to text file
+                        File.WriteAllText(exchangeRatedownloadTempFolder.Replace(".pdf",".txt"), exchangeRateText);
+
+                        TagSeparator.SetValue("\n", 0);
+                        Search_String_Params = exchangeRateText.Split(TagSeparator, StringSplitOptions.None);
+                        Array_Len = Search_String_Params.Length;
+                        if (Array_Len >= 0)
+                        {
+                            for (Array_Loop = 0; Array_Loop < Array_Len; Array_Loop++)
+                            {
+                                subText = Search_String_Params[Array_Loop];
+
+                                subTagSeparator.SetValue(" ", 0);
+                                subArray_Len  = 0;
+
+                                subSearch_String_Params = subText.Split(subTagSeparator, StringSplitOptions.None);
+                                subArray_Len = subSearch_String_Params.Length;
+                                if (subArray_Len >= 6)
+                                {
+                                    Curr_Short_Name = subSearch_String_Params[0].Trim();
+                                    if (exchangeRatesToDownloadList.Contains(Curr_Short_Name))
+                                    {
+                                        tmpwebExchangeRate               = new webExchangeRate();
+                                        tmpwebExchangeRate.currencyCode  = Curr_Short_Name;
+                                        tmpwebExchangeRate.midCrossRates = subSearch_String_Params[subArray_Len - 1].Trim().Replace(",", "");
+                                        tmpwebExchangeRate.notesBuying   = subSearch_String_Params[subArray_Len - 2].Trim().Replace(",", "").Replace("*", "");
+                                        tmpwebExchangeRate.midRate       = subSearch_String_Params[subArray_Len - 3].Trim().Replace(",", "");
+                                        tmpwebExchangeRate.buying        = subSearch_String_Params[subArray_Len - 4].Trim().Replace(",", "");
+                                        tmpwebExchangeRate.selling       = subSearch_String_Params[subArray_Len - 5].Trim().Replace(",", "");
+
+                                        if  (tmpwebExchangeRate.notesBuying == "")  tmpwebExchangeRate.notesBuying = "0.00";
+
+                                        // Now Save the exchangeRate
+                                        SQLStr =  string.Format("EXEC ustp_FXRate_Web_UPSERT @Rate_currencyCode ='{0}',@Rate_midCrossRates ='{1}',@Rate_notesBuying ='{2}',@Rate_midRate ='{3}',@Rate_buying ='{4}',@Rate_selling ='{5}',@File_Name_C ='{6}'",tmpwebExchangeRate.currencyCode,	tmpwebExchangeRate.midCrossRates,	tmpwebExchangeRate.notesBuying,	tmpwebExchangeRate.midRate,	tmpwebExchangeRate.buying,	tmpwebExchangeRate.selling,	exchangeRatedownloadTempFolder);
+                                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
+                    SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"],SQLStr);
+                }
+            }
+            catch (Exception ex)
+            {
+                string ErrRet = LogError("2450149", trxnProduct_ID, ex, Fin_TrnUniqueID_C);
+                return "2";
+            }
+            finally { }
+            return "1";
+        }
+
+        public string Post_TZ_Compliance_AgentTransactions()
+        {
+            string Curr_Rec_ID         = "";
+            string Trn_ID_C            = "";
+            string Fin_TrnUniqueID_C   = "";
+            string Fin_ChannelRefNum_C = "";
+            string Trn_GUID            = "";
+            string SQLStr              = "";
+            string trxnProduct_ID      = "Post_TZ_Compliance_AgentTransactions";
+            string Curr_Short_Name     = "TZS";
+
+            try
+            {
+                DataTable Data_Rec  = new DataTable();
+                DataTable SysRec    = new DataTable();
+                string    Benef_Acc = "";
+                double    File_Recs = 0;
+
+                string Compliance_MobileBankingReporting_EndPoint = "";
+                string Compliance_AgencyBankingReporting_EndPoint = "";
+                string Compliance_Bearer_Token                    = "";
+                string Compliance_informationCode                 = "";
+                string jsonPayloadString                          = "";
+
+                Hashtable            file_hash  = new Hashtable();
+                agentBankingPayload  agentPyld  = new agentBankingPayload();
+                cls_BillerResponse   billerResp = new cls_BillerResponse();
+
+                e_Verify_BACK_OFFICE_Service_Interface.eCoCash.MobileTransactionSoapClient MobSrvc    = new e_Verify_BACK_OFFICE_Service_Interface.eCoCash.MobileTransactionSoapClient();
+                e_Verify_BACK_OFFICE_Service_Interface.eCoCash.customer_Detail             CustDetail = new e_Verify_BACK_OFFICE_Service_Interface.eCoCash.customer_Detail();
+
+                SQLStr = string.Format("EXEC dbo.ustp_Check_NodeConfiguration @Conf_InstitutionID = '{0}', @Conf_NodeID = '{1}', @Conf_ProcessName = '{2}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID, trxnProduct_ID);
+                if (Convert.ToInt16(SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr).Rows[0][0].ToString()) > 0)
+                {
+                    string ForcedTiming = string.Format("[dbo].[usp_CheckThreadStatus] @Thread_ID = '{0}', @ForceThreadTime = '{1}' ", trxnProduct_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Forced_ThreadMinutes.ToString());
+                    string Thread_Busy  = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"],ForcedTiming).Rows[0]["Thread_Response"].ToString().Trim();
+                    if (Thread_Busy == "OK FOR POSTING")
+                    {
+                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"],string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID));
+
+                        // Mark Records per currency
+                        Trn_GUID = System.Guid.NewGuid().ToString();
+                        SQLStr   = string.Format("[dbo].[ustp_Mark_AgentTransaction_Batch] @Curr_Code = '{0}', @Processing_ID = '{1}'", Curr_Short_Name, Trn_GUID);
+                        SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"], SQLStr);
+
+                        // SQLStr = "Select Tr.*, dbo.[ustp_GetPostDate](Tr.TRH_Post_Date, CURRENT_TIMESTAMP) as Forced_Value_Date_D, Tbr.Is_BackVerify_YN  from EXTRHFLE Tr, tbl_Branches Tbr Where (Tr.TRH_Posted = 0 AND Tr.TRH_Rejected_YN_B = 0 AND Tbr.Branch_Code = Tr.TRH_Branch_Code AND SUBSTRING(Tr.TRH_CR_AccNo_C,1,2)  = '" & Curr_Code & "') AND ((Tbr. Is_BackVerify_YN  = 1 AND Tr.TRH_Mgr_Approved =1) OR (Tbr.Is_BackVerify_YN=0)) Order By TRH_Teller_ID,TRH_ID"
+                        SQLStr   = string.Format("Select * from vw_AgentTransaction_Batch Where Processing_ID = '{0}'", Trn_GUID);
+                        Data_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), SQLStr);
+                        if (Data_Rec.Rows.Count > 0)
+                        {
+                            // Read Parameters to use
+                            SQLStr = string.Format("SELECT Parameter_Value, Parameter_ID FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('Compliance_MobileBankingReporting_EndPoint','Compliance_AgencyBankingReporting_EndPoint','Compliance_Bearer_Token','Compliance_informationCode') AND Bank_ID = '{0}' AND [Parameter_Authorised_YN] = 1", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
+                            SysRec = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+                            if (SysRec.Rows.Count > 0)
+                            {
+                                foreach (DataRow param_Row in SysRec.Rows)
+                                {
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "Compliance_MobileBankingReporting_EndPoint".ToUpper()) Compliance_MobileBankingReporting_EndPoint = param_Row["Parameter_Value"].ToString().Trim();
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "Compliance_AgencyBankingReporting_EndPoint".ToUpper()) Compliance_AgencyBankingReporting_EndPoint = param_Row["Parameter_Value"].ToString().Trim();
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "Compliance_Bearer_Token".ToUpper())                    Compliance_Bearer_Token                    = param_Row["Parameter_Value"].ToString().Trim();
+                                    if (param_Row["Parameter_ID"].ToString().ToUpper() == "Compliance_informationCode".ToUpper())                 Compliance_informationCode                 = param_Row["Parameter_Value"].ToString().Trim();
+                                }
+                            }
+
+                            foreach (DataRow TranRow in Data_Rec.Rows)
+                            {
+                                Curr_Rec_ID          = TranRow["Inst_No_N"].ToString();
+                                Trn_ID_C             = TranRow["Trn_ID_C"].ToString();
+                                Benef_Acc            = TranRow["AccountToUse"].ToString().Trim();
+
+                                //CustDetail           = MobSrvc.FCUBS_AccountEnquiry(Benef_Acc, false, "FCUBS");
+
+                                agentPyld.agentId             = TranRow["agentId"].ToString();
+                                agentPyld.agentStatus         = TranRow["agentStatus"].ToString();
+                                agentPyld.transactionDate     = TranRow["transactionDate"].ToString();
+                                agentPyld.lastTransactionDate = TranRow["lastTransactionDate"].ToString();
+                                agentPyld.transactionId       = TranRow["transactionId"].ToString();
+                                agentPyld.transactionType     = TranRow["transactionType"].ToString();
+                                agentPyld.serviceChannel      = TranRow["serviceChannel"].ToString();
+                                agentPyld.tillNumber          = TranRow["tillNumber"].ToString();
+                                agentPyld.currency            = TranRow["currency"].ToString();
+                                agentPyld.tzsAmount                  = Convert.ToDecimal(string.Format("{0:####0.00}", TranRow["tzsAmount"].ToString()));
+
+                                jsonPayloadString                  = JsonConvert.SerializeObject(agentPyld);
+
+                                // Now post the transaction
+                                System.Collections.IDictionary payloadHeader = new Hashtable();
+                                payloadHeader.Add("Authorization"  , string.Format("Bearer {0}",Compliance_Bearer_Token));
+                                payloadHeader.Add("informationCode", Compliance_informationCode);
+
+                                billerResp = fn_PosttoBiller(Compliance_AgencyBankingReporting_EndPoint, jsonPayloadString, payloadHeader, Curr_Rec_ID, Trn_ID_C);
+
+                                if (billerResp.status == "200")
+                                {
+                                    SQLStr = string.Format("Update Payment_Instruction Set Extracted_YN_B = 1, Extracted_Response = '{1}' Where Inst_No_N = {0}", Curr_Rec_ID, billerResp.status);
+                                }
+                                else
+                                {
+                                    SQLStr = string.Format("Update Payment_Instruction Set Extracted_YN_B = 0, Extracted_Response = '{1}' Where Inst_No_N = {0}", Curr_Rec_ID, billerResp.rawdata);
+                                }
+                                SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"], SQLStr);
+
+                                File_Recs = File_Recs + 1;
+                            }
+                        }
+                    }
+                    SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
+                    SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"],SQLStr);
+                }
+            }
+            catch (Exception ex)
+            {
+                //SQLStr        = string.Format("Update EXTRHFLE SET HTTP_Retries_N = COALESCE(HTTP_Retries_N,0)+ 1, HTTP_Responce_C = 'E - Exception', TRH_Posted = 0, TRH_XML_File = '{0}', TRH_XML_Time = CURRENT_TIMESTAMP  Where TRH_ID = '{1}' And Processing_ID ='{2}'", Fin_ChannelRefNum_C, Curr_Rec_ID, Trn_GUID);
+                //SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+                string ErrRet = LogError("2038991", trxnProduct_ID, ex, Fin_TrnUniqueID_C);
+                return "2";
+            }
+            finally { }
+            return "1";
+        }
+
+   
+
         public string RePost_Syb_Zimra_Outgoing_Transactions()
         {
             string Trn_Ref             = "";
@@ -9240,6 +9685,7 @@ namespace e_Verify_BACK_OFFICE_Service
             return "1";
         }
 
+
         public string Post_Everify_EXTRHFLE_Transactions()
         {
             string Trn_Ref             = "";
@@ -9291,11 +9737,8 @@ namespace e_Verify_BACK_OFFICE_Service
                 string FinWebUserID        = "";
                 string FinWebUserPassword  = "";
 
-                string File_Name_C         = "";
-                string TRH_Narr_1          = "";
                 string TRH_Narr_2          = "";
                 string TRH_BPart           = "";
-                string TRH_Branch          = "";
                 string TRH_Trn_Ref         = "";
                 string Benef_Acc_OG        = "";
                 string Bank_SWIFT_Addr_C   = "";
@@ -9374,8 +9817,7 @@ namespace e_Verify_BACK_OFFICE_Service
                                 SQLStr   = string.Format("[dbo].[ustp_Mark_CORE_Batch] @Curr_Code = '{0}', @Processing_ID = '{1}'", Curr_Short_Name, Trn_GUID);
                                 SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
 
-                                //Trn_GUID = "14ba2c2f-20c2-4891-9f94-92fff9ff9fe0";
-                                        // SQLStr = "Select Tr.*, dbo.[ustp_GetPostDate](Tr.TRH_Post_Date, CURRENT_TIMESTAMP) as Forced_Value_Date_D, Tbr.Is_BackVerify_YN  from EXTRHFLE Tr, tbl_Branches Tbr Where (Tr.TRH_Posted = 0 AND Tr.TRH_Rejected_YN_B = 0 AND Tbr.Branch_Code = Tr.TRH_Branch_Code AND SUBSTRING(Tr.TRH_CR_AccNo_C,1,2)  = '" & Curr_Code & "') AND ((Tbr. Is_BackVerify_YN  = 1 AND Tr.TRH_Mgr_Approved =1) OR (Tbr.Is_BackVerify_YN=0)) Order By TRH_Teller_ID,TRH_ID"
+                                // SQLStr = "Select Tr.*, dbo.[ustp_GetPostDate](Tr.TRH_Post_Date, CURRENT_TIMESTAMP) as Forced_Value_Date_D, Tbr.Is_BackVerify_YN  from EXTRHFLE Tr, tbl_Branches Tbr Where (Tr.TRH_Posted = 0 AND Tr.TRH_Rejected_YN_B = 0 AND Tbr.Branch_Code = Tr.TRH_Branch_Code AND SUBSTRING(Tr.TRH_CR_AccNo_C,1,2)  = '" & Curr_Code & "') AND ((Tbr. Is_BackVerify_YN  = 1 AND Tr.TRH_Mgr_Approved =1) OR (Tbr.Is_BackVerify_YN=0)) Order By TRH_Teller_ID,TRH_ID"
                                 SQLStr   = string.Format("Select *, CURRENT_TIMESTAMP as Forced_Value_Date_D from vw_Zimra_Outgoing_Tarms Where Processing_ID = '{0}'", Trn_GUID);
                                 Data_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), SQLStr);
                                 if (Data_Rec.Rows.Count > 0)
@@ -11774,9 +12216,10 @@ namespace e_Verify_BACK_OFFICE_Service
                 {
                     string    Error_Time4   = string.Format("{0:yyyy-MM-dd} {1}", DateTime.Today.Date, DateTime.Now.ToString("HH:mm:ss"));
                     Hashtable m_hashtable4  = new Hashtable();
-                    m_hashtable4.Add("STEP_DESCR"  , varStepNumber);
-                    m_hashtable4.Add("LOGGER_DESCR", varStepDescription);
-                    m_hashtable4.Add("DATE_LOGGED" , Error_Time4);
+                    m_hashtable4.Add("STEP_DESCR"    , varStepNumber);
+                    m_hashtable4.Add("LOGGER_DESCR"  , varStepDescription);
+                    m_hashtable4.Add("DATE_LOGGED"   , Error_Time4);
+                    m_hashtable4.Add("LOGGER_NODE_ID", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID);
                     SqlHelper.insertSQL(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "Service_Logger", m_hashtable4);
                 }
             }
@@ -11793,9 +12236,10 @@ namespace e_Verify_BACK_OFFICE_Service
                 {
                     string Error_Time4 = string.Format("{0:yyyy-MM-dd} {1}", DateTime.Today.Date, DateTime.Now.ToString("HH:mm:ss"));
                     Hashtable m_hashtable4 = new Hashtable();
-                    m_hashtable4.Add("STEP_DESCR"   , varStepNumber);
-                    m_hashtable4.Add("LOGGER_DESCR" , varStepDescription);
-                    m_hashtable4.Add("DATE_LOGGED"  , Error_Time4);
+                    m_hashtable4.Add("STEP_DESCR"    , varStepNumber);
+                    m_hashtable4.Add("LOGGER_DESCR"  , varStepDescription);
+                    m_hashtable4.Add("DATE_LOGGED"   , Error_Time4);
+                    m_hashtable4.Add("LOGGER_NODE_ID", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID);
                     SqlHelper.insertSQL(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "Service_Logger", m_hashtable4);
                 }
             }
@@ -11889,6 +12333,8 @@ namespace e_Verify_BACK_OFFICE_Service
                     //}
                     if (e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.INSTALLATION_TYPE == "SERVER")
                     {
+                        //getExchageRateFromWeb();
+                        Post_TZ_Compliance_AgentTransactions();
                         Post_TZ_Compliance_MobileTransactions();
                         //fnGetTextfromPdf();
                         //fn_Post_to_ZIMRA();
@@ -12435,6 +12881,7 @@ namespace e_Verify_BACK_OFFICE_Service
             bool      TxtFound       = false;
             string    Ref_No_C       = "";
             string    SQLStr         = "";
+            string    Trn_GUID       = "";
             bool      isNewRRN       = true ;
             DataTable MQ_Rec         = new DataTable();
             DataTable paramTable     = new DataTable();
@@ -12449,9 +12896,8 @@ namespace e_Verify_BACK_OFFICE_Service
             string Mobile_Type          = "";
             string Mobile_Connection    = "";
             string localReferenceNumber = "";
+            string Processing_Date      = "";
             string trxnProduct_ID       = "Zimra_Integration";
-            //String MQ_OutDir       = System.Configuration.ConfigurationSettings.AppSettings["eVerify_Integrate_Temp_Directory"];
-            //if (!(MQ_OutDir.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))) MQ_OutDir = MQ_OutDir + System.IO.Path.DirectorySeparatorChar.ToString();
 
             try
             {
@@ -12464,17 +12910,22 @@ namespace e_Verify_BACK_OFFICE_Service
                     string Thread_Busy  = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), ForcedTiming).Rows[0]["Thread_Response"].ToString().Trim();
                     if (Thread_Busy == "OK FOR POSTING")
                     {
-                        SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
+                        Processing_Date = "";
+                        SQLStr          = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 1, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
                         SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), SQLStr);
 
-                        Mobile_Connection = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(),    "SELECT Conn_String_C FROM tbl_Connections WITH (NOLOCK) WHERE Conn_Name_C = 'MOBILE'").Rows[0][0].ToString();
+                        Mobile_Connection = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "SELECT Conn_String_C FROM tbl_Connections WITH (NOLOCK) WHERE Conn_Name_C = 'MOBILE'").Rows[0][0].ToString();
      
                         // Check if There was any processing Today and Insert a new Record if there was not
                         SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "IF NOT EXISTS(SELECT * FROM [tbl_Run_Days] Where [Trxn_Prod_ID] = 'ZIMRA' AND [Trxn_Date_D] = (SELECT CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,111))) INSERT INTO [tbl_Run_Days]([Trxn_Date_D],[Trxn_Prod_ID],[Trxn_RunNo_N]) SELECT CONVERT(VARCHAR(10),CURRENT_TIMESTAMP,111) AS CurrTime ,'ZIMRA' AS [Trxn_Prod_ID], 1 AS RunNo");
-                       
-                        string Processing_Date = "";
-      
-                        MQ_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("EXEC [dbo].[ustp_ZIMRA_Outgoing] @Bank_ID = '{0}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID));
+                        
+                        // Mark Records 
+                        Trn_GUID = System.Guid.NewGuid().ToString();
+                        SQLStr   = string.Format("[dbo].[ustp_Mark_ZIMRA_Outgoing] @Bank_ID = '{0}', @Processing_ID = '{1}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, Trn_GUID);
+                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
+
+                        SQLStr = string.Format("EXEC [dbo].[ustp_ZIMRA_Outgoing] @Bank_ID = '{0}', @Processing_ID = '{1}'", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID, Trn_GUID);
+                        MQ_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), SQLStr);
                         if (MQ_Rec.Rows.Count != 0)
                         {
                             SQLStr     = string.Format("SELECT Parameter_Value, Parameter_ID FROM tbl_System_Parameters WITH (NOLOCK) WHERE Parameter_ID IN ('SAVE_ZIMRA_ONLINE_RECORD_ON_POSTING','ZIMRA_POSTING_DUPLICATE_CHECK_ENABLED','ZIMRA_RRN_RANGE_START','ZIMRA_RRN_RANGE_END','ZIMRA_RRN_PREFIX','ZIMRA_REST_API_ENABLED') AND Bank_ID = '{0}' AND [Parameter_Authorised_YN] = 1", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Institution_ID);
@@ -12519,14 +12970,14 @@ namespace e_Verify_BACK_OFFICE_Service
                                     string Curr_Date = MQRow["Curr_Time"].ToString();
                                     if ((MQRow["ZIMRA_RRN_C"].ToString() == "") || (MQRow["ZIMRA_RRN_C"].ToString() == null))
                                     {
-                                       //Cur_RRN = m_databaseClass.getDataSet(String.Format("[dbo].[ustp_GetRRN]")).Tables[0].Rows[0][0].ToString();
-                                       //int myRandomNo   = new Random().Next(0, 999999999);
-                                       //string strRandom = myRandomNo.ToString();
+                                        //Cur_RRN = m_databaseClass.getDataSet(String.Format("[dbo].[ustp_GetRRN]")).Tables[0].Rows[0][0].ToString();
+                                        //int myRandomNo   = new Random().Next(0, 999999999);
+                                        //string strRandom = myRandomNo.ToString();
                        
-                                       //if (strRandom.Length < 9)
-                                       //{
-                                       //    strRandom = strRandom.PadLeft(9, (char)48);
-                                       //}
+                                        //if (strRandom.Length < 9)
+                                        //{
+                                        //    strRandom = strRandom.PadLeft(9, (char)48);
+                                        //}
                                         isNewRRN = true;
                                         while (isNewRRN)
                                         {
@@ -12544,9 +12995,9 @@ namespace e_Verify_BACK_OFFICE_Service
                                             }
                                         }
 
-                                       NewRRN  = true;
-                                       SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("Update tbl_ZIMRA_Integration_Staging SET ZIMRA_RRN_C = '{0}' Where ZIMRA_Ref_C  = '{1}'"                          , Cur_RRN, Ref_No_C));
-                                       SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("Update EXTRHFLE                      SET TRH_Trn_Ref = '{0}' Where TRH_Group_ID = '{0}' AND TRH_Trxn_Type = 'PST'", Cur_RRN, Ref_No_C));
+                                        NewRRN  = true;
+                                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("Update tbl_ZIMRA_Integration_Staging SET ZIMRA_RRN_C = '{0}' Where ZIMRA_Ref_C  = '{1}'"                          , Cur_RRN, Ref_No_C));
+                                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), string.Format("Update EXTRHFLE                      SET TRH_Trn_Ref = '{0}' Where TRH_Group_ID = '{0}' AND TRH_Trxn_Type = 'PST'", Cur_RRN, Ref_No_C));
                                     }
                                     else
                                     {
@@ -12625,13 +13076,13 @@ namespace e_Verify_BACK_OFFICE_Service
                                                     //string Cust_No = MQRow["TRH_Cust_Contact_C"].ToString().Trim();
                                                     if (((ZIMRA_Reciept_No != "") && (ZIMRA_Reciept_Date != "")) || (successOrFailure.ToUpper() == "TRUE"))
                                                     {
-                                                        string Move_Processed_Trxn = string.Format("dbo.ustp_Move_ZIMRA_Posted  '{0}',  '{1:yyyy-MM-dd HH:mmm:ss}', '{2:yyyy-MM-dd HH:mmm:ss}', '{3}','{4}' ,'{5}', '{6}'", Ref_No_C, StartTime, EndTime, Curr_Date, string.Format("{0}#R#{1}", ZIMRA_Reciept_Date, ZIMRA_Reciept_No), "", "1");
+                                                        SQLStr = string.Format("dbo.ustp_Move_ZIMRA_Posted  '{0}',  '{1:yyyy-MM-dd HH:mmm:ss}', '{2:yyyy-MM-dd HH:mmm:ss}', '{3}','{4}' ,'{5}', '{6}'", Ref_No_C, StartTime, EndTime, Curr_Date, string.Format("{0}#R#{1}", ZIMRA_Reciept_Date, ZIMRA_Reciept_No), "", "1");
                                                         //  EXEC [ustp_Move_ZIMRA_Posted] 'SB201211180004','2013-05-05','2013-05-05','2013-05-05','TESTING',''
-                                                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), Move_Processed_Trxn);
+                                                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), SQLStr);
 
                                                         //  Mark the Record as Extracted.
-                                                        Move_Processed_Trxn = string.Format("Update EXTRHFLE SET HTTP_Responce_C = '{1}', TRH_Trn_Ref = '{2}', TRH_Extracted = 1, TRH_Extracted_Auto = 1,  TRH_Extract_Time = CURRENT_TIMESTAMP Where TRH_Group_ID = '{0}' AND TRH_Trxn_Type = 'PST'", Ref_No_C, ZIMRA_Reciept_No, Cur_RRN);
-                                                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), Move_Processed_Trxn);
+                                                        SQLStr = string.Format("Update EXTRHFLE SET HTTP_Responce_C = '{1}', TRH_Trn_Ref = '{2}', TRH_Extracted = 1, TRH_Extracted_Auto = 1,  TRH_Extract_Time = CURRENT_TIMESTAMP Where TRH_Group_ID = '{0}' AND TRH_Trxn_Type = 'PST'", Ref_No_C, ZIMRA_Reciept_No, Cur_RRN);
+                                                        SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), SQLStr);
 
                                                         m_hashtable = new Hashtable();
                                                         m_hashtable.Add("ZIMRA_In_Ref_C"         , MQRow["ReferenceNumber"].ToString());
@@ -12741,35 +13192,35 @@ namespace e_Verify_BACK_OFFICE_Service
                                             string Err_Narr    = LogError(TimeOutException.GetHashCode().ToString(), "Zimra_Integration", TimeOutException, Ref_No_C);
                                         }
                                     }
-                                File_Loop_No = File_Loop_No + 1;
+                                    File_Loop_No = File_Loop_No + 1;
                                 }
                             }
                         }
     
                         // Now Update ECONET Records
                         string Mobile_Str = "";
-                        if (Finacle_Live == false)
-                        {
-                            SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), string.Format("[usp_MoveIntegration_Trxns]"));
-                            if ((Mobile_Type == "ECONET") || (Mobile_Type == "CELLULANT"))
-                            {
-                                Mobile_Str = "SELECT stg.ECONET_Ref_C FROM tbl_ECONET_Integration_Staging stg WHERE stg.ECONET_Out_Posted_YN_B = 0";
-                            }
-                            MQ_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), Mobile_Str);
-                            if (MQ_Rec.Rows.Count != 0)
-                            {
-                                foreach (DataRow MQRow in MQ_Rec.Rows)
-                                {
-                                    string Econet_Reference = MQRow["ECONET_Ref_C"].ToString();
-                                    if ((Mobile_Type == "ECONET") || (Mobile_Type == "CELLULANT"))
-                                    {
-                                        SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), string.Format("UPDATE Payment_Instruction SET Posted_In_MUB_B = 1 Where trnReference = '{0}' OR sourceReference = '{0}'", Econet_Reference));
-                                    }
-                                    SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), string.Format("UPDATE tbl_ECONET_Integration_Staging SET ECONET_Out_Posted_YN_B = 1 Where  ECONET_Ref_C = '{0}'", Econet_Reference));
-                                    Str_to_display = string.Format("{0} mobile Ref. has been processed on : {1}. ", Econet_Reference, DateTime.Now.ToString());
-                                }
-                            }
-                        }
+                        //if (Finacle_Live == false)
+                        //{
+                        //    SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), string.Format("[usp_MoveIntegration_Trxns]"));
+                        //    if ((Mobile_Type == "ECONET") || (Mobile_Type == "CELLULANT"))
+                        //    {
+                        //        Mobile_Str = "SELECT stg.ECONET_Ref_C FROM tbl_ECONET_Integration_Staging stg WHERE stg.ECONET_Out_Posted_YN_B = 0";
+                        //    }
+                        //    MQ_Rec = SqlHelper.GetTable(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), Mobile_Str);
+                        //    if (MQ_Rec.Rows.Count != 0)
+                        //    {
+                        //        foreach (DataRow MQRow in MQ_Rec.Rows)
+                        //        {
+                        //            string Econet_Reference = MQRow["ECONET_Ref_C"].ToString();
+                        //            if ((Mobile_Type == "ECONET") || (Mobile_Type == "CELLULANT"))
+                        //            {
+                        //                SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), string.Format("UPDATE Payment_Instruction SET Posted_In_MUB_B = 1 Where trnReference = '{0}' OR sourceReference = '{0}'", Econet_Reference));
+                        //            }
+                        //            SqlHelper.RunSql(ConfigurationManager.AppSettings["EcoCash_SQL_DB_Connection"].ToString(), string.Format("UPDATE tbl_ECONET_Integration_Staging SET ECONET_Out_Posted_YN_B = 1 Where  ECONET_Ref_C = '{0}'", Econet_Reference));
+                        //            Str_to_display = string.Format("{0} mobile Ref. has been processed on : {1}. ", Econet_Reference, DateTime.Now.ToString());
+                        //        }
+                        //    }
+                        //}
                         SQLStr = string.Format("UPDATE tbl_ThreadManagement SET ThreadInUse_YN = 0, ThreadTime = CURRENT_TIMESTAMP WHERE Thread_ID_C = '{0}'", trxnProduct_ID);
                         SqlHelper.RunSql(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"], SQLStr);
                     }
@@ -12947,6 +13398,248 @@ namespace e_Verify_BACK_OFFICE_Service
         }
 
 
+        public static string fnGetRecordsFromEEFile()
+        {
+            double paymentAmount = 6800000.00;
+
+            string Amnt1     = string.Format("'{0:0.00}'", paymentAmount);
+            string In_Path   = @"C:\Zimra\MT101_Code\";
+            string Back_Path = @"C:\Zimra\MT101_Code\Backup\";
+            string Curr_File = "";
+
+            string Bck_Up_File_Name = "";
+            string Bck_Up_File      = "";
+            string File_Extension   = "";
+
+            string[] FileList = Directory.GetFiles(In_Path, "*.csv");
+
+            int File_Number = 0;
+            int PosSep      = 0;
+
+            foreach (var FileName in FileList)
+
+            {
+                PosSep           = FileName.LastIndexOf(@"\");
+                Curr_File        = FileName.Substring((PosSep + 1), FileName.Length - (PosSep + 1));
+                File_Extension   = Curr_File.Substring(Curr_File.Length - 4, 4);
+                Bck_Up_File_Name = Curr_File;
+                Bck_Up_File      = string.Format("{0}{1}", Back_Path, Bck_Up_File_Name).Replace(File_Extension, ".txt");
+
+                SqlConnection conn    = new SqlConnection();
+                conn.ConnectionString = ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString();
+                conn.Open();
+                    var cmd = conn.CreateCommand();
+
+                    cmd.CommandText  = "Truncate table [tbl_EE_ReconStaging]; Truncate table [tbl_EE_Recon];";
+                    int RowsAffected = cmd.ExecuteNonQuery();
+
+                    cmd.CommandText = "select top 0 * from [tbl_EE_ReconStaging]";
+                    var reader      = cmd.ExecuteReader();
+
+                    DataTable schemaDT    = reader.GetSchemaTable();
+                    var       tableSchema = Sylvan.Data.Schema.FromSchemaTable(schemaDT);
+
+                    // apply the schema of the target SQL table to the CSV data.
+                    var options =  new CsvDataReaderOptions { Schema = new CsvSchema(tableSchema) };
+
+                    using (var csv = CsvDataReader.Create(FileName, options))
+                    {
+                        // use sql bulk copy to bulk insert the data
+                        var bcp                  = new SqlBulkCopy(conn);
+                        bcp.BulkCopyTimeout      = 0;
+                        bcp.DestinationTableName = "tbl_EE_ReconStaging";
+                        bcp.WriteToServer(csv);
+                    }
+                    var cmdInsert         = conn.CreateCommand();
+                    cmdInsert.CommandText = "EXEC dbo.[ustp_EE_Recon_Insert];";
+                    RowsAffected          = cmdInsert.ExecuteNonQuery();
+
+                conn.Close();
+
+                // Now Copy the File to the Backup Directory and then Delete it from Landing folder
+
+                Bck_Up_File = string.Format("{0}{1}", Back_Path, Bck_Up_File_Name);
+                System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
+                System.IO.File.Delete(FileName);
+                File_Number++;
+            }
+            return "done";
+        }
+
+
+        public string fnGetRecordsFromEEFile_Good()
+        {
+            string TargetTxtFile;
+
+            string extractedText     = "";
+            string[] TagSeparator    = { "/" };
+            TagSeparator.SetValue("/", 0);
+            string[] subTagSeparator = { "/" };
+            subTagSeparator.SetValue("/", 0);
+
+            string[] tmpTagSeparator = { "/" };
+            tmpTagSeparator.SetValue("/", 0);
+
+            string[] Search_String_Params;
+            string[] subSearch_String_Params;
+            string[] tmpSearch_String_Params;
+            int Array_Len  = 0;
+            int Array_Loop = 0;
+
+            int subArray_Len  = 0;
+            int subArray_Loop = 0;
+
+            int tmpArray_Len  = 0;
+            int tmpArray_Loop = 0;
+
+            string tmpText  = "";
+            string subText  = "";
+            string tmpText1 = "";
+            string tmpText2 = "";
+            int CurrLine    = 0;
+            int FirstIndex  = 0;
+            int LastIndex   = 0;
+            int NumSpaces   = 0;
+            string In_Path   = @"C:\Zimra\MT101_Code\";
+            string Back_Path = @"C:\Zimra\MT101_Code\Backup\";
+
+            int    PosSep           = 0;
+            string Curr_File        = "";
+            string Bck_Up_File_Name = "";
+            string Bck_Up_File      = "";
+            string File_Extension   = "";
+
+            string TranAmount = "";
+            string TranAmnt0 = "";
+            string TranAmnt1 = "";
+            string TranAmnt2 = "";
+            string TranAmnt3 = "";
+            string TranAmnt4 = "";
+
+            string Acct_NameStr  = "";
+            string Acct_NameStr1 = "";
+            string Acct_NameStr2 = "";
+            string Acct_NameStr3 = "";
+            string Acct_NameStr4 = "";
+
+            string Reference = "";
+            string MSG_Ref   = "";
+            string Currency  = "";
+            string Beneficary_Account = "";
+            string Beneficary_Name    = "";
+
+            MT101    MT101Rec    = new MT101();
+            string[] FileList    = Directory.GetFiles(In_Path,"*.csv");
+            int      File_Number = 0;
+
+            foreach (var FileName in FileList)
+            {
+                PosSep           = FileName.LastIndexOf(@"\");
+                Curr_File        = FileName.Substring((PosSep + 1), FileName.Length - (PosSep + 1));
+                File_Extension   = Curr_File.Substring(Curr_File.Length - 4, 4);
+                Bck_Up_File_Name = Curr_File;
+                Bck_Up_File      = string.Format("{0}{1}", Back_Path , Bck_Up_File_Name).Replace(File_Extension,".txt");
+
+
+                //var ExcelApp    = new Excel.Application();
+                //ExcelApp.Workbooks.OpenText(FileName, Comma: true);
+                              
+
+                extractedText    = File.ReadAllText(FileName);
+
+                //extractedText    = extractedText.Replace("o;?Creation,Message Reference,Sender Address,Extracted Field Currency,Extracted Field Amount,Extracted Field Ordering Customer,Extracted Field Beneficiary Customer,Extracted Field Details Of Charges,Extracted Field Value Date,Message Type", "").Replace(Environment.NewLine,",");
+                extractedText    = extractedText.Replace("Creation,Message Reference,Sender Address,Extracted Field Currency,Extracted Field Amount,Extracted Field Ordering Customer,Extracted Field Beneficiary Customer,Extracted Field Details Of Charges,Extracted Field Value Date,Message Type", "").Replace(Environment.NewLine, ",");
+
+                TagSeparator.SetValue("MT101", 0);
+                Search_String_Params = extractedText.Split(TagSeparator, StringSplitOptions.None);
+                Array_Len            = Search_String_Params.Length;
+                if (Array_Len >= 0)
+                {
+                    for (Array_Loop = 0; Array_Loop < Array_Len; Array_Loop++)
+                    {
+                        MT101Rec = new MT101();
+                        subText  = Search_String_Params[Array_Loop].Trim();
+       
+                        subTagSeparator.SetValue(",", 0);
+                        subSearch_String_Params        = subText.Split(subTagSeparator, StringSplitOptions.None);
+
+                        subArray_Len = subSearch_String_Params.Length;
+                        if (subArray_Len >= 10)
+                        {
+                            MT101Rec  =  new MT101();
+                            TranAmnt0 = IsNumeric(subSearch_String_Params[6].Replace("\"", ""))  ? subSearch_String_Params[6].Replace("\"", "")  : "";
+                            TranAmnt1 = IsNumeric(subSearch_String_Params[7].Replace("\"", ""))  ? subSearch_String_Params[7].Replace("\"", "")  : "";
+                            TranAmnt2 = IsNumeric(subSearch_String_Params[8].Replace("\"", ""))  ? subSearch_String_Params[8].Replace("\"", "")  : "";
+                            TranAmnt3 = IsNumeric(subSearch_String_Params[9].Replace("\"", ""))  ? subSearch_String_Params[9].Replace("\"", "")  : "";
+                            TranAmnt4 = IsNumeric(subSearch_String_Params[10].Replace("\"", "")) ? subSearch_String_Params[10].Replace("\"", "") : "";
+
+                            MT101Rec.TranAmount = $"{TranAmnt0}{TranAmnt1}{TranAmnt2}{TranAmnt3}{TranAmnt4}";
+
+                            Acct_NameStr1 = IsNumeric(subSearch_String_Params[7].Replace("\"", ""))  ? "" : subSearch_String_Params[7];
+                            Acct_NameStr2 = IsNumeric(subSearch_String_Params[8].Replace("\"", ""))  ? "" : subSearch_String_Params[8];
+                            Acct_NameStr3 = IsNumeric(subSearch_String_Params[9].Replace("\"", ""))  ? "" : subSearch_String_Params[9];
+                            Acct_NameStr4 = IsNumeric(subSearch_String_Params[10].Replace("\"", "")) ? "" : subSearch_String_Params[10];
+                            Acct_NameStr = EmtpyToNull(Acct_NameStr1) ?? EmtpyToNull(Acct_NameStr2)  ?? EmtpyToNull(Acct_NameStr3)  ?? EmtpyToNull(Acct_NameStr4)  ?? "";
+
+                            MT101Rec.MSG_Ref   = subSearch_String_Params[3];
+                            MT101Rec.Reference = subSearch_String_Params[4];
+                            MT101Rec.Currency  = subSearch_String_Params[5];
+
+                            tmpTagSeparator.SetValue("\n", 0);
+                            tmpSearch_String_Params = Acct_NameStr.Split(tmpTagSeparator, StringSplitOptions.None);
+
+                            tmpArray_Len = tmpSearch_String_Params.Length;
+                            if (tmpArray_Len >= 2)
+                            {
+                                MT101Rec.Beneficary_Account = tmpSearch_String_Params[0].Replace("\"", "").Replace(@"/","");
+                                MT101Rec.Beneficary_Name    = tmpSearch_String_Params[1];
+                            }
+
+                           Bck_Up_File = string.Format("{0}{1}", Back_Path, Bck_Up_File_Name).Replace(File_Extension, ".xml");
+                           File.AppendAllText(Bck_Up_File,  MT101Rec.ToXml());
+                        }
+                    }
+                }
+
+                // Now Copy the File to the Backup Directory and then Delete it from Landing folder
+                Bck_Up_File = string.Format("{0}{1}", Back_Path, Bck_Up_File_Name);
+                System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
+                System.IO.File.Delete(FileName);
+            }
+            return "done";
+        }
+
+        public static string EmtpyToNull(string value)
+        {
+            return string.IsNullOrEmpty(value) ? null : value;
+        }
+
+        //public static string Or(this string value, string alternative)
+        //{
+        //    return string.IsNullOrEmpty(value) ? alternative : value;
+        //}
+
+        public static System.Boolean IsNumeric(System.Object Expression)
+        {
+            if (Expression == null || Expression is DateTime)
+                return false;
+
+            if (Expression is Int16 || Expression is Int32 || Expression is Int64 || Expression is Decimal || Expression is Single || Expression is Double || Expression is Boolean)
+                return true;
+
+            try
+            {
+                if (Expression is string)
+                    Double.Parse(Expression as string);
+                else
+                    Double.Parse(Expression.ToString());
+                return true;
+            }
+            catch { } // just dismiss errors but return false
+            return false;
+        }
+
+
         public string fnGetTextfromPdf()
         {
             string SourcePDFFile;
@@ -13013,7 +13706,7 @@ namespace e_Verify_BACK_OFFICE_Service
                 tmpText = Utilities.Get_TagValueWithEnd(extractedText, "date Charges paid by", "Pay from", true);
 
                 TagSeparator.SetValue(" ", 0);
-                Array_Len = 0;
+                Array_Len  = 0;
                 Array_Loop = 0;
 
                 Search_String_Params   = tmpText.Split(TagSeparator, StringSplitOptions.None);
@@ -13025,10 +13718,10 @@ namespace e_Verify_BACK_OFFICE_Service
                     MT103.chargesPaidBy = Search_String_Params[2].Trim();
                 }
 
-                tmpText = Utilities.Get_TagValueWithEnd(extractedText, "Account name Debit account currency", "Total transfer amount", true);
+                tmpText              = Utilities.Get_TagValueWithEnd(extractedText, "Account name Debit account currency", "Total transfer amount", true);
                 TagSeparator.SetValue("\n", 0);
                 Search_String_Params = tmpText.Split(TagSeparator, StringSplitOptions.None);
-                Array_Len = Search_String_Params.Length;
+                Array_Len            = Search_String_Params.Length;
                 if (Array_Len >= 0)
                 {
                     for (Array_Loop = 0; Array_Loop < Array_Len; Array_Loop++)
@@ -13199,10 +13892,10 @@ namespace e_Verify_BACK_OFFICE_Service
                     }
                 }
 
-                tmpText = Utilities.Get_TagValueWithEnd(extractedText, "(SWIFT)", "Beneficiary reference Balance", true);
+                tmpText              = Utilities.Get_TagValueWithEnd(extractedText, "(SWIFT)", "Beneficiary reference Balance", true);
                 TagSeparator.SetValue("\n", 0);
                 Search_String_Params = tmpText.Split(TagSeparator, StringSplitOptions.None);
-                Array_Len = Search_String_Params.Length;
+                Array_Len            = Search_String_Params.Length;
                 if (Array_Len >= 0)
                 {
                     for (Array_Loop = 0; Array_Loop < Array_Len; Array_Loop++)
@@ -13210,16 +13903,16 @@ namespace e_Verify_BACK_OFFICE_Service
                         subText = Search_String_Params[Array_Loop];
                         if (Array_Loop == 1)  // First Line
                         {
-                            FirstIndex = subText.IndexOf(" ");
+                            FirstIndex               = subText.IndexOf(" ");
                             MT103.beneficiaryBankBIC = subText.Substring(0, FirstIndex).Trim();
                         }
                     }
                 }
 
-                tmpText = Utilities.Get_TagValueWithEnd(extractedText, "Customer name and contact", "Beneficiary address Beneficiary bank", true);
+                tmpText              = Utilities.Get_TagValueWithEnd(extractedText, "Customer name and contact", "Beneficiary address Beneficiary bank", true);
                 TagSeparator.SetValue("\n", 0);
                 Search_String_Params = tmpText.Split(TagSeparator, StringSplitOptions.None);
-                Array_Len = Search_String_Params.Length;
+                Array_Len            = Search_String_Params.Length;
                 if (Array_Len >= 0)
                 {
                     for (Array_Loop = 0; Array_Loop < Array_Len; Array_Loop++)
@@ -13237,13 +13930,15 @@ namespace e_Verify_BACK_OFFICE_Service
                 Bck_Up_File = string.Format("{0}{1}", Back_Path, Bck_Up_File_Name).Replace(File_Extension, ".xml");
                 File.WriteAllText(Bck_Up_File, MT103.ToXml());
 
-                // Now Copy the File to the Backup Directory and then Delete it
+                // Now Copy the File to the Backup Directory and then Delete it from Landing folder
                 Bck_Up_File = string.Format("{0}{1}", Back_Path, Bck_Up_File_Name);
                 System.IO.File.Copy(FileName, Bck_Up_File, overwrite: true);
                 System.IO.File.Delete(FileName);
             }
             return "done";
         }
+
+
 
         public string ReverseZeePayOutgoing()
         {
@@ -13741,6 +14436,7 @@ namespace e_Verify_BACK_OFFICE_Service
             return "done";
         }
 
+
         public e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_Response_Detail fn_Get_FinacleResponse_Detail(string InXMLStr, string Param_RequestUUID)
         {
             e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_Response_Detail locaDetail = new e_Verify_BACK_OFFICE_Service_Interface.Finacle_Bridge.Finacle_Response_Detail();
@@ -14043,9 +14739,10 @@ namespace e_Verify_BACK_OFFICE_Service
                 {
                     tmpHash    = new Hashtable();
                     Error_Time = string.Format("{0:yyyy-MM-dd} {1}", DateTime.Today.Date, DateTime.Now.ToString("HH:mm:ss"));
-                    tmpHash.Add("STEP_DESCR"  , trxnProduct_ID);
-                    tmpHash.Add("LOGGER_DESCR", string.Format("{0} - Main Entry", trxnProduct_ID));
-                    tmpHash.Add("DATE_LOGGED ", Error_Time);
+                    tmpHash.Add("STEP_DESCR"    , trxnProduct_ID);
+                    tmpHash.Add("LOGGER_DESCR"  , string.Format("{0} - Main Entry", trxnProduct_ID));
+                    tmpHash.Add("DATE_LOGGED "  , Error_Time);
+                    tmpHash.Add("LOGGER_NODE_ID", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID);
                     SqlHelper.insertSQL(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "Service_Logger", tmpHash);
 
                     string ForcedTiming = string.Format("[dbo].[usp_CheckThreadStatus] @Thread_ID = '{0}', @ForceThreadTime = '{1}' ", trxnProduct_ID, e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Forced_ThreadMinutes_MobilePosting.ToString());
@@ -21164,6 +21861,10 @@ namespace e_Verify_BACK_OFFICE_Service
 
                 if (e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.INSTALLATION_TYPE == "SERVER")
                 {
+
+                    //fnGetRecordsFromEEFile();
+                    //getExchageRateFromWeb();
+                    Post_TZ_Compliance_AgentTransactions();
                     Post_TZ_Compliance_MobileTransactions();
                     //fnGetTextfromPdf();
                     //fn_Post_to_ZIMRA();
