@@ -49,10 +49,9 @@ namespace e_Verify_BACK_OFFICE_Service
 
                 tmpHash = new Hashtable();
                 Error_Time = string.Format("{0:yyyy-MM-dd} {1}", DateTime.Today.Date, DateTime.Now.ToString("HH:mm:ss"));
-                tmpHash.Add("STEP_DESCR"    , "Release Entry 3");
-                tmpHash.Add("LOGGER_DESCR"  , "Release Entry 3");
-                tmpHash.Add("DATE_LOGGED"   , Error_Time);
-                tmpHash.Add("LOGGER_NODE_ID", e_Verify_BACK_OFFICE_Service_Interface.Properties.Settings.Default.Node_ID);
+                tmpHash.Add("STEP_DESCR", "Release Entry 3");
+                tmpHash.Add("LOGGER_DESCR", "Release Entry 3");
+                tmpHash.Add("DATE_LOGGED", Error_Time);
                 SqlHelper.insertSQL(ConfigurationManager.AppSettings["Interface_SQL_DB_Connection"].ToString(), "Service_Logger", tmpHash);
       
                 ServiceBase.Run(ServicesToRun);
